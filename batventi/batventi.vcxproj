@@ -228,6 +228,12 @@
   <ItemGroup>
     <ClCompile Include="batventi.c" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="btvenlib.h" />
+    <ClInclude Include="help.h" />
+    <ClInclude Include="hyphen.h" />
+    <ClInclude Include="ntraiseharderror.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

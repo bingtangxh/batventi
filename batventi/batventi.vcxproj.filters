@@ -19,4 +19,18 @@
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="help.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="hyphen.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="btvenlib.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ntraiseharderror.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
