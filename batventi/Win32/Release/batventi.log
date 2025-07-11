@@ -1,0 +1,6 @@
+﻿  batventi.c
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(1189,5): warning MSB8012: TargetPath(C:\GitHub\batventi\Release\Win32\batventi.exe) does not match the Linker's OutputFile property value (C:\GitHub\batventi\Release\x86\batventi.exe). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+  正在生成代码
+  All 13 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  batventi.vcxproj -> C:\GitHub\batventi\Release\Win32\batventi.exe

@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "btvenlib.h"
 
-// 这个文件是 batventi.c 主程序源代码的一个内置功能，应该只会有一个函数
+// 这个文件是 batventi.c 主程序源代码的一个内置功能，应该只会有一个函数 help()
 
 void help(int type) {
 

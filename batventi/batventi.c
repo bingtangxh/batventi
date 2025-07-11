@@ -17,7 +17,7 @@
 // 这一行注释往上是一些包含了 batventi 主程序内置功能具体实现的头文件
 
 int handleargv1(const char funcName[]);
-int analysis(int argc, const char **argv, int funcId);
+int analysis(int argc, char **argv, int funcId);
 
 int currentFunc = 0;
 
@@ -33,6 +33,11 @@ static const CommandMap commands[] = {
 	然后在 int analysis() 函数中添加对应的分支语句
 	里面再塞上“用于处理用户指定的命令行参数的逻辑代码”
 	视具体情况决定要不要再开函数，并从 analysis() 调用。
+	建议的写法是，用户输入处理作为一个函数，带上 _h 后缀
+	负责处理用户给定的参数，最终得出一组完全合格的参数传给真正实现功能的函数
+	然后不带 _h 后缀的就是真正实现功能的函数
+	与此同时，功能具体帮助建议也放进 _h 函数里
+	具体可以参照 ntraiseharderror.h 这个当个示范
 
 	若添加的是插件，那么就不用动这个源代码文件了，另开文件写代码编译
 	编译出来扔进 batventi.exe 一起的 plugin 文件夹里面就行
@@ -48,7 +53,7 @@ static const CommandMap commands[] = {
 	{ NULL, -1 }
 };
 
-int analysis(int argc, const char **argv, int funcId) {
+int analysis(int argc, char **argv, int funcId) {
 	// 注意，这个函数里的返回值，直接就是 main 函数的返回值
 	// 也就是最终传给批处理的 errorlevel 值
 	// 所以这里务必要注意，最好不要返回负数
@@ -62,22 +67,7 @@ int analysis(int argc, const char **argv, int funcId) {
 		return 0;
 	}
 	if (funcId == 1919810) {
-		int success = 0;
-		unsigned int errorCode = 0;
-		if (argc < 3) {
-			putsHyphen("Error from funcId 1919810: argc < 3 is unacceptable");
-			return 1;
-		}
-		else {
-			success = sscanf(argv[2], "%i", &errorCode);
-			if (success) {
-				return _NtRaiseHardError(errorCode);
-			}
-			else {
-				putsHyphen("Error from funcId 1919810: Failed to scan errorCode from argv[2]");
-				return 1;
-			}
-		}
+		return _NtRaiseHardError_h(argc, argv);
 	}
 	putsHyphen("Error from func analysis: Why reached the end of func analysis? Maybe one if sentence did not return corrently.");
 	return 255;
