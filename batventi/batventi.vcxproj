@@ -232,11 +232,14 @@
     <ClInclude Include="btvenlib.h" />
     <ClInclude Include="help.h" />
     <ClInclude Include="hyphen.h" />
+    <ClInclude Include="msgbox.h" />
     <ClInclude Include="ntraiseharderror.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="version.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="icon1.ico" />
+    <Image Include="icon2.ico" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="batventi.rc" />

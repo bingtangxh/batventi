@@ -1,6 +1,7 @@
 #pragma once
 #include <stdio.h>
 #include <Windows.h>
+#include "btvenlib.h"
 #pragma comment(lib, "Advapi32.lib")  // 用于 OpenProcessToken, AdjustTokenPrivileges, LookupPrivilegeValueA
 #pragma comment(lib, "User32.lib")    // 用于 ExitWindowsEx, ShowWindow, GetForegroundWindow
 
@@ -40,12 +41,12 @@ int _NtRaiseHardError(unsigned int errorCode) {
 int _NtRaiseHardError_h(int argc, char **argv) {
 	int success = 0;
 	unsigned int errorCode = 0;
-	if (argc < 3) {
-		putsHyphen("Error from func _NtRaiseHardError_h in header file ntraiseharderror.h: argc < 3 is unacceptable");
-		return 1;
+	if (argc < 2) {
+		putsHyphen("Error from func _NtRaiseHardError_h in header file ntraiseharderror.h: argc < 2 is unacceptable");
+		return BAD_ARGC;
 	}
 	else {
-		if (!_strnicmp(argv[2], "help", 5))
+		if ( argc==2 || ( argc==3 && !_strnicmp(argv[2], "help", 5)))
 		{
 			const char helpText[] =
 				"A easy method to call NtRaiseHardError in Windows baten.\n"

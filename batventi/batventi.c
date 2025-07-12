@@ -14,12 +14,15 @@
 // 这一行注释往下是一些包含了 batventi 主程序内置功能具体实现的头文件
 #include "help.h"
 #include "ntraiseharderror.h"
+#include "version.h"
+#include "msgbox.h"
 // 这一行注释往上是一些包含了 batventi 主程序内置功能具体实现的头文件
 
 int handleargv1(const char funcName[]);
 int analysis(int argc, char **argv, int funcId);
 
 int currentFunc = 0;
+const char verNum[] = "0.3.1-preAlpha";
 
 typedef struct {
 	const char* name;
@@ -29,6 +32,7 @@ typedef struct {
 static const CommandMap commands[] = {
 	/*
 	若要添加内置功能，那么先在此处添加功能的命令行名称和编号
+	（[-6,16]是预留给永久常驻功能的，不要占用，还有 404 是找不到的意思）
 	再到 help.h 里添加你要做的功能及描述相关的 puts() 语句
 	然后在 int analysis() 函数中添加对应的分支语句
 	里面再塞上“用于处理用户指定的命令行参数的逻辑代码”
@@ -57,20 +61,27 @@ int analysis(int argc, char **argv, int funcId) {
 	// 注意，这个函数里的返回值，直接就是 main 函数的返回值
 	// 也就是最终传给批处理的 errorlevel 值
 	// 所以这里务必要注意，最好不要返回负数
-	if (funcId == -1) {
+	if (funcId == NOT_FOUND) {
 		putsHyphen("Error from func analysis: Why funcId==-1 ? I can not handle this.");
-		return 200;
-		// 200 的意思就是 argv[1] 不知道给的字符串是个啥
+		return NOT_FOUND;
 	}
 	if (funcId == 2) {
 		help(HELP_TEXT_CONSOLE);
 		return 0;
 	}
+	if (funcId == 3) {
+		version(verNum);
+		return 0;
+	}
+	if (funcId == 18) {
+		return _MessageBox(argc,argv);
+	}
+
 	if (funcId == 1919810) {
 		return _NtRaiseHardError_h(argc, argv);
 	}
 	putsHyphen("Error from func analysis: Why reached the end of func analysis? Maybe one if sentence did not return corrently.");
-	return 255;
+	return NOT_FOUND;
 	
 	// 这里后续放所有的处理 raw Parameter 的代码
 }
@@ -81,7 +92,7 @@ int main(int argc, char **argv)
 	{
 	case 0:
 		putsHyphen("Error from func main: Why does the argc equal to 0?");
-		return 255;
+		return BAD_ARGC;
 
 	case 1:
 		help(HELP_TEXT_MSGBOX);
@@ -101,5 +112,5 @@ int handleargv1(const char funcName[]) {
 			return commands[i].id;
 		}
 	}
-	return -1;
+	return NOT_FOUND;
 }
