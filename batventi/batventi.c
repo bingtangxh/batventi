@@ -22,7 +22,7 @@ int handleargv1(const char funcName[]);
 int analysis(int argc, char **argv, int funcId);
 
 int currentFunc = 0;
-const char verNum[] = "0.3.1-preAlpha";
+const char verNum[] = "0.4.0-preAlpha";
 
 typedef struct {
 	const char* name;

@@ -18,7 +18,8 @@
 
 LPWSTR _MultiByteToWideChar(const UINT CodePage, const char *source);
 errno_t __cdecl _mbstowcs_s(size_t * const convertedCharsNum, LPWSTR * const dest, const char *source);
-char *specifyParameter(const char **switchN, const char *currPara, const char *nextPara);
+char *specifyParameter(const char *switchN, const char *currPara, const char *nextPara);
+char *specifyParameter_multiple(const char **switchNs, int count, const char *currPara, const char *nextPara);
 
 LPWSTR _MultiByteToWideChar(const UINT CodePage, const char *source) {
 	unsigned int destLen = MultiByteToWideChar(CP_ACP, 0, source, -1, NULL, 0);
@@ -42,6 +43,10 @@ errno_t __cdecl _mbstowcs_s(size_t * const convertedCharsNum, LPWSTR * const des
 	// 根据微软文档，这个函数的返回值只可能是 {0,22,34}
 }
 
-char *specifyParameter(const char **switchN, const char *currPara, const char *nextPara) {
+char *specifyParameter(const char *switchN, const char *currPara, const char *nextPara) {
 
+}
+
+char *specifyParameter_multiple(const char **switchNs, int count, const char *currPara, const char *nextPara) {
+	
 }

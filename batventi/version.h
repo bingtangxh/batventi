@@ -10,4 +10,6 @@ void version(const char verNum[])
 	printf("- Copyright (C) 2025 BingtangXH.\n");
 	printf("- \n");
 	printf("- This is free software; see the source for copying conditions.\n");
+	printf("- \n");
+	printf("- Current ANSI CodePage of the system: %u\n",GetACP());
 }

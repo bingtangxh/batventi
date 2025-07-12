@@ -1,4 +1,5 @@
 ﻿  batventi.c
-c:\github\batventi\batventi\btvenlib.h(47): warning C4716: “specifyParameter”: 必须返回一个值
+c:\github\batventi\batventi\btvenlib.h(52): warning C4716: “specifyParameter_multiple”: 必须返回一个值
+c:\github\batventi\batventi\btvenlib.h(48): warning C4716: “specifyParameter”: 必须返回一个值
   batventi.vcxproj -> C:\GitHub\batventi\Debug\x64\batventi.exe
   batventi.vcxproj -> C:\GitHub\batventi\Debug\x64\batventi.pdb (Full PDB)
