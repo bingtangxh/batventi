@@ -3,9 +3,9 @@
 #include "btvenlib.h"
 
 // 返回值∈[1,7]∪{10,11}
-int _MessageBox(int argc, const char *argv[]);
+int _MessageBox(int argc, char *argv[]);
 
-int _MessageBox(int argc, const char *argv[])
+int _MessageBox(int argc, char *argv[])
 {
 	HWND hWnd = NULL;
 	LPTSTR lpText = NULL;
@@ -37,6 +37,7 @@ int _MessageBox(int argc, const char *argv[])
 				"Starting from argv[4], you can provide any number of numeric values, all of which will be summed up and passed as the uType parameter to the MessageBox function. If no numbers here, it will be 0 as default.\n"
 				"\n"
 				"A CodePage parameter(e.g., --CodePage = 65001) can be inserted anywhere among the numeric values, or omitted entirely(default is CP_ACP).\n"
+				"CodePage is same to encoding, then /CodePage is same to /encoding.\n"
 				"\n"
 				"The Title argument may be not given, but in that case, no further arguments can be specified.\n"
 				"If you want to specify type flags or a code page while leaving the title empty, pass "" explicitly.\n"
@@ -94,26 +95,62 @@ int _MessageBox(int argc, const char *argv[])
 	{
 		int current = 0, elemsGotten = 0;
 		UINT CodePage = CP_ACP;
+		//int errCode = 0;
+		//char *specResult = NULL;
+		//const char *codePage_Alias[] = { "encoding","codepage" };
+		CodePage = getCodePagefromPara(argc, argv);
+
 		for (int i = 4; i < argc; i++) {
-			if (!(_strnicmp(argv[i], "--CodePage=", 11) && _strnicmp(argv[i], "--CodePage:", 11))) {
-				const char *CodePageValStr = argv[i] + 11;
-				elemsGotten = sscanf(CodePageValStr,"%i",&CodePage);
-				if (elemsGotten == 0) {
-					putsHyphen("Error from func _MessageBox in header file msgbox.h: Could not scan for CodePage from encoding parameter, I will use CP_ACP.");
-					CodePage = CP_ACP;
+			//if (!(_strnicmp(argv[i], "--CodePage=", 11) && _strnicmp(argv[i], "--CodePage:", 11))) {
+			//	const char *CodePageValStr = argv[i] + 11;
+			//	elemsGotten = sscanf(CodePageValStr,"%i",&CodePage);
+			//	if (elemsGotten == 0) {
+			//		putsHyphen("Warning from func _MessageBox in header file msgbox.h: Could not scan for CodePage from encoding parameter, I will use CP_ACP.");
+			//		CodePage = CP_ACP;
+			//	}
+			//	continue;
+			//}
+			//if (!(_stricmp(argv[i], "-CodePage") && _stricmp(argv[i], "/CodePage"))) {
+			//	// 这个条件语句显然是一个与非门，只要有一个是 0，结果就是 1
+			//	i++;
+			//	elemsGotten = sscanf(argv[i], "%i", &CodePage);
+			//	if (elemsGotten == 0) {
+			//		putsHyphen("Warning from func _MessageBox in header file msgbox.h: Could not scan for CodePage from encoding parameter, I will use CP_ACP.");
+			//		CodePage = CP_ACP;
+			//	}
+			//	continue;
+			//}
+			//specResult = specifyParameter_multiple(codePage_Alias, 2, argv[i], argv[i + 1], &errCode);
+			// printf("- %d\t%s\t%s\t%d\t%d\t%p\n", i, argv[i], argv[i+1], errCode, CodePage, specResult);
+			/*if (specResult != NULL) {
+				switch (errCode) {
+				case 1:
+					i++;
+				case 0:
+					elemsGotten = sscanf(specResult, "%i", &CodePage);
+					if (elemsGotten == 0) {
+						putsHyphen("Warning from func _MessageBox in header file msgbox.h: Could not scan for CodePage from encoding parameter, I will use CP_ACP.");
+						CodePage = CP_ACP;
+					}
+					continue;
+				default:
+					printf("- Error from func _MessageBox in header file msgbox.h: Why errCode == %d while specResult == %p ?\n", errCode, specResult);
+					return NOT_FOUND;
 				}
-				continue;
 			}
-			if (!(_stricmp(argv[i], "-CodePage") && _stricmp(argv[i], "/CodePage"))) {
-				// 这个条件语句显然是一个与非门，只要有一个是 0，结果就是 1
-				i++;
-				elemsGotten = sscanf(argv[i], "%i", &CodePage);
-				if (elemsGotten == 0) {
-					putsHyphen("Error from func _MessageBox in header file msgbox.h: Could not scan for CodePage from encoding parameter, I will use CP_ACP.");
-					CodePage = CP_ACP;
+			else {
+				switch (errCode) {
+				case MALLOC_FAILED:
+					putsHyphen("Error from func _MessageBox in header file msgbox.h: Func specifyParameter_multiple set errCode to MALLOC_FAILED");
+					return MALLOC_FAILED;
+				case NOT_FOUND:
+					continue;
+				default:
+					printf("- Error from func _MessageBox in header file msgbox.h: Why errCode == %d while specResult == NULL ?\n", errCode);
+					return NOT_FOUND;
 				}
-				continue;
-			}
+			}*/
+			
 			elemsGotten = sscanf(argv[i], "%i", &current);
 			if (elemsGotten == 1) {
 				uType += current;
@@ -122,7 +159,7 @@ int _MessageBox(int argc, const char *argv[])
 			else continue;
 			
 		}
-
+		// printf("- Code page is already set to: %d\n", CodePage);
 		lpText = _MultiByteToWideChar(CodePage, argv[2]);
 		lpCation = _MultiByteToWideChar(CodePage, argv[3]);
 

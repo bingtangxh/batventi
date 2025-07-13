@@ -1,7 +1,9 @@
 #pragma once
 #include "btvenlib.h"
 
-void version(const char verNum[])
+const char verNum[] = "0.5.1-preAlpha";
+
+void version()
 {
 	printf("- BatVenti Version %s\n", verNum);
 	printf("\n");

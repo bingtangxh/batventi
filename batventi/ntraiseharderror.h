@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include <Windows.h>
 #include "btvenlib.h"
-#pragma comment(lib, "Advapi32.lib")  // 用于 OpenProcessToken, AdjustTokenPrivileges, LookupPrivilegeValueA
-#pragma comment(lib, "User32.lib")    // 用于 ExitWindowsEx, ShowWindow, GetForegroundWindow
+
 
 #ifndef SE_SHUTDOWN_PRIVILEGE
 #define SE_SHUTDOWN_PRIVILEGE 19L

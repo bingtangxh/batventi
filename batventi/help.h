@@ -44,7 +44,7 @@ void help(int type) {
 		puts("- functionName can be the names below:");
 		puts("- input\t\t\t An advanced, robust and smart input method.");
 		puts("- msgbox\t\t A encapsulation of MessageBox.");
-		puts("- inputbox\t\t A encapsulation of inputbox.");
+		puts("- inputbox\t\t A input dialog box.");
 		puts("- coloredEcho\t\t Display a sentence with specific color.");
 		puts("- ntraiseharderror\t A encapsulation of NtRaiseHardError.");
 

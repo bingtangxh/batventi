@@ -232,6 +232,7 @@
     <ClInclude Include="btvenlib.h" />
     <ClInclude Include="help.h" />
     <ClInclude Include="hyphen.h" />
+    <ClInclude Include="inputbox.h" />
     <ClInclude Include="msgbox.h" />
     <ClInclude Include="ntraiseharderror.h" />
     <ClInclude Include="resource.h" />

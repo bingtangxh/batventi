@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include <conio.h>
 #include <string.h>
-
+#include "resource.h"
 
 #include "btvenlib.h"
 // btvenlib.h 这一行应该放到紧挨在标准库文件后面的位置，位于绝大多数语句之前
@@ -16,13 +16,13 @@
 #include "ntraiseharderror.h"
 #include "version.h"
 #include "msgbox.h"
+#include "inputbox.h"
 // 这一行注释往上是一些包含了 batventi 主程序内置功能具体实现的头文件
 
 int handleargv1(const char funcName[]);
 int analysis(int argc, char **argv, int funcId);
 
 int currentFunc = 0;
-const char verNum[] = "0.4.0-preAlpha";
 
 typedef struct {
 	const char* name;
@@ -70,13 +70,15 @@ int analysis(int argc, char **argv, int funcId) {
 		return 0;
 	}
 	if (funcId == 3) {
-		version(verNum);
+		version();
 		return 0;
 	}
 	if (funcId == 18) {
 		return _MessageBox(argc,argv);
 	}
-
+	if (funcId == 19) {
+		return _inputbox(argc, argv);
+	}
 	if (funcId == 1919810) {
 		return _NtRaiseHardError_h(argc, argv);
 	}
