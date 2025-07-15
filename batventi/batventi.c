@@ -17,6 +17,7 @@
 #include "version.h"
 #include "msgbox.h"
 #include "inputbox.h"
+#include "coloredEcho.h"
 // 这一行注释往上是一些包含了 batventi 主程序内置功能具体实现的头文件
 
 int handleargv1(const char funcName[]);
@@ -58,9 +59,25 @@ static const CommandMap commands[] = {
 };
 
 int analysis(int argc, char **argv, int funcId) {
-	// 注意，这个函数里的返回值，直接就是 main 函数的返回值
-	// 也就是最终传给批处理的 errorlevel 值
-	// 所以这里务必要注意，最好不要返回负数
+	/* 
+本函数的返回值将直接作为 main 的返回值，也即传给批处理的 errorlevel 值
+因此这里我建议：返回值 0 表示正常，异常返回值应为正数，且数值越大表示问题越严重
+因为 cmd 的多条语句之间用的 `&&` 操作符，仅在上一命令返回 0 时继续执行下一命令
+所以只有 0 才算正常情况
+即使批处理能用 `if not %errorlevel%==0` 捕获错误，但该写法依赖命令扩展，不够通用
+而通用的常见写法是 `if errorlevel N` 判断是否大于等于 N ，因此不推荐返回负数
+若必须返回负数
+请首先确保返回 0 表示一切正常成功完成
+其次确保不会让“异常”值比“正常”值小，从而误导 if 语句的判断
+这样的话，那就请让调用这个程序的该功能的批处理使用更精细的多条 if errorlevel N 语句
+不要用 if errorlevel 1 @echo Error happened! 这样子，会漏掉负数的情况
+请要求最终调用这个程序的批处理在调用本程序的返回值可能有负数的语句时，连着用三条语句
+if errorlevel 1 goto error
+if errorlevel 0 goto success
+goto error
+这样子才行
+这样，大于等于1在第一条语句判为错误，然后大于等于0的在第二条判为成功（其实只有0能活到第二条），最后负数在第三条判为错误
+	*/
 	if (funcId == NOT_FOUND) {
 		putsHyphen("Error from func analysis: Why funcId==-1 ? I can not handle this.");
 		return NOT_FOUND;
@@ -78,6 +95,10 @@ int analysis(int argc, char **argv, int funcId) {
 	}
 	if (funcId == 19) {
 		return _inputbox(argc, argv);
+	}
+	if (funcId == 20) {
+		coloredEcho(argc,argv);
+		return 0;
 	}
 	if (funcId == 1919810) {
 		return _NtRaiseHardError_h(argc, argv);

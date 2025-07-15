@@ -140,5 +140,6 @@ int _inputbox(int argc, char **argv) {
 		break;
 	}
 	}
-	return DialogBox(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG1), NULL, InputBoxProc);
+	return (int)DialogBox(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG1), NULL, InputBoxProc);
+	// 返回值只会是 1 或 2 ，因此不怕丢失数据，加个 (int) 就是为了让它不要警告
 }

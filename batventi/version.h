@@ -1,7 +1,7 @@
 #pragma once
 #include "btvenlib.h"
 
-const char verNum[] = "0.5.1-preAlpha";
+const char verNum[] = "0.6.0-preAlpha";
 
 void version()
 {

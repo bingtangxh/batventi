@@ -42,11 +42,11 @@ void help(int type) {
 		puts("- Usage:\n");
 		puts("- batventi functionName [otherParameters] [--quiet] [--help] [--version]\n");
 		puts("- functionName can be the names below:");
-		puts("- input\t\t\t An advanced, robust and smart input method.");
-		puts("- msgbox\t\t A encapsulation of MessageBox.");
-		puts("- inputbox\t\t A input dialog box.");
-		puts("- coloredEcho\t\t Display a sentence with specific color.");
-		puts("- ntraiseharderror\t A encapsulation of NtRaiseHardError.");
+		puts("- input                An advanced, robust and smart input method.");
+		puts("- msgbox               A encapsulation of MessageBox.");
+		puts("- inputbox             A input dialog box.");
+		puts("- coloredEcho          Display a sentence with specific color.");
+		puts("- ntraiseharderror     A encapsulation of NtRaiseHardError.");
 
 		puts("- ");
 		puts("- **********************************************************");
@@ -56,9 +56,8 @@ void help(int type) {
 		puts("- ");
 		puts("- You can use 'batventi functionName help' to see about help info of other functions.");
 		puts("- ");
-		puts("- --quiet\t\t Hide all prompt sentences for user to read.");
-		puts("- --help\t\t Show this help text (Equal to /?).");
-		puts("- --version\t\t See about version infomation.");
+		puts("- --help        Show this help text (Equal to /?).");
+		puts("- --version     See about version infomation.");
 
 
 

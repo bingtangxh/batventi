@@ -230,6 +230,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="btvenlib.h" />
+    <ClInclude Include="coloredEcho.h" />
     <ClInclude Include="help.h" />
     <ClInclude Include="hyphen.h" />
     <ClInclude Include="inputbox.h" />

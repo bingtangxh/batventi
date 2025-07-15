@@ -11,12 +11,15 @@
 #define BAD_ARGC 200
 #define MALLOC_FAILED 201
 // 注意，不应让 main 函数返回“字符串转换函数的返回值”
-// 那样的话，没法判断返回的是成功转换的字符串长度，还是这个宏定义。
+// 那样的话，没法判断返回的是成功转换的字符串长度，还是这些错误码的宏定义。
 #define NOT_FOUND 404
 #include <stdbool.h>
 #include "hyphen.h"
-#pragma comment(lib, "Advapi32.lib")  // 用于 OpenProcessToken, AdjustTokenPrivileges, LookupPrivilegeValueA
-#pragma comment(lib, "User32.lib")    // 用于 ExitWindowsEx, ShowWindow, GetForegroundWindow
+#pragma comment(lib, "Advapi32.lib")  
+// Advapi32 用于 OpenProcessToken, AdjustTokenPrivileges, LookupPrivilegeValueA
+#pragma comment(lib, "User32.lib")    
+// User32 用于 ExitWindowsEx, ShowWindow, GetForegroundWindow
+#pragma comment(lib, "Kernel32.lib")
 
 LPWSTR _MultiByteToWideChar(const UINT CodePage, const char *source);
 errno_t __cdecl _mbstowcs_s(size_t * const convertedCharsNum, LPWSTR * const dest, const char *source);
@@ -71,7 +74,7 @@ const char *specifyParameter(const char *switchN, const char *currPara, const ch
 				isSameThing = TRUE;
 				free(currentVerifyStrB);
 				*errCode = 0;
-				char *temp = currPara + sizeof(char)*(StrB_len-1);
+				// const char *temp = currPara + sizeof(char)*(StrB_len-1);
 				return currPara + sizeof(char)*(StrB_len-1);
 			}
 			else {
@@ -107,13 +110,41 @@ const char *specifyParameter(const char *switchN, const char *currPara, const ch
 }
 
 const char *specifyParameter_multiple(const char **switchNs, int count, const char *currPara, const char *nextPara, int *errCode) {
-	// 这个函数大抵是不能在循环语句中调用的，每次处理 argv 的过程中只能用一次
-	// 这个函数在执行完之后，会将成功捕获到的 argv[i] 写入成 ""
-	// 因此调用它的函数需要能够应对 argv[i]是""的情况
-	// 比如 sscanf 扫出来是空的情况
-	// 有可能就是这个函数清除了字符串导致的
+	/*
+	============================================================
+	specifyParameter_multiple() 在循环语句当中调用的话要注意
+	============================================================
+	这个函数它每次试图从 argv 中获取某个参数时，会将成功匹配到的参数内容清空（弄成 ""），避免重复使用。
+	因此，它不应该被写在循环语句内部连续调用。
+
+	因为，若你在一个循环中多次使用同一个接收变量和同样的参数去调用它，例如：
+	while (condition) { receiver = specifyParameter_multiple(...); }
+	那么如果后面某次调用没有匹配成功，返回 NULL，就会把 receiver 前面成功赋的值“覆盖掉”。
+
+	此外，该函数对 argv[i] 或 argv[i+1] 赋值为空字符串（""），用于标记已经读出来过的参数。
+	所以如果你后续调用 sscanf 等函数读取参数，遇到空字符串，也可能是此函数提前清空了。
+	调用它之后应特别注意 argv[i] 可能已被清空的情况。
+
+	============================================================
+	Attention while calling it in a loop
+	============================================================
+	Do NOT call this function repeatedly inside a loop using the same receiver variable and the same set of paraemters.
+
+	This function consumes matched argv entries by clearing them (setting to "").
+	This prevents duplicate detection, but may cause side effects in loops.
+
+	For example:
+	while (condition) { receiver = specifyParameter_multiple(...); }
+
+	In this pattern, a failed match in a later iteration returns NULL,
+	which will overwrite `receiver`, even if it previously held a valid result.
+
+	Also, since this function clears argv[i] and argv[i+1], any later parsing
+	(e.g., via sscanf or strcmp) should expect possibly empty strings.
+	*/
+
 	*errCode = 0;
-	char *result = NULL;
+	const char *result = NULL;
 	for (int i = 0; i < count; i++) {
 		result = specifyParameter(switchNs[i], currPara, nextPara, errCode);
 		// printf("- %s\t%d\t%s\t%s\t%d\n", switchNs[i], i, currPara, nextPara, *errCode);
@@ -142,7 +173,7 @@ const UINT getCodePagefromPara(int argc, char **argv) {
 	int current = 0, elemsGotten = 0;
 	UINT CodePage = CP_ACP;
 	int errCode = 0;
-	char *specResult = NULL;
+	const char *specResult = NULL;
 	const char *codePage_Alias[] = { "encoding","codepage" };
 	
 	for (int i = 0; i < argc; i++) {
