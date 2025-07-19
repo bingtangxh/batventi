@@ -231,12 +231,17 @@
   <ItemGroup>
     <ClInclude Include="btvenlib.h" />
     <ClInclude Include="coloredEcho.h" />
+    <ClInclude Include="guidgen.h" />
     <ClInclude Include="help.h" />
     <ClInclude Include="hyphen.h" />
+    <ClInclude Include="input.h" />
     <ClInclude Include="inputbox.h" />
     <ClInclude Include="msgbox.h" />
     <ClInclude Include="ntraiseharderror.h" />
+    <ClInclude Include="plugin_launcher.h" />
+    <ClInclude Include="plugin_manager.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="seterrorlevel.h" />
     <ClInclude Include="version.h" />
   </ItemGroup>
   <ItemGroup>

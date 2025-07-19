@@ -42,11 +42,16 @@ void help(int type) {
 		puts("- Usage:\n");
 		puts("- batventi functionName [otherParameters] [--quiet] [--help] [--version]\n");
 		puts("- functionName can be the names below:");
+		puts("- plugin               Launch a existing plugin with parameters given.");
+		puts("- pluginMgr            List available plugins, and operate with them.");
 		puts("- input                An advanced, robust and smart input method.");
 		puts("- msgbox               A encapsulation of MessageBox.");
 		puts("- inputbox             A input dialog box.");
 		puts("- coloredEcho          Display a sentence with specific color.");
 		puts("- ntraiseharderror     A encapsulation of NtRaiseHardError.");
+		puts("- GUIDGen              Generate a GUID. No parameters will be received.");
+		puts("- setErrorLevel        Just exit with a gievn number used for errorlevel.");
+
 
 		puts("- ");
 		puts("- **********************************************************");

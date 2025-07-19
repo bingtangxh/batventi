@@ -18,6 +18,11 @@
 #include "msgbox.h"
 #include "inputbox.h"
 #include "coloredEcho.h"
+#include "input.h"
+#include "seterrorlevel.h"
+#include "guidgen.h"
+#include "plugin_launcher.h"
+#include "plugin_manager.h"
 // 这一行注释往上是一些包含了 batventi 主程序内置功能具体实现的头文件
 
 int handleargv1(const char funcName[]);
@@ -48,12 +53,15 @@ static const CommandMap commands[] = {
 	编译出来扔进 batventi.exe 一起的 plugin 文件夹里面就行
 	*/
 	{ "plugin", 1 },
-	{ "--help", 2 },{ "/?", 2 },{ "-?", 2 },{ "/h", 2 },
-	{ "--version", 3 },{ "/v", 3 },{ "-v", 3 },
+	{ "--help", 2 },{ "/?", 2 },{ "-?", 2 },{ "/h", 2 },{ "-h", 2 },{ "help", 2 },
+	{ "--version", 3 },{ "/v", 3 },{ "-v", 3 },{ "version", 3 },
+	{ "pluginMgr", 4 },
 	{ "input", 17 },
 	{ "msgbox", 18 },
 	{ "inputbox", 19 },
 	{ "coloredEcho", 20 },
+	{ "setErrorLevel", 21 },
+	{ "guidgen", 22 },
 	{ "ntraiseharderror", 1919810 },
 	{ NULL, -1 }
 };
@@ -82,6 +90,9 @@ goto error
 		putsHyphen("Error from func analysis: Why funcId==-1 ? I can not handle this.");
 		return NOT_FOUND;
 	}
+	if (funcId == 1) {
+		return plugin_launcher(argc, argv);
+	}
 	if (funcId == 2) {
 		help(HELP_TEXT_CONSOLE);
 		return 0;
@@ -90,6 +101,12 @@ goto error
 		version();
 		return 0;
 	}
+	if (funcId == 4) {
+		return plugin_manager(argc, argv);
+	}
+	if (funcId == 17) {
+		return input(argc, argv);
+	}
 	if (funcId == 18) {
 		return _MessageBox(argc,argv);
 	}
@@ -97,13 +114,19 @@ goto error
 		return _inputbox(argc, argv);
 	}
 	if (funcId == 20) {
-		coloredEcho(argc,argv);
+		coloredEcho(argc, argv);
 		return 0;
+	}
+	if (funcId == 21) {
+		return setErrorLevel(argc,argv);
+	}
+	if (funcId == 22) {
+		return generateGUID();
 	}
 	if (funcId == 1919810) {
 		return _NtRaiseHardError_h(argc, argv);
 	}
-	putsHyphen("Error from func analysis: Why reached the end of func analysis? Maybe one if sentence did not return corrently.");
+	putsHyphen("Error from func analysis: Why reached the end of func analysis? Maybe one of the sentences did not return corrently.");
 	return NOT_FOUND;
 	
 	// 这里后续放所有的处理 raw Parameter 的代码
