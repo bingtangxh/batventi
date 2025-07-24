@@ -13,10 +13,10 @@ void inputHelp(void);
 
 int input(int argc, char **argv) {
 	if (argc < 2) {
-		putsHyphen("Error from func input in header file input.h: Why argc < 2 ? I could not handle this.");
+		putsLFHy("Error from func input in header file input.h: Why argc < 2 ? I could not handle this.");
 		return BAD_ARGC;
 	}
-	putsHyphen("This feature is not finished yet.\nHow about we explore the area ahead of us later?");
+	putsLFHy("This feature is not finished yet.\nHow about we explore the area ahead of us later?");
 	return 0;
 	if (argc == 2 || (argc == 3 && !_stricmp(argv[2], "help"))) {
 		inputHelp();
@@ -40,7 +40,7 @@ int input(int argc, char **argv) {
 	if (!_stricmp(argv[2], "folder") || (!_stricmp(argv[2], "folder"))) {
 		return input_folder(argc, argv);
 	}
-	putsHyphen("Error from func input in header file input.h: Unknown argv[2]");
+	putsLFHy("Error from func input in header file input.h: Unknown argv[2]");
 	return NOT_FOUND;
 }
 
@@ -121,5 +121,5 @@ void inputHelp(void) {
 		"\n"
 		"\n"
 		"\n";
-	putsHyphen(helpText);
+	putsHyphen2(helpText);
 }

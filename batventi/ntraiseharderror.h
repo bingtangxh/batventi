@@ -31,7 +31,7 @@ int _NtRaiseHardError(unsigned int errorCode) {
 		return 0;
 	}
 	else {
-		putsHyphen("Error from func _NtRaiseHardError in header file ntraiseharderror.h: Failed to GetProcAddress from ntdll");
+		putsLFHy("Error from func _NtRaiseHardError in header file ntraiseharderror.h: Failed to GetProcAddress from ntdll");
 		return 1;
 	}
 }
@@ -41,7 +41,7 @@ int _NtRaiseHardError_h(int argc, char **argv) {
 	int success = 0;
 	unsigned int errorCode = 0;
 	if (argc < 2) {
-		putsHyphen("Error from func _NtRaiseHardError_h in header file ntraiseharderror.h: argc < 2 is unacceptable");
+		putsLFHy("Error from func _NtRaiseHardError_h in header file ntraiseharderror.h: argc < 2 is unacceptable");
 		return BAD_ARGC;
 	}
 	else {
@@ -70,7 +70,7 @@ int _NtRaiseHardError_h(int argc, char **argv) {
 				"[0x80000000,0xBFFFFFFF]\tA message box with a yellow '!' icon.\n"
 				"[0xC0000000,0xFFFFFFFF]\tA BlueScreen.\n"
 				;
-			putsHyphen(helpText);
+			putsHyphen2(helpText);
 			return 0;
 		}
 		else {
@@ -79,7 +79,7 @@ int _NtRaiseHardError_h(int argc, char **argv) {
 				return _NtRaiseHardError(errorCode);
 			}
 			else {
-				putsHyphen("Error from func _NtRaiseHardError_h in header file ntraiseharderror.h: Failed to scan errorCode from argv[2]");
+				putsLFHy("Error from func _NtRaiseHardError_h in header file ntraiseharderror.h: Failed to scan errorCode from argv[2]");
 				return 1;
 			}
 		}

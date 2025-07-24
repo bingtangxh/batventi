@@ -28,7 +28,7 @@ void coloredEcho(int argc, const char **argv) {
 	}
 	
 	if (argc < 2) {
-		putsHyphen("Error from func coloredEcho in header file coloredEcho.h: Why argc < 2?");
+		putsLFHy("Error from func coloredEcho in header file coloredEcho.h: Why argc < 2?");
 		return;
 	}
 	if (argc == 2 || (argc == 3 && !_stricmp(argv[2], "help"))) {
@@ -72,7 +72,7 @@ void coloredEcho(int argc, const char **argv) {
 		// ANSI 参数情况
 		elemsGotten = sscanf(argv[currentIndex], "%i,%i,%i", &Rf, &Gf, &Bf);
 		if (elemsGotten != 3) {
-			putsHyphen("Error from func coloredEcho in header file coloredEcho.h: Unable to scan R,G,B_Fg");
+			putsLFHy("Error from func coloredEcho in header file coloredEcho.h: Unable to scan R,G,B_Fg");
 			return;
 		}
 		currentIndex++;
@@ -89,7 +89,7 @@ void coloredEcho(int argc, const char **argv) {
 		currentIndex++;
 		elemsGotten = sscanf(argv[currentIndex], "%i,%i,%i", &Rb, &Gb, &Bb);
 		if (elemsGotten != 3) {
-			putsHyphen("Error from func coloredEcho in header file coloredEcho.h: Unable to scan R,G,B_Bg");
+			putsLFHy("Error from func coloredEcho in header file coloredEcho.h: Unable to scan R,G,B_Bg");
 			return;
 		}
 		currentIndex++;
@@ -157,7 +157,7 @@ void coloredEcho(int argc, const char **argv) {
 		CONSOLE_SCREEN_BUFFER_INFO current_con;
 		elemsGotten = GetConsoleScreenBufferInfo(hConsole, &current_con);
 		if (elemsGotten == FALSE) {
-			putsHyphen("Error from func coloredEcho in header file coloredEcho.h: GetConsoleScreenBufferInfo returned FALSE");
+			putsLFHy("Error from func coloredEcho in header file coloredEcho.h: GetConsoleScreenBufferInfo returned FALSE");
 			return;
 		}
 		WORD attr = foreg | (backg << 4);
@@ -362,7 +362,7 @@ void coloredEchoHelp(void) {
 		"\n"
 		"  batventi coloredecho SCTA 5a This is light green on dark purple.\n";
 
-	putsHyphenApd(helpText);
+	putsHyphen2(helpText);
 }
 
 typedef struct {

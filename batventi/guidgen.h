@@ -5,13 +5,18 @@
 #include <stdio.h>
 #include "btvenlib.h"
 
-int generateGUID(void)
+void generateGUID_h(void);
+int generateGUID(int argc,char **argv)
 {
+	if (argc == 3 && !_stricmp(argv[2], "help")) {
+		generateGUID_h();
+		return 0;
+	}
 	char buffer[64] = { '\0' };
 	GUID guid;
 	if (CoCreateGuid(&guid)) {
 		//fputs("create guid error\n", stderr);
-		putsHyphen("Error from func generateGUID in header file guidgen.h: CoCreateGuid returned non-0");
+		putsLFHy("Error from func generateGUID in header file guidgen.h: CoCreateGuid returned non-0");
 		return 1;
 	}
 	else {
@@ -24,4 +29,16 @@ int generateGUID(void)
 		puts(buffer);
 		return 0;
 	}
+}
+
+void generateGUID_h(void) {
+	char helpText[] =
+		"Generate a GUID.\n"
+		"\n"
+		"Usage:\n"
+		"batventi guidgen\n"
+		"\n"
+		"Then a GUID will be displayed in the console window, no more parameters is required.\n"
+		"";
+	putsHyphen2(helpText);
 }

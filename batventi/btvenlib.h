@@ -7,11 +7,25 @@
 // 不应该这里面包含的两个或者多个文件之间还互相包含
 // 更不能这里面包含的文件还反过来包含 btvenlib.h
 // 那不就递归包含了，编译不出来了
+// 虽然说这里的头文件都应该是有 #pragma once 参数的，但还是要注意
+
+// This file contains some functions and definitions meant to follow the BatVenti design conventions.
+// If you want to add other files using `#include` here, or add new functions to this header file, go ahead—just add them below.
+// However, be careful:
+// Every file included in this header must be written independently.
+// Files included here should not include each other.
+// More importantly, files included here must never include `btvenlib.h` back.
+// Otherwise, you'll get recursive includes, and the code won't compile.
+// Although all headers here are expected to use `#pragma once`, it's still important to pay attention.
 
 #define BAD_ARGC 200
 #define MALLOC_FAILED 201
 // 注意，不应让 main 函数返回“字符串转换函数的返回值”
 // 那样的话，没法判断返回的是成功转换的字符串长度，还是这些错误码的宏定义。
+// Note: Do not make the main function return the result of a "string conversion function".
+// Otherwise, it's impossible to tell whether 
+// the return value represents the length of a successful conversion
+// or one of the error code macros.
 #define NOT_FOUND 404
 #include <stdbool.h>
 #include "hyphen.h"
@@ -31,7 +45,7 @@ LPWSTR _MultiByteToWideChar(const UINT CodePage, const char *source) {
 	unsigned int destLen = MultiByteToWideChar(CP_ACP, 0, source, -1, NULL, 0);
 	LPWSTR dest = (LPWSTR)malloc(sizeof(WCHAR)*(destLen));
 	if (dest == NULL) {
-		putsHyphen("Error from func _MultiByteToWideChar in header file btvenlib.h: malloc for dest returned NULL");
+		putsLFHy("Error from func _MultiByteToWideChar in header file btvenlib.h: malloc for dest returned NULL");
 		return NULL;
 	} else {
 		MultiByteToWideChar(CodePage, 0, source, -1, dest, destLen);
@@ -42,7 +56,7 @@ LPWSTR _MultiByteToWideChar(const UINT CodePage, const char *source) {
 errno_t __cdecl _mbstowcs_s(size_t * const convertedCharsNum, LPWSTR * const dest, const char *source) {
 	*dest = (LPWSTR)malloc(sizeof(WCHAR)*(strlen(source) + 1));
 	if (*dest == NULL) {
-		putsHyphen("Error from func _mbstowcs_s in header file btvenlib.h: malloc for dest returned a NULL");
+		putsLFHy("Error from func _mbstowcs_s in header file btvenlib.h: malloc for dest returned a NULL");
 		return MALLOC_FAILED;
 	}
 	return mbstowcs_s(convertedCharsNum, *dest, strlen(source) + 1, source, (strlen(source) + 1));
@@ -62,7 +76,7 @@ const char *specifyParameter(const char *switchN, const char *currPara, const ch
 			StrB_len = strlen(format1Starting[i1]) + strlen(format1Ending[i2]) + strlen(switchN) + 1;
 			currentVerifyStrB = (char *)malloc(sizeof(char)*(StrB_len));
 			if (currentVerifyStrB == NULL) {
-				putsHyphen("Error from func specifyParameter in header file btvenlib.h: malloc for currentVerifyStrB returned a NULL");
+				putsLFHy("Error from func specifyParameter in header file btvenlib.h: malloc for currentVerifyStrB returned a NULL");
 				*errCode = MALLOC_FAILED;
 				return NULL;
 			}
@@ -88,7 +102,7 @@ const char *specifyParameter(const char *switchN, const char *currPara, const ch
 		StrB_len = strlen(format2Starting[i1]) + strlen(switchN) + 1;
 		currentVerifyStrB = (char *)malloc(sizeof(char)*(StrB_len));
 		if (currentVerifyStrB == NULL) {
-			putsHyphen("Error from func specifyParameter in header file btvenlib.h: malloc for currentVerifyStrB returned a NULL");
+			putsLFHy("Error from func specifyParameter in header file btvenlib.h: malloc for currentVerifyStrB returned a NULL");
 			*errCode = MALLOC_FAILED;
 			return NULL;
 		}
@@ -155,12 +169,12 @@ const char *specifyParameter_multiple(const char **switchNs, int count, const ch
 			switch (*errCode)
 			{
 			case MALLOC_FAILED:
-				putsHyphen("Error from func specifyParameter_multiple in header file btvenlib.h: func specifyParameter returned a NULL");
+				putsLFHy("Error from func specifyParameter_multiple in header file btvenlib.h: func specifyParameter returned a NULL");
 				return NULL;
 			case NOT_FOUND:
 				continue;
 			default:
-				putsHyphen("Error from func specifyParameter_multiple in header file btvenlib.h: Unexpected errCode to switch");
+				putsLFHy("Error from func specifyParameter_multiple in header file btvenlib.h: Unexpected errCode to switch");
 				return NULL;
 			}
 		}
@@ -190,7 +204,7 @@ const UINT getCodePagefromPara(int argc, char **argv) {
 				switch(elemsGotten)
 				{
 				case 0:
-					putsHyphen("Warning from func getCodePagefromPara in header file btvenlib.h: Could not scan for CodePage from encoding parameter, I will use CP_ACP.");
+					putsLFHy("Warning from func getCodePagefromPara in header file btvenlib.h: Could not scan for CodePage from encoding parameter, I will use CP_ACP.");
 					CodePage = CP_ACP;
 					break;
 				case 1:
@@ -209,7 +223,7 @@ const UINT getCodePagefromPara(int argc, char **argv) {
 		else {
 			switch (errCode) {
 			case MALLOC_FAILED:
-				putsHyphen("Warning from func getCodePagefromPara in header file btvenlib.h: Func specifyParameter_multiple set errCode to MALLOC_FAILED. I will use CP_ACP.");
+				putsLFHy("Warning from func getCodePagefromPara in header file btvenlib.h: Func specifyParameter_multiple set errCode to MALLOC_FAILED. I will use CP_ACP.");
 				return CP_ACP;
 			case NOT_FOUND:
 				continue;

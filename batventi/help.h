@@ -17,7 +17,7 @@ void help(int type) {
 	{
 	case HELP_TEXT_MSGBOX:
 	{
-		putsHyphen(helpText);
+		putsLFHy(helpText);
 		LPCWSTR canOnlyConsole =
 			L"本程序只能在命令行中运行。\n"
 			L"使用 /? 或 --help 查看用法。\n"
@@ -38,7 +38,7 @@ void help(int type) {
 	}
 	case HELP_TEXT_CONSOLE:
 	{
-		putsHyphen(helpText);
+		putsHyphen2(helpText);
 		puts("- Usage:\n");
 		puts("- batventi functionName [otherParameters] [--quiet] [--help] [--version]\n");
 		puts("- functionName can be the names below:");
@@ -53,10 +53,10 @@ void help(int type) {
 		puts("- setErrorLevel        Just exit with a gievn number used for errorlevel.");
 
 
-		puts("- ");
-		puts("- **********************************************************");
-		puts("- --- Some help text about more parameter switches here. ---");
-		puts("- **********************************************************");
+		//puts("- ");
+		//puts("- **********************************************************");
+		//puts("- --- Some help text about more parameter switches here. ---");
+		//puts("- **********************************************************");
 
 		puts("- ");
 		puts("- You can use 'batventi functionName help' to see about help info of other functions.");

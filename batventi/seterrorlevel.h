@@ -18,7 +18,7 @@ int setErrorLevel(int argc, char **argv) {
 	}
 	elemsGotten = sscanf(argv[2], "%i", &errorlevel);
 	if (elemsGotten == 0) {
-		putsHyphen("Error from func setErrorLevel in header file seterrorlevel.h: Could not get errorlevel from argv[2]");
+		putsLFHy("Error from func setErrorLevel in header file seterrorlevel.h: Could not get errorlevel from argv[2]");
 		return 0;
 	}
 	else {
@@ -35,7 +35,7 @@ void setErrorLevel_help(void) {
 		"\n"
 		"value\tA number will be used for the errorlevel value.\n"
 		"\n"
-		"If the feature is run in help parameter or a wrong value, then it will return 0.\n"
+		"If the feature is run in help parameter or a wrong given value, then it will return 0.\n"
 		""
 		""
 		""
@@ -47,6 +47,6 @@ void setErrorLevel_help(void) {
 		""
 		""
 		"";
-	putsHyphen(helpText);
+	putsHyphen2(helpText);
 
 }

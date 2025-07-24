@@ -13,7 +13,7 @@ int _MessageBox(int argc, char *argv[])
 	UINT uType = 0;
 	unsigned destLen = 0;
 	if (argc < 2) {
-		putsHyphen("Error from func _MessageBox in header file msgbox.h: Why argc < 2 ? I could not handle this.");
+		putsLFHy("Error from func _MessageBox in header file msgbox.h: Why argc < 2 ? I could not handle this.");
 		return BAD_ARGC;
 	}
 	switch (argc)
@@ -82,7 +82,7 @@ int _MessageBox(int argc, char *argv[])
 				"10\tRetry\n"
 				"11\tContinue\n"
 				"";
-			putsHyphen(helpText);
+			putsHyphen2(helpText);
 			return 0;
 		}
 		else {

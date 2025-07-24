@@ -33,7 +33,7 @@ INT_PTR CALLBACK InputBoxProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				puts(result);  // 使用 puts 输出转换后的字符串
 			}
 			else {
-				putsHyphen("Error from func InputBoxProc in header file inputbox.h: Why did unc WideCharToMultiByte return 0 ?");
+				putsLFHy("Error from func InputBoxProc in header file inputbox.h: Why did unc WideCharToMultiByte return 0 ?");
 				return FALSE;
 			}
 			EndDialog(hwndDlg, IDOK);
@@ -56,7 +56,7 @@ int _inputbox(int argc, char **argv) {
 	UINT uType = 0;
 	unsigned destLen = 0;
 	if (argc < 2) {
-		putsHyphen("Error from func _inputbox in header file inputbox.h: Why argc < 2 ? I could not handle this.");
+		putsLFHy("Error from func _inputbox in header file inputbox.h: Why argc < 2 ? I could not handle this.");
 		return BAD_ARGC;
 	}
 	switch (argc)
@@ -84,7 +84,7 @@ int _inputbox(int argc, char **argv) {
 				"\n"
 				"At last, the string user typed will be put into the stdout, you can use 'for /f' to catch it.\n"
 				"";
-			putsHyphen(helpText);
+			putsHyphen2(helpText);
 			return 0;
 		}
 		else {
