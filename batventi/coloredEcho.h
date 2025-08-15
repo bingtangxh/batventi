@@ -27,25 +27,30 @@ void coloredEcho(int argc, const char **argv) {
 		isFeasibilityGotten = TRUE;
 	}
 	
-	if (argc < 2) {
-		putsLFHy("Error from func coloredEcho in header file coloredEcho.h: Why argc < 2?");
+	if (argc < 1) {
+		putsLFHy("Error from func coloredEcho in header file coloredEcho.h: Why argc < 1?");
 		return;
 	}
-	if (argc == 2 || (argc == 3 && !_stricmp(argv[2], "help"))) {
+	if (argc == 1 || (argc == 2 && !_stricmp(argv[1], "help"))) {
 		coloredEchoHelp();
 		return;
 	}
-	if (!_stricmp(argv[2], "endl")) {
+	if (!_stricmp(argv[1], "endl")) {
 		isendlReqed = TRUE;
-		currentIndex = 3;
+		currentIndex = 2;
 	}
-	else if (!_stricmp(argv[2], "noendl")) {
+	else if (!_stricmp(argv[1], "noendl")) {
 		isendlReqed = FALSE;
-		currentIndex = 3;
+		currentIndex = 2;
 	}
 	else {
 		isendlReqed = TRUE;
-		currentIndex = 2;
+		currentIndex = 1;
+	}
+
+	if (currentIndex >= argc) {
+		printf("- Error from func coloredEcho in header file colorEcho.h: Lacking parameters after argv[%d]: %s\n", argc - 1, argv[argc - 1]);
+		return;
 	}
 
 	if (!_stricmp(argv[currentIndex], "ANSI")) {
@@ -60,7 +65,12 @@ void coloredEcho(int argc, const char **argv) {
 		isSCTAReqed = TRUE;
 	}
 	else {
-		printf("- Error from func coloredEcho in header file colorEcho.h: Unacceptable argv[%d]: %s\n",currentIndex,argv[currentIndex]);
+		printf("- Error from func coloredEcho in header file colorEcho.h: Unacceptable argv[%d]: %s\n", currentIndex, argv[currentIndex]);
+		return;
+	}
+
+	if (currentIndex >= argc) {
+		printf("- Error from func coloredEcho in header file colorEcho.h: Lacking parameters after argv[%d]: %s\n", argc - 1, argv[argc - 1]);
 		return;
 	}
 
@@ -70,6 +80,11 @@ void coloredEcho(int argc, const char **argv) {
 
 	if (!isSCTAReqed) {
 		// ANSI 参数情况
+		if ((argc - currentIndex) < 3) {
+			printf("- Error from func coloredEcho in header file colorEcho.h: Lacking parameters after argv[%d]: %s\n", argc - 1, argv[argc - 1]);
+			return;
+
+		}
 		elemsGotten = sscanf(argv[currentIndex], "%i,%i,%i", &Rf, &Gf, &Bf);
 		if (elemsGotten != 3) {
 			putsLFHy("Error from func coloredEcho in header file coloredEcho.h: Unable to scan R,G,B_Fg");

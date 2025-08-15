@@ -12,18 +12,18 @@ int _MessageBox(int argc, char *argv[])
 	LPTSTR lpCation = NULL;
 	UINT uType = 0;
 	unsigned destLen = 0;
-	if (argc < 2) {
-		putsLFHy("Error from func _MessageBox in header file msgbox.h: Why argc < 2 ? I could not handle this.");
+	if (argc < 1) {
+		putsLFHy("Error from func _MessageBox in header file msgbox.h: Why argc < 1 ? I could not handle this.");
 		return BAD_ARGC;
 	}
 	switch (argc)
 	{
+	case 1:
 	case 2:
-	case 3:
 	{
 		lpText = L"";
 		lpCation = L"";
-		if (argc == 2 || (argc == 3 && !_strnicmp(argv[2], "help", 5))) {
+		if (argc == 1 || (argc == 2 && !_strnicmp(argv[1], "help", 5))) {
 			const char *helpText =
 				"A encapsulation of MessageBox.\n"
 				"\n"
@@ -86,7 +86,7 @@ int _MessageBox(int argc, char *argv[])
 			return 0;
 		}
 		else {
-			lpText = _MultiByteToWideChar(CP_ACP, argv[2]);
+			lpText = _MultiByteToWideChar(CP_ACP, argv[1]);
 			lpCation = L"";
 			break;
 		}         
@@ -100,7 +100,7 @@ int _MessageBox(int argc, char *argv[])
 		//const char *codePage_Alias[] = { "encoding","codepage" };
 		CodePage = getCodePagefromPara(argc, argv);
 
-		for (int i = 4; i < argc; i++) {
+		for (int i = 3; i < argc; i++) {
 			//if (!(_strnicmp(argv[i], "--CodePage=", 11) && _strnicmp(argv[i], "--CodePage:", 11))) {
 			//	const char *CodePageValStr = argv[i] + 11;
 			//	elemsGotten = sscanf(CodePageValStr,"%i",&CodePage);
@@ -160,8 +160,8 @@ int _MessageBox(int argc, char *argv[])
 			
 		}
 		// printf("- Code page is already set to: %d\n", CodePage);
-		lpText = _MultiByteToWideChar(CodePage, argv[2]);
-		lpCation = _MultiByteToWideChar(CodePage, argv[3]);
+		lpText = _MultiByteToWideChar(CodePage, argv[1]);
+		lpCation = _MultiByteToWideChar(CodePage, argv[2]);
 
 		break;
 	}

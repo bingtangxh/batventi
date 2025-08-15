@@ -12,13 +12,13 @@ void setErrorLevel_help(void);
 
 int setErrorLevel(int argc, char **argv) {
 	int errorlevel = 0, elemsGotten = 0;
-	if (argc == 2 || (argc == 3 && !_stricmp(argv[2], "help"))) {
+	if (argc == 1 || (argc == 2 && !_stricmp(argv[1], "help"))) {
 		setErrorLevel_help ();
 		return 0;
 	}
-	elemsGotten = sscanf(argv[2], "%i", &errorlevel);
+	elemsGotten = sscanf(argv[1], "%i", &errorlevel);
 	if (elemsGotten == 0) {
-		putsLFHy("Error from func setErrorLevel in header file seterrorlevel.h: Could not get errorlevel from argv[2]");
+		putsLFHy("Error from func setErrorLevel in header file seterrorlevel.h: Could not get errorlevel from argv[1]");
 		return 0;
 	}
 	else {

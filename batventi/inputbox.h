@@ -48,23 +48,21 @@ INT_PTR CALLBACK InputBoxProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 	return FALSE;
 }
 
-
-
 int _inputbox(int argc, char **argv) {
 	// 用户点击确定时，返回值是 1，点击取消时，返回值是 2
 	HWND hWnd = NULL;
 	UINT uType = 0;
 	unsigned destLen = 0;
-	if (argc < 2) {
-		putsLFHy("Error from func _inputbox in header file inputbox.h: Why argc < 2 ? I could not handle this.");
+	if (argc < 1) {
+		putsLFHy("Error from func _inputbox in header file inputbox.h: Why argc < 1 ? I could not handle this.");
 		return BAD_ARGC;
 	}
 	switch (argc)
 	{
+	case 1:
 	case 2:
-	case 3:
 	{
-		if (argc == 2 || (argc == 3 && !_strnicmp(argv[2], "help", 5))) {
+		if (argc == 1 || (argc == 2 && !_strnicmp(argv[1], "help", 5))) {
 			const char *helpText =
 				"A input dialog box.\n"
 				"\n"
@@ -88,7 +86,7 @@ int _inputbox(int argc, char **argv) {
 			return 0;
 		}
 		else {
-			promptStr = _MultiByteToWideChar(CP_ACP, argv[2]);
+			promptStr = _MultiByteToWideChar(CP_ACP, argv[1]);
 			defaultStr = L"";
 			break;
 		}
@@ -134,8 +132,8 @@ int _inputbox(int argc, char **argv) {
 			}
 		}*/
 		UINT CodePage = getCodePagefromPara(argc, argv);
-		promptStr = _MultiByteToWideChar(CodePage, argv[2]);
-		defaultStr = _MultiByteToWideChar(CodePage, argv[3]);
+		promptStr = _MultiByteToWideChar(CodePage, argv[1]);
+		defaultStr = _MultiByteToWideChar(CodePage, argv[2]);
 
 		break;
 	}

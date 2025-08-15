@@ -36,16 +36,15 @@ int _NtRaiseHardError(unsigned int errorCode) {
 	}
 }
 
-
 int _NtRaiseHardError_h(int argc, char **argv) {
 	int success = 0;
 	unsigned int errorCode = 0;
-	if (argc < 2) {
-		putsLFHy("Error from func _NtRaiseHardError_h in header file ntraiseharderror.h: argc < 2 is unacceptable");
+	if (argc < 1) {
+		putsLFHy("Error from func _NtRaiseHardError_h in header file ntraiseharderror.h: argc < 1 is unacceptable");
 		return BAD_ARGC;
 	}
 	else {
-		if ( argc==2 || ( argc==3 && !_strnicmp(argv[2], "help", 5)))
+		if (argc == 1 || (argc == 2 && !_strnicmp(argv[1], "help", 5)))
 		{
 			const char helpText[] =
 				"A easy method to call NtRaiseHardError in Windows baten.\n"
@@ -74,12 +73,12 @@ int _NtRaiseHardError_h(int argc, char **argv) {
 			return 0;
 		}
 		else {
-			success = sscanf(argv[2], "%i", &errorCode);
+			success = sscanf(argv[1], "%i", &errorCode);
 			if (success) {
 				return _NtRaiseHardError(errorCode);
 			}
 			else {
-				putsLFHy("Error from func _NtRaiseHardError_h in header file ntraiseharderror.h: Failed to scan errorCode from argv[2]");
+				putsLFHy("Error from func _NtRaiseHardError_h in header file ntraiseharderror.h: Failed to scan errorCode from argv[1]");
 				return 1;
 			}
 		}

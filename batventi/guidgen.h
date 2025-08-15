@@ -8,7 +8,7 @@
 void generateGUID_h(void);
 int generateGUID(int argc,char **argv)
 {
-	if (argc == 3 && !_stricmp(argv[2], "help")) {
+	if (argc == 2 && !_stricmp(argv[1], "help")) {
 		generateGUID_h();
 		return 0;
 	}

@@ -29,6 +29,7 @@
 #include "guidgen.h"
 #include "plugin_launcher.h"
 #include "plugin_manager.h"
+#include "batconf.h"
 // 这一行注释往上是一些包含了 batventi 主程序内置功能具体实现的头文件
 
 int handleargv1(const char funcName[]);
@@ -87,6 +88,7 @@ static const CommandMap commands[] = {
 	{ "coloredEcho", 20 },
 	{ "setErrorLevel", 21 },
 	{ "guidgen", 22 },
+	{ "conf", 23 },
 	{ "ntraiseharderror", 1919810 },
 	{ NULL, -1 }
 };
@@ -139,7 +141,7 @@ int analysis(int argc, char **argv, int funcId) {
 		return NOT_FOUND;
 	}
 	if (funcId == 1) {
-		return plugin_launcher(argc, argv);
+		return plugin_launcher(--argc, ++argv);
 	}
 	if (funcId == 2) {
 		help(HELP_TEXT_CONSOLE);
@@ -150,29 +152,33 @@ int analysis(int argc, char **argv, int funcId) {
 		return 0;
 	}
 	if (funcId == 4) {
-		return plugin_manager(argc, argv);
+		return plugin_manager(--argc, ++argv);
 	}
 	if (funcId == 17) {
-		return input(argc, argv);
+		return input(--argc, ++argv);
 	}
 	if (funcId == 18) {
-		return _MessageBox(argc,argv);
+		return _MessageBox(--argc, ++argv);
 	}
 	if (funcId == 19) {
-		return _inputbox(argc, argv);
+		return _inputbox(--argc, ++argv);
 	}
 	if (funcId == 20) {
-		coloredEcho(argc, argv);
+		coloredEcho(--argc, ++argv);
 		return 0;
 	}
 	if (funcId == 21) {
-		return setErrorLevel(argc,argv);
+		return setErrorLevel(--argc, ++argv);
 	}
 	if (funcId == 22) {
-		return generateGUID(argc,argv);
+		return generateGUID(--argc, ++argv);
 	}
+	if (funcId == 23) {
+		return batconf(--argc, ++argv);
+	}
+
 	if (funcId == 1919810) {
-		return _NtRaiseHardError_h(argc, argv);
+		return _NtRaiseHardError_h(--argc, ++argv);
 	}
 	putsLFHy("Error from func analysis: Why reached the end of func analysis? Maybe one of the sentences did not return corrently.");
 	return NOT_FOUND;

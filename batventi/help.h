@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "btvenlib.h"
 
-// Õâ¸öÎÄ¼þÊÇ batventi.c Ö÷³ÌÐòÔ´´úÂëµÄÒ»¸öÄÚÖÃ¹¦ÄÜ£¬Ó¦¸ÃÖ»»áÓÐÒ»¸öº¯Êý help()
+// ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ batventi.c ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½Ü£ï¿½Ó¦ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ help()
 
 void help(int type) {
 
@@ -19,8 +19,8 @@ void help(int type) {
 	{
 		putsLFHy(helpText);
 		LPCWSTR canOnlyConsole =
-			L"±¾³ÌÐòÖ»ÄÜÔÚÃüÁîÐÐÖÐÔËÐÐ¡£\n"
-			L"Ê¹ÓÃ /? »ò --help ²é¿´ÓÃ·¨¡£\n"
+			L"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½\n"
+			L"Ê¹ï¿½ï¿½ /? ï¿½ï¿½ --help ï¿½é¿´ï¿½Ã·ï¿½ï¿½ï¿½\n"
 			L"This program can only be run in console mode.\n"
 			L"Use --help or /? to see about the usage.\n"
 			L"\n"
@@ -31,7 +31,7 @@ void help(int type) {
 		break;
 		}*/
 		//size_t convertedCharsNum = 0;
-		//// Õâ¸ö¾ÍÓÃÀ´¸ø mbstowcs ´æ´¢¼ÇÂ¼³É¹¦Ð´Èë¶àÉÙ¸ö×Ö·ûÓÃµÄ
+		//// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ mbstowcs ï¿½æ´¢ï¿½ï¿½Â¼ï¿½É¹ï¿½Ð´ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½ï¿½Ö·ï¿½ï¿½Ãµï¿½
 		//mbstowcs_s(&convertedCharsNum,wCanOnlyConsole, strlen(helpText) + 1,helpText, (strlen(helpText) + 1));
 		MessageBox(NULL, canOnlyConsole, L"Batventi Double-clicked Help", MB_OK | MB_ICONINFORMATION);
 		break;
@@ -71,7 +71,7 @@ void help(int type) {
 	default:
 	{
 		printf("- Error from func help in header file help.h: How do you mean type %d? %dte nandayo?\n", type, type);
-		// ´Ë´¦µÄ %dte nandayo? ³ö×ÔÔ­ÉñÅÉÃÉµÄ¡°¡®šGºÙ¡¯ÊÇÊ²Ã´ÒâË¼°¡£¿¡±µÄÈÕÓï¡¸¡º¤¨¤Ø¤Ã¡»¤Æ¤Ê¤ó¤À¤è¡­£¡£¡¡¹
+		// ï¿½Ë´ï¿½ï¿½ï¿½ %dte nandayo? ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ÉµÄ¡ï¿½ï¿½ï¿½ï¿½Gï¿½Ù¡ï¿½ï¿½ï¿½Ê²Ã´ï¿½ï¿½Ë¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¡¸ï¿½ï¿½ï¿½ï¿½ï¿½Ø¤Ã¡ï¿½ï¿½Æ¤Ê¤ï¿½ï¿½ï¿½è¡­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		break;
 	}
 	}
