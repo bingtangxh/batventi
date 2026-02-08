@@ -50,8 +50,12 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Visual Studio files
 *.ipdb
 *.iobj
 *.log
-.vs/batventi/v14/.suo
+.vs/
 *.tlog
+Release/
+Debug/
