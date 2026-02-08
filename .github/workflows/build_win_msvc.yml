@@ -1,0 +1,62 @@
+name: build windows msvc
+
+on:
+  push:
+    # tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        include:
+          - arch: x86
+            msvc_arch: x86
+          - arch: x64
+            msvc_arch: x64
+          - arch: ARM64
+            msvc_arch: x64_ARM64
+            # x64_ARM results in following error:
+            # C:\Program Files (x86)\Windows Kits\10\include\10.0.10240.0\ucrt\corecrt.h(205):
+            # fatal error C1189: 
+            # #error:  Compiling Desktop applications for the ARM platform is not supported.
+            sdk: [10.0.22621.0]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{ matrix.msvc_arch }}
+
+      - name: Compile resources
+        run: |
+          rc.exe /nologo batventi.rc
+
+      - name: Build
+        run: |
+          cl.exe /nologo /O1 /W3 /WX /Z7 /GF /FS /EHsc batventi.c batventi.res /link /OUT:batventi_${{ matrix.arch }}.exe
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: batventi-${{ matrix.arch }}-windows
+          path: batventi_${{ matrix.arch }}.exe
+
+      - name: Prepare release
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          ren batventi_${{ matrix.arch }}.exe batventi_${{ github.ref_name }}_${{ matrix.arch }}.exe
+
+      - name: Create release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: batventi_${{ github.ref_name }}_${{ matrix.arch }}.exe
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}
