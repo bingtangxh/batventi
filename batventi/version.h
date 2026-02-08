@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "btvenlib.h"
 
 const char verNum[] = "0.7.1-preAlpha";

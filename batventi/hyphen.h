@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 /*
 这个头文件包含几个用来输出适配 batventi 功能与插件 stdout 输出规范的函数
 编写别的文件的时候建议包含 btvenlib.h 这个头文件，别直接包含这个 hyphen.h

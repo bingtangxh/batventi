@@ -1,9 +1,11 @@
-#pragma once
+﻿#pragma once
 #define HELP_TEXT_MAX_LEN 114514
 #define HELP_TEXT_CONSOLE 1
 #define HELP_TEXT_MSGBOX 2
 #include <stdio.h>
 #include "btvenlib.h"
+
+// 这个文件是 batventi.c 主程序源代码的一个内置功能，应该只会有一个函数 help()
 
 void help(int type) {
 
@@ -17,6 +19,8 @@ void help(int type) {
 	{
 		putsLFHy(helpText);
 		LPCWSTR canOnlyConsole =
+			L"本程序只能在命令行中运行。\n"
+			L"使用 /? 或 --help 查看用法。\n"
 			L"This program can only be run in console mode.\n"
 			L"Use --help or /? to see about the usage.\n"
 			L"\n"
@@ -27,6 +31,7 @@ void help(int type) {
 		break;
 		}*/
 		//size_t convertedCharsNum = 0;
+		//// 这个就用来给 mbstowcs 存储记录成功写入多少个字符用的
 		//mbstowcs_s(&convertedCharsNum,wCanOnlyConsole, strlen(helpText) + 1,helpText, (strlen(helpText) + 1));
 		MessageBox(NULL, canOnlyConsole, L"Batventi Double-clicked Help", MB_OK | MB_ICONINFORMATION);
 		break;
@@ -66,6 +71,7 @@ void help(int type) {
 	default:
 	{
 		printf("- Error from func help in header file help.h: How do you mean type %d? %dte nandayo?\n", type, type);
+		// 此处的 %dte nandayo? 出自原神派蒙的“‘欸嘿’是什么意思啊？”的日语「『えへっ』てなんだよ…！！」
 		break;
 	}
 	}

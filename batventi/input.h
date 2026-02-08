@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "btvenlib.h"
 #include <Windows.h>

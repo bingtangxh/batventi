@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #pragma comment(lib, "Ole32.lib")
 //需要ole32.dll，如果使用MinGW/gcc，那就gcc命令行加上-lole32
 #include <combaseapi.h>
