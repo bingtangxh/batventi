@@ -1,6 +1,6 @@
 #pragma once
 #pragma comment(lib, "Ole32.lib")
-//ĞèÒªole32.dll£¬Èç¹ûÊ¹ÓÃMinGW/gcc£¬ÄÇ¾ÍgccÃüÁîĞĞ¼ÓÉÏ-lole32
+//éœ€è¦ole32.dllï¼Œå¦‚æœä½¿ç”¨MinGW/gccï¼Œé‚£å°±gccå‘½ä»¤è¡ŒåŠ ä¸Š-lole32
 #include <combaseapi.h>
 #include <stdio.h>
 #include "btvenlib.h"
