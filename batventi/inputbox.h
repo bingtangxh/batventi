@@ -14,9 +14,9 @@ INT_PTR CALLBACK InputBoxProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 	char result[MAXLEN * sizeof(WCHAR)];
 	switch (uMsg) {
 	case WM_INITDIALOG:
-		// ³õÊ¼»¯¶Ô»°¿òÊ±£¬¿ÉÒÔ¸éÕâ×öµãÔ¤´¦Àí
-		// µ«ÊÇÏÖÔÚÈ´Ïë²»µ½¸Ã¸ÉÊ²Ã´
-		// Òª²»¾ÍÅª³ÉÉèÖÃÊäÈë¿òµÄ³õÊ¼×Ö·û´®ÊıÖµ£¿
+		// åˆå§‹åŒ–å¯¹è¯æ¡†æ—¶ï¼Œå¯ä»¥æè¿™åšç‚¹é¢„å¤„ç†
+		// ä½†æ˜¯ç°åœ¨å´æƒ³ä¸åˆ°è¯¥å¹²ä»€ä¹ˆ
+		// è¦ä¸å°±å¼„æˆè®¾ç½®è¾“å…¥æ¡†çš„åˆå§‹å­—ç¬¦ä¸²æ•°å€¼ï¼Ÿ
 		SetDlgItemText(hwndDlg, IDC_STATIC, promptStr);
 		SetDlgItemText(hwndDlg, IDC_EDIT1, defaultStr);
 		return TRUE;
@@ -24,13 +24,13 @@ INT_PTR CALLBACK InputBoxProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
-			// Õâ¸öÓÃÀ´»ñÈ¡ÊäÈë¿òÖĞµÄÎÄ±¾
+			// è¿™ä¸ªç”¨æ¥è·å–è¾“å…¥æ¡†ä¸­çš„æ–‡æœ¬
 			GetDlgItemText(hwndDlg, IDC_EDIT1, input, sizeof(input));
-			//MessageBox(hwndDlg, input, L"ÄãÊäÈëµÄÄÚÈİ", MB_OK);
+			//MessageBox(hwndDlg, input, L"ä½ è¾“å…¥çš„å†…å®¹", MB_OK);
 			int result_len = WideCharToMultiByte(CP_ACP, 0, input, -1, result, sizeof(result), NULL, NULL);
 			if (result_len > 0) {
-				// Êä³ö×ª»»ºóµÄÄÚÈİ
-				puts(result);  // Ê¹ÓÃ puts Êä³ö×ª»»ºóµÄ×Ö·û´®
+				// è¾“å‡ºè½¬æ¢åçš„å†…å®¹
+				puts(result);  // ä½¿ç”¨ puts è¾“å‡ºè½¬æ¢åçš„å­—ç¬¦ä¸²
 			}
 			else {
 				putsLFHy("Error from func InputBoxProc in header file inputbox.h: Why did unc WideCharToMultiByte return 0 ?");
@@ -49,7 +49,7 @@ INT_PTR CALLBACK InputBoxProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 }
 
 int _inputbox(int argc, char **argv) {
-	// ÓÃ»§µã»÷È·¶¨Ê±£¬·µ»ØÖµÊÇ 1£¬µã»÷È¡ÏûÊ±£¬·µ»ØÖµÊÇ 2
+	// ç”¨æˆ·ç‚¹å‡»ç¡®å®šæ—¶ï¼Œè¿”å›å€¼æ˜¯ 1ï¼Œç‚¹å‡»å–æ¶ˆæ—¶ï¼Œè¿”å›å€¼æ˜¯ 2
 	HWND hWnd = NULL;
 	UINT uType = 0;
 	unsigned destLen = 0;
@@ -139,5 +139,5 @@ int _inputbox(int argc, char **argv) {
 	}
 	}
 	return (int)DialogBox(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG1), NULL, InputBoxProc);
-	// ·µ»ØÖµÖ»»áÊÇ 1 »ò 2 £¬Òò´Ë²»ÅÂ¶ªÊ§Êı¾İ£¬¼Ó¸ö (int) ¾ÍÊÇÎªÁËÈÃËü²»Òª¾¯¸æ
+	// è¿”å›å€¼åªä¼šæ˜¯ 1 æˆ– 2 ï¼Œå› æ­¤ä¸æ€•ä¸¢å¤±æ•°æ®ï¼ŒåŠ ä¸ª (int) å°±æ˜¯ä¸ºäº†è®©å®ƒä¸è¦è­¦å‘Š
 }

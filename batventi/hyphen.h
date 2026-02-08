@@ -1,12 +1,12 @@
 #pragma once
 /*
-Õâ¸öÍ·ÎÄ¼ş°üº¬¼¸¸öÓÃÀ´Êä³öÊÊÅä batventi ¹¦ÄÜÓë²å¼ş stdout Êä³ö¹æ·¶µÄº¯Êı
-±àĞ´±ğµÄÎÄ¼şµÄÊ±ºò½¨Òé°üº¬ btvenlib.h Õâ¸öÍ·ÎÄ¼ş£¬±ğÖ±½Ó°üº¬Õâ¸ö hyphen.h
-´ËÎÄ¼şÒÑ±» btvenlib.h °üº¬£¬ÇëÎğÔÚ´ËÎÄ¼şÖĞ°üº¬ btvenlib.h
-Õâ¸ö hyphen.h °üº¬¼¸¸öÓÃÀ´ÊµÏÖ¡°Êä³ö×ÜÊÇÒÔ'-'¿ªÍ·¡±µÄº¯Êı£¬±àĞ´±ğµÄÎÄ¼şµÄÊ±ºò¶¼¿ÉÒÔ°üº¬ÉÏ
-ËµÆğÀ´ÎÒÕâÏîÄ¿¶ÔÓÚ¹¦ÄÜºÍ²å¼şµÄ¹æ·¶ÒªÇóÓ¦¸ÃÒ²¾ÍÕâÒ»¸öÒªÇóÁË°É
-¾ÍÊÇÃ¿Ò»¸ö³ÌĞòµÄÊä³ö£¬ÆäÖĞ¸øÓÃ»§¿´µÄ¶¼Ó¦¸ÃÒÔ'-'¿ªÍ·£¬¶ø¿ªÍ·²»ÊÇ'-'µÄ¾ÍÊÇÓÃÀ´ÈÃ cmd µÄ for /f ¶ÁÈ¡·ÖÎöµÄ¡£
-ºóĞø´ËÎÄ¼ş¿ÉÄÜÖ±½Ó±»ºÏ²¢½ø btvenlib.h µ±ÖĞ¡£
+è¿™ä¸ªå¤´æ–‡ä»¶åŒ…å«å‡ ä¸ªç”¨æ¥è¾“å‡ºé€‚é… batventi åŠŸèƒ½ä¸æ’ä»¶ stdout è¾“å‡ºè§„èŒƒçš„å‡½æ•°
+ç¼–å†™åˆ«çš„æ–‡ä»¶çš„æ—¶å€™å»ºè®®åŒ…å« btvenlib.h è¿™ä¸ªå¤´æ–‡ä»¶ï¼Œåˆ«ç›´æ¥åŒ…å«è¿™ä¸ª hyphen.h
+æ­¤æ–‡ä»¶å·²è¢« btvenlib.h åŒ…å«ï¼Œè¯·å‹¿åœ¨æ­¤æ–‡ä»¶ä¸­åŒ…å« btvenlib.h
+è¿™ä¸ª hyphen.h åŒ…å«å‡ ä¸ªç”¨æ¥å®ç°â€œè¾“å‡ºæ€»æ˜¯ä»¥'-'å¼€å¤´â€çš„å‡½æ•°ï¼Œç¼–å†™åˆ«çš„æ–‡ä»¶çš„æ—¶å€™éƒ½å¯ä»¥åŒ…å«ä¸Š
+è¯´èµ·æ¥æˆ‘è¿™é¡¹ç›®å¯¹äºåŠŸèƒ½å’Œæ’ä»¶çš„è§„èŒƒè¦æ±‚åº”è¯¥ä¹Ÿå°±è¿™ä¸€ä¸ªè¦æ±‚äº†å§
+å°±æ˜¯æ¯ä¸€ä¸ªç¨‹åºçš„è¾“å‡ºï¼Œå…¶ä¸­ç»™ç”¨æˆ·çœ‹çš„éƒ½åº”è¯¥ä»¥'-'å¼€å¤´ï¼Œè€Œå¼€å¤´ä¸æ˜¯'-'çš„å°±æ˜¯ç”¨æ¥è®© cmd çš„ for /f è¯»å–åˆ†æçš„ã€‚
+åç»­æ­¤æ–‡ä»¶å¯èƒ½ç›´æ¥è¢«åˆå¹¶è¿› btvenlib.h å½“ä¸­ã€‚
 
 This header contains several functions to output according to the stdout output specification for BatVenti features and plugins.
 When writing other files, it is recommended to include btvenlib.h rather than including this hyphen.h directly.
@@ -16,19 +16,19 @@ Actually, this is probably the only specification requirement for features and p
 every program's output intended for users should start with '-', while outputs not starting with '-' are meant for cmd's for /f parsing.
 This file may eventually be merged directly into btvenlib.h.
 
-ÒÔÏÂÊÇ¸ÃÎÄ¼ş°üº¬µÄº¯ÊıµÄ¾ßÌåËµÃ÷£º
+ä»¥ä¸‹æ˜¯è¯¥æ–‡ä»¶åŒ…å«çš„å‡½æ•°çš„å…·ä½“è¯´æ˜ï¼š
 
-º¯ÊıÃû					ÊÇ·ñÏÈ»»ĞĞ			ÊÇ·ñÏÈÊä³ö"- "	ÊÇ·ñÔÚÄ©Î²×·¼Ó»»ĞĞ·û	ÍÆ¼öÓÃ´¦
+å‡½æ•°å					æ˜¯å¦å…ˆæ¢è¡Œ			æ˜¯å¦å…ˆè¾“å‡º"- "	æ˜¯å¦åœ¨æœ«å°¾è¿½åŠ æ¢è¡Œç¬¦	æ¨èç”¨å¤„
 ----------------+---------------------------+---------------+-------------------+---------------------------------
-putsLFHy		|		ÊÇ£¬ÏÈ»»ĞĞ			|	ÊÇ			|		ÊÇ			|	ÔËĞĞÍ¾ÖĞÊä³öÎÄ±¾
-putsHyApd		|	·ñ£¬Ö±½Ó×·¼ÓÔÚstdoutÄ©Î²|	·ñ			|		ÊÇ			|	ÔËĞĞÖĞÍ¾Êä³öĞèÒª×·¼ÓµÄÎÄ±¾
-putsHyphen2		|	·ñ£¬Ö±½Ó×·¼ÓÔÚstdoutÄ©Î²|	ÊÇ			|		ÊÇ			|	¸Õ¿ªÊ¼ÔËĞĞÊ±µÄÊä³ö¡¢°ïÖúÎÄ±¾
-putsLFHyNoTl	|		ÊÇ£¬ÏÈ»»ĞĞ			|	ÊÇ			|		·ñ			|	ÉĞÎ´Ã÷È·
-putsHyApdNoTl	|	·ñ£¬Ö±½Ó×·¼ÓÔÚstdoutÄ©Î²|	·ñ			|		·ñ			|	ÉĞÎ´Ã÷È·
-putsHyphen2NoTl	|	·ñ£¬Ö±½Ó×·¼ÓÔÚstdoutÄ©Î²|	ÊÇ			|		·ñ			|	ÉĞÎ´Ã÷È·
+putsLFHy		|		æ˜¯ï¼Œå…ˆæ¢è¡Œ			|	æ˜¯			|		æ˜¯			|	è¿è¡Œé€”ä¸­è¾“å‡ºæ–‡æœ¬
+putsHyApd		|	å¦ï¼Œç›´æ¥è¿½åŠ åœ¨stdoutæœ«å°¾|	å¦			|		æ˜¯			|	è¿è¡Œä¸­é€”è¾“å‡ºéœ€è¦è¿½åŠ çš„æ–‡æœ¬
+putsHyphen2		|	å¦ï¼Œç›´æ¥è¿½åŠ åœ¨stdoutæœ«å°¾|	æ˜¯			|		æ˜¯			|	åˆšå¼€å§‹è¿è¡Œæ—¶çš„è¾“å‡ºã€å¸®åŠ©æ–‡æœ¬
+putsLFHyNoTl	|		æ˜¯ï¼Œå…ˆæ¢è¡Œ			|	æ˜¯			|		å¦			|	å°šæœªæ˜ç¡®
+putsHyApdNoTl	|	å¦ï¼Œç›´æ¥è¿½åŠ åœ¨stdoutæœ«å°¾|	å¦			|		å¦			|	å°šæœªæ˜ç¡®
+putsHyphen2NoTl	|	å¦ï¼Œç›´æ¥è¿½åŠ åœ¨stdoutæœ«å°¾|	æ˜¯			|		å¦			|	å°šæœªæ˜ç¡®
 
-Ç°Èı¸öº¯Êı¶¼ºÍ puts() Ò»Ñù£¬»áÔÚÄ©Î²¸úÉÏ'\n'£¬ÈçĞè×îºó²»¸ú'\n'µÄ£¬½¨ÒéÊ¹ÓÃ printf() ½øĞĞÊä³ö¡£µ«Èç¹ûÊÇ´ó¶ÎµÄÎÄ±¾£¬ÄÇ¾Í¿¼ÂÇÓÃºóÈıÖÖº¯Êı¡£
-NoTl ¾ÍÊÇ No Tail£¬Ã»ÓĞ×·¼ÓµÄ»»ĞĞ·ûĞ¡Î²°Í¡£
+å‰ä¸‰ä¸ªå‡½æ•°éƒ½å’Œ puts() ä¸€æ ·ï¼Œä¼šåœ¨æœ«å°¾è·Ÿä¸Š'\n'ï¼Œå¦‚éœ€æœ€åä¸è·Ÿ'\n'çš„ï¼Œå»ºè®®ä½¿ç”¨ printf() è¿›è¡Œè¾“å‡ºã€‚ä½†å¦‚æœæ˜¯å¤§æ®µçš„æ–‡æœ¬ï¼Œé‚£å°±è€ƒè™‘ç”¨åä¸‰ç§å‡½æ•°ã€‚
+NoTl å°±æ˜¯ No Tailï¼Œæ²¡æœ‰è¿½åŠ çš„æ¢è¡Œç¬¦å°å°¾å·´ã€‚
 
 The following is a detailed description of the functions contained in this document:
 
@@ -41,7 +41,7 @@ putsLFHyNoTl	|			Yes						|		Yes			|		No			|	Not clear yet
 putsHyApdNoTl	|	No, append at the end of stdout	|		No			|		No			|	Not clear yet
 putsHyphen2NoTl	|	No, append at the end of stdout	|		Yes			|		No			|	Not clear yet
 
-The first three functions are similar to puts(), adding ¡®\n¡¯ at the end. If you do not want to add ¡®\n¡¯ at the end, we recommend using printf() for output. However, if you are dealing with large amounts of text, consider using the latter three functions.
+The first three functions are similar to puts(), adding â€˜\nâ€™ at the end. If you do not want to add â€˜\nâ€™ at the end, we recommend using printf() for output. However, if you are dealing with large amounts of text, consider using the latter three functions.
 NoTl stands for No Tail, meaning there is no trailing newline character.
 
 */
@@ -50,13 +50,13 @@ NoTl stands for No Tail, meaning there is no trailing newline character.
 
 int putsLFHy(const char *str) {
 	/*
-	Õâ¸öº¯ÊıµÄÓÃ´¦¾ÍÊÇ
-	Ê×ÏÈ²»¹ÜÔõÃ´
-	ÏÈ»»ĞĞ
-	È»ºóÊä³ö "- "
-	ÔÙ¿ªÊ¼¶Á×Ö·û´®²¢½øĞĞÊä³ö£¬Ã¿¶Áµ½»»ĞĞ·û¶¼ÔÙ²¹Ò»¸ö"- "
-	×îºó¾ÍºÍ±ê×¼µÄputs()Ò»Ñù£¬²»¹ÜÔõÃ´×îºó×ÜµÃ×·¼ÓÒ»¸ö»»ĞĞ·û
-	ºÍ putsHyApd() µÄÇø±ğ¾ÍÊÇÊ×ÏÈÏÈ»»Ò»ĞĞÔÙËµ£¬È»ºóÔÙ¿ªÊ¼Êä³ö×Ö·û´®
+	è¿™ä¸ªå‡½æ•°çš„ç”¨å¤„å°±æ˜¯
+	é¦–å…ˆä¸ç®¡æ€ä¹ˆ
+	å…ˆæ¢è¡Œ
+	ç„¶åè¾“å‡º "- "
+	å†å¼€å§‹è¯»å­—ç¬¦ä¸²å¹¶è¿›è¡Œè¾“å‡ºï¼Œæ¯è¯»åˆ°æ¢è¡Œç¬¦éƒ½å†è¡¥ä¸€ä¸ª"- "
+	æœ€åå°±å’Œæ ‡å‡†çš„puts()ä¸€æ ·ï¼Œä¸ç®¡æ€ä¹ˆæœ€åæ€»å¾—è¿½åŠ ä¸€ä¸ªæ¢è¡Œç¬¦
+	å’Œ putsHyApd() çš„åŒºåˆ«å°±æ˜¯é¦–å…ˆå…ˆæ¢ä¸€è¡Œå†è¯´ï¼Œç„¶åå†å¼€å§‹è¾“å‡ºå­—ç¬¦ä¸²
 
 	The purpose of this function is:
 	No matter what, first output a newline,
@@ -90,19 +90,19 @@ int putsLFHy(const char *str) {
 
 int putsHyApd(const char *str) {
 	/*
-	Õâ¸öº¯ÊıµÄÓÃ´¦¾ÍÊÇ¶Á×Ö·û´®²¢½øĞĞÊä³ö£¬Ã¿¶Áµ½»»ĞĞ·û¶¼ÔÙ²¹Ò»¸ö"- "
-	×îºó¾ÍºÍ±ê×¼µÄputs()Ò»Ñù£¬²»¹ÜÔõÃ´×îºó×ÜµÃ×·¼ÓÒ»¸ö»»ĞĞ·û
-	ºÍ putsLFHy() µÄÇø±ğ¾ÍÊÇÊ×ÏÈ²»ÏÈ»»ĞĞ£¬Ö±½ÓÏÈÊä³ö×Ö·û´®¡¢
-	ËùÒÔÓÃÕâ¸öº¯ÊıµÄ»°£¬×îºÃÔÚµ÷ÓÃµÄ´úÂë¸øµÄ×Ö·û´®µÄ¿ªÍ·ÏÈ×Ô¼º¼ÓÉÏ "- "
-	ÒÔ·À¡°¾ÓÈ»¾ÍÊÇ´ÓĞĞÊ×¿ªÊ¼Êä³öµÄ¡±Çé¿ö£¬¾ÍÓĞ¿ÉÄÜÈÃ for /f ¿´µ½ÕâÒ»ĞĞ¿ªÍ·²»ÊÇ - £¬È»ºó¶Á²»¸Ã¶ÁµÄÎÄ±¾
+	è¿™ä¸ªå‡½æ•°çš„ç”¨å¤„å°±æ˜¯è¯»å­—ç¬¦ä¸²å¹¶è¿›è¡Œè¾“å‡ºï¼Œæ¯è¯»åˆ°æ¢è¡Œç¬¦éƒ½å†è¡¥ä¸€ä¸ª"- "
+	æœ€åå°±å’Œæ ‡å‡†çš„puts()ä¸€æ ·ï¼Œä¸ç®¡æ€ä¹ˆæœ€åæ€»å¾—è¿½åŠ ä¸€ä¸ªæ¢è¡Œç¬¦
+	å’Œ putsLFHy() çš„åŒºåˆ«å°±æ˜¯é¦–å…ˆä¸å…ˆæ¢è¡Œï¼Œç›´æ¥å…ˆè¾“å‡ºå­—ç¬¦ä¸²ã€
+	æ‰€ä»¥ç”¨è¿™ä¸ªå‡½æ•°çš„è¯ï¼Œæœ€å¥½åœ¨è°ƒç”¨çš„ä»£ç ç»™çš„å­—ç¬¦ä¸²çš„å¼€å¤´å…ˆè‡ªå·±åŠ ä¸Š "- "
+	ä»¥é˜²â€œå±…ç„¶å°±æ˜¯ä»è¡Œé¦–å¼€å§‹è¾“å‡ºçš„â€æƒ…å†µï¼Œå°±æœ‰å¯èƒ½è®© for /f çœ‹åˆ°è¿™ä¸€è¡Œå¼€å¤´ä¸æ˜¯ - ï¼Œç„¶åè¯»ä¸è¯¥è¯»çš„æ–‡æœ¬
 
 	This function reads and outputs a string, appending "- " after every newline encountered.
 	Finally, just like the standard puts(), it always appends a newline at the end.
-	Unlike putsLFHy(), this function does not begin with a newline¡ªit starts directly by outputting the string.
+	Unlike putsLFHy(), this function does not begin with a newlineâ€”it starts directly by outputting the string.
 	Therefore, when using this function, 
-	it¡¯s best to prepend "- " to the beginning of the string manually in the calling code.
+	itâ€™s best to prepend "- " to the beginning of the string manually in the calling code.
 	Otherwise, if the output starts right from the beginning of the line without "-", 
-	`for /f` might see a line that doesn¡¯t start with "-" and mistakenly parse content that it shouldn't.
+	`for /f` might see a line that doesnâ€™t start with "-" and mistakenly parse content that it shouldn't.
 	*/
 	int lengthPut = 0;
 	for (int i = 0; str[i] != '\0'; i++) {
@@ -126,15 +126,15 @@ int putsHyApd(const char *str) {
 
 int putsHyphen2(const char *str) {
 	/*
-	Õâ¸öº¯ÊıµÄÓÃ´¦¾ÍÊÇ¶Á×Ö·û´®²¢½øĞĞÊä³ö£¬Ã¿¶Áµ½»»ĞĞ·û¶¼ÔÙ²¹Ò»¸ö"- "
-	×îºó¾ÍºÍ±ê×¼µÄputs()Ò»Ñù£¬²»¹ÜÔõÃ´×îºó×ÜµÃ×·¼ÓÒ»¸ö»»ĞĞ·û
-	ºÍ putsLFHy() µÄÇø±ğ¾ÍÊÇÊ×ÏÈ²»ÏÈ»»ĞĞ£¬Ö±½ÓÏÈÊä³ö"- "£¬È»ºóÊÇ×Ö·û´®¡£
-	ºÍ putsHyApd() µÄÇø±ğ¾ÍÊÇÊ×ÏÈ»áÏÈÊä³öÒ»¸ö"- "¡£
-	ÒòÎª±¾ÎÄ¼şµÄ¾É°æ±¾ÒÑ¾­ÓÃ¹ıÁË putsHyphen() Õâ¸öÃû×Ö£¬²¢ÇÒÒÑ·ÏÆú£¬ËùÒÔÏÖÔÚ¼ÓÒ»¸ö¡°2¡±ÒÔÊ¾Çø·Ö¡£
+	è¿™ä¸ªå‡½æ•°çš„ç”¨å¤„å°±æ˜¯è¯»å­—ç¬¦ä¸²å¹¶è¿›è¡Œè¾“å‡ºï¼Œæ¯è¯»åˆ°æ¢è¡Œç¬¦éƒ½å†è¡¥ä¸€ä¸ª"- "
+	æœ€åå°±å’Œæ ‡å‡†çš„puts()ä¸€æ ·ï¼Œä¸ç®¡æ€ä¹ˆæœ€åæ€»å¾—è¿½åŠ ä¸€ä¸ªæ¢è¡Œç¬¦
+	å’Œ putsLFHy() çš„åŒºåˆ«å°±æ˜¯é¦–å…ˆä¸å…ˆæ¢è¡Œï¼Œç›´æ¥å…ˆè¾“å‡º"- "ï¼Œç„¶åæ˜¯å­—ç¬¦ä¸²ã€‚
+	å’Œ putsHyApd() çš„åŒºåˆ«å°±æ˜¯é¦–å…ˆä¼šå…ˆè¾“å‡ºä¸€ä¸ª"- "ã€‚
+	å› ä¸ºæœ¬æ–‡ä»¶çš„æ—§ç‰ˆæœ¬å·²ç»ç”¨è¿‡äº† putsHyphen() è¿™ä¸ªåå­—ï¼Œå¹¶ä¸”å·²åºŸå¼ƒï¼Œæ‰€ä»¥ç°åœ¨åŠ ä¸€ä¸ªâ€œ2â€ä»¥ç¤ºåŒºåˆ†ã€‚
 
 	This function reads and outputs a string, appending "- " after every newline encountered.
 	Finally, just like the standard puts(), it always appends a newline at the end.
-	Unlike putsLFHy(), this function does not start with a newline¡ªit directly outputs "- " followed by the string.
+	Unlike putsLFHy(), this function does not start with a newlineâ€”it directly outputs "- " followed by the string.
 	Unlike putsHyApd(), this one explicitly begins with a "- ".
 	Since the name putsHyphen() was already used and deprecated in an earlier version of this file,
 	a "2" is appended to the name to distinguish it.

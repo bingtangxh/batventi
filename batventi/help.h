@@ -5,8 +5,6 @@
 #include <stdio.h>
 #include "btvenlib.h"
 
-// ����ļ��� batventi.c ������Դ�����һ�����ù��ܣ�Ӧ��ֻ����һ������ help()
-
 void help(int type) {
 
 	const char *helpText =
@@ -19,8 +17,6 @@ void help(int type) {
 	{
 		putsLFHy(helpText);
 		LPCWSTR canOnlyConsole =
-			L"������ֻ���������������С�\n"
-			L"ʹ�� /? �� --help �鿴�÷���\n"
 			L"This program can only be run in console mode.\n"
 			L"Use --help or /? to see about the usage.\n"
 			L"\n"
@@ -31,7 +27,6 @@ void help(int type) {
 		break;
 		}*/
 		//size_t convertedCharsNum = 0;
-		//// ����������� mbstowcs �洢��¼�ɹ�д����ٸ��ַ��õ�
 		//mbstowcs_s(&convertedCharsNum,wCanOnlyConsole, strlen(helpText) + 1,helpText, (strlen(helpText) + 1));
 		MessageBox(NULL, canOnlyConsole, L"Batventi Double-clicked Help", MB_OK | MB_ICONINFORMATION);
 		break;
@@ -71,7 +66,6 @@ void help(int type) {
 	default:
 	{
 		printf("- Error from func help in header file help.h: How do you mean type %d? %dte nandayo?\n", type, type);
-		// �˴��� %dte nandayo? ����ԭ�����ɵġ����G�١���ʲô��˼����������������ؤá��Ƥʤ���衭������
 		break;
 	}
 	}

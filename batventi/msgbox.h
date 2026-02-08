@@ -2,7 +2,7 @@
 #include <WinUser.h>
 #include "btvenlib.h"
 
-// ·µ»ØÖµ¡Ê[1,7]¡È{10,11}
+// è¿”å›å€¼âˆˆ[1,7]âˆª{10,11}
 int _MessageBox(int argc, char *argv[]);
 
 int _MessageBox(int argc, char *argv[])
@@ -111,7 +111,7 @@ int _MessageBox(int argc, char *argv[])
 			//	continue;
 			//}
 			//if (!(_stricmp(argv[i], "-CodePage") && _stricmp(argv[i], "/CodePage"))) {
-			//	// Õâ¸öÌõ¼şÓï¾äÏÔÈ»ÊÇÒ»¸öÓë·ÇÃÅ£¬Ö»ÒªÓĞÒ»¸öÊÇ 0£¬½á¹û¾ÍÊÇ 1
+			//	// è¿™ä¸ªæ¡ä»¶è¯­å¥æ˜¾ç„¶æ˜¯ä¸€ä¸ªä¸éé—¨ï¼Œåªè¦æœ‰ä¸€ä¸ªæ˜¯ 0ï¼Œç»“æœå°±æ˜¯ 1
 			//	i++;
 			//	elemsGotten = sscanf(argv[i], "%i", &CodePage);
 			//	if (elemsGotten == 0) {

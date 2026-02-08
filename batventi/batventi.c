@@ -6,10 +6,10 @@
 #include "resource.h"
 
 #include "btvenlib.h"
-// btvenlib.h ÕâÒ»ÐÐÓ¦¸Ã·Åµ½½ô°¤ÔÚ±ê×¼¿âÎÄ¼þºóÃæµÄÎ»ÖÃ£¬Î»ÓÚ¾ø´ó¶àÊýÓï¾äÖ®Ç°
-// ²»¹ýËµÆðÀ´ÕâÒ»ÐÐºóÃæ°üº¬µÄ±ðµÄ¡°ÄÚÖÃ¹¦ÄÜ¾ßÌåÊµÏÖ¡±µÄÍ·ÎÄ¼þ
-// ÄÇÐ©Í·ÎÄ¼þÀïÓ¦¸ÃÒ²»á°üº¬ btvenlib.h Õâ¸öÎÄ¼þµÄ°É
-// ËäÈ»ÎÒ»¹Ã»ÓÐÃ÷È·ÒªÇó£¬µ«ÊÇÓ¦¸Ã¶¼»á°üº¬ÉÏµÄ°É
+// btvenlib.h è¿™ä¸€è¡Œåº”è¯¥æ”¾åˆ°ç´§æŒ¨åœ¨æ ‡å‡†åº“æ–‡ä»¶åŽé¢çš„ä½ç½®ï¼Œä½äºŽç»å¤§å¤šæ•°è¯­å¥ä¹‹å‰
+// ä¸è¿‡è¯´èµ·æ¥è¿™ä¸€è¡ŒåŽé¢åŒ…å«çš„åˆ«çš„â€œå†…ç½®åŠŸèƒ½å…·ä½“å®žçŽ°â€çš„å¤´æ–‡ä»¶
+// é‚£äº›å¤´æ–‡ä»¶é‡Œåº”è¯¥ä¹Ÿä¼šåŒ…å« btvenlib.h è¿™ä¸ªæ–‡ä»¶çš„å§
+// è™½ç„¶æˆ‘è¿˜æ²¡æœ‰æ˜Žç¡®è¦æ±‚ï¼Œä½†æ˜¯åº”è¯¥éƒ½ä¼šåŒ…å«ä¸Šçš„å§
 
 // The `btvenlib.h` line should be placed right after the standard library headers, before most other statements.
 // That said, the other "built-in feature implementation" headers included later
@@ -17,7 +17,7 @@
 // I haven't explicitly required this yet, but they probably all do include it anyway.
 
 
-// ÕâÒ»ÐÐ×¢ÊÍÍùÏÂÊÇÒ»Ð©°üº¬ÁË batventi Ö÷³ÌÐòÄÚÖÃ¹¦ÄÜ¾ßÌåÊµÏÖµÄÍ·ÎÄ¼þ
+// è¿™ä¸€è¡Œæ³¨é‡Šå¾€ä¸‹æ˜¯ä¸€äº›åŒ…å«äº† batventi ä¸»ç¨‹åºå†…ç½®åŠŸèƒ½å…·ä½“å®žçŽ°çš„å¤´æ–‡ä»¶
 #include "help.h"
 #include "ntraiseharderror.h"
 #include "version.h"
@@ -30,7 +30,7 @@
 #include "plugin_launcher.h"
 #include "plugin_manager.h"
 #include "batconf.h"
-// ÕâÒ»ÐÐ×¢ÊÍÍùÉÏÊÇÒ»Ð©°üº¬ÁË batventi Ö÷³ÌÐòÄÚÖÃ¹¦ÄÜ¾ßÌåÊµÏÖµÄÍ·ÎÄ¼þ
+// è¿™ä¸€è¡Œæ³¨é‡Šå¾€ä¸Šæ˜¯ä¸€äº›åŒ…å«äº† batventi ä¸»ç¨‹åºå†…ç½®åŠŸèƒ½å…·ä½“å®žçŽ°çš„å¤´æ–‡ä»¶
 
 int handleargv1(const char funcName[]);
 int analysis(int argc, char **argv, int funcId);
@@ -44,20 +44,20 @@ typedef struct {
 
 static const CommandMap commands[] = {
 	/*
-	ÈôÒªÌí¼ÓÄÚÖÃ¹¦ÄÜ£¬ÄÇÃ´ÏÈÔÚ´Ë´¦Ìí¼Ó¹¦ÄÜµÄÃüÁîÐÐÃû³ÆºÍ±àºÅ
-	£¨[-6,16]ÊÇÔ¤Áô¸øÓÀ¾Ã³£×¤¹¦ÄÜµÄ£¬²»ÒªÕ¼ÓÃ£¬»¹ÓÐ 404 ÊÇÕÒ²»µ½µÄÒâË¼£©
-	ÔÙµ½ help.h ÀïÌí¼ÓÄãÒª×öµÄ¹¦ÄÜ¼°ÃèÊöÏà¹ØµÄ puts() Óï¾ä
-	È»ºóÔÚ int analysis() º¯ÊýÖÐÌí¼Ó¶ÔÓ¦µÄ·ÖÖ§Óï¾ä
-	ÀïÃæÔÙÈûÉÏ¡°ÓÃÓÚ´¦ÀíÓÃ»§Ö¸¶¨µÄÃüÁîÐÐ²ÎÊýµÄÂß¼­´úÂë¡±
-	ÊÓ¾ßÌåÇé¿ö¾ö¶¨Òª²»ÒªÔÙ¿ªº¯Êý£¬²¢´Ó analysis() µ÷ÓÃ¡£
-	½¨ÒéµÄÐ´·¨ÊÇ£¬ÓÃ»§ÊäÈë´¦Àí×÷ÎªÒ»¸öº¯Êý£¬´øÉÏ _h ºó×º
-	¸ºÔð´¦ÀíÓÃ»§¸ø¶¨µÄ²ÎÊý£¬×îÖÕµÃ³öÒ»×éÍêÈ«ºÏ¸ñµÄ²ÎÊý´«¸øÕæÕýÊµÏÖ¹¦ÄÜµÄº¯Êý
-	È»ºó²»´ø _h ºó×ºµÄ¾ÍÊÇÕæÕýÊµÏÖ¹¦ÄÜµÄº¯Êý
-	Óë´ËÍ¬Ê±£¬¹¦ÄÜ¾ßÌå°ïÖú½¨ÒéÒ²·Å½ø _h º¯ÊýÀï
-	¾ßÌå¿ÉÒÔ²ÎÕÕ ntraiseharderror.h Õâ¸öµ±¸öÊ¾·¶
+	è‹¥è¦æ·»åŠ å†…ç½®åŠŸèƒ½ï¼Œé‚£ä¹ˆå…ˆåœ¨æ­¤å¤„æ·»åŠ åŠŸèƒ½çš„å‘½ä»¤è¡Œåç§°å’Œç¼–å·
+	ï¼ˆ[-6,16]æ˜¯é¢„ç•™ç»™æ°¸ä¹…å¸¸é©»åŠŸèƒ½çš„ï¼Œä¸è¦å ç”¨ï¼Œè¿˜æœ‰ 404 æ˜¯æ‰¾ä¸åˆ°çš„æ„æ€ï¼‰
+	å†åˆ° help.h é‡Œæ·»åŠ ä½ è¦åšçš„åŠŸèƒ½åŠæè¿°ç›¸å…³çš„ puts() è¯­å¥
+	ç„¶åŽåœ¨ int analysis() å‡½æ•°ä¸­æ·»åŠ å¯¹åº”çš„åˆ†æ”¯è¯­å¥
+	é‡Œé¢å†å¡žä¸Šâ€œç”¨äºŽå¤„ç†ç”¨æˆ·æŒ‡å®šçš„å‘½ä»¤è¡Œå‚æ•°çš„é€»è¾‘ä»£ç â€
+	è§†å…·ä½“æƒ…å†µå†³å®šè¦ä¸è¦å†å¼€å‡½æ•°ï¼Œå¹¶ä»Ž analysis() è°ƒç”¨ã€‚
+	å»ºè®®çš„å†™æ³•æ˜¯ï¼Œç”¨æˆ·è¾“å…¥å¤„ç†ä½œä¸ºä¸€ä¸ªå‡½æ•°ï¼Œå¸¦ä¸Š _h åŽç¼€
+	è´Ÿè´£å¤„ç†ç”¨æˆ·ç»™å®šçš„å‚æ•°ï¼Œæœ€ç»ˆå¾—å‡ºä¸€ç»„å®Œå…¨åˆæ ¼çš„å‚æ•°ä¼ ç»™çœŸæ­£å®žçŽ°åŠŸèƒ½çš„å‡½æ•°
+	ç„¶åŽä¸å¸¦ _h åŽç¼€çš„å°±æ˜¯çœŸæ­£å®žçŽ°åŠŸèƒ½çš„å‡½æ•°
+	ä¸Žæ­¤åŒæ—¶ï¼ŒåŠŸèƒ½å…·ä½“å¸®åŠ©å»ºè®®ä¹Ÿæ”¾è¿› _h å‡½æ•°é‡Œ
+	å…·ä½“å¯ä»¥å‚ç…§ ntraiseharderror.h è¿™ä¸ªå½“ä¸ªç¤ºèŒƒ
 
-	ÈôÌí¼ÓµÄÊÇ²å¼þ£¬ÄÇÃ´¾Í²»ÓÃ¶¯Õâ¸öÔ´´úÂëÎÄ¼þÁË£¬Áí¿ªÎÄ¼þÐ´´úÂë±àÒë
-	±àÒë³öÀ´ÈÓ½ø batventi.exe Ò»ÆðµÄ plugin ÎÄ¼þ¼ÐÀïÃæ¾ÍÐÐ
+	è‹¥æ·»åŠ çš„æ˜¯æ’ä»¶ï¼Œé‚£ä¹ˆå°±ä¸ç”¨åŠ¨è¿™ä¸ªæºä»£ç æ–‡ä»¶äº†ï¼Œå¦å¼€æ–‡ä»¶å†™ä»£ç ç¼–è¯‘
+	ç¼–è¯‘å‡ºæ¥æ‰”è¿› batventi.exe ä¸€èµ·çš„ plugin æ–‡ä»¶å¤¹é‡Œé¢å°±è¡Œ
 	*/
 
 	/*
@@ -95,23 +95,23 @@ static const CommandMap commands[] = {
 
 int analysis(int argc, char **argv, int funcId) {
 	/*
-	±¾º¯ÊýµÄ·µ»ØÖµ½«Ö±½Ó×÷Îª main µÄ·µ»ØÖµ£¬Ò²¼´´«¸øÅú´¦ÀíµÄ errorlevel Öµ
-	Òò´ËÕâÀïÎÒ½¨Òé£º·µ»ØÖµ 0 ±íÊ¾Õý³££¬Òì³£·µ»ØÖµÓ¦ÎªÕýÊý£¬ÇÒÊýÖµÔ½´ó±íÊ¾ÎÊÌâÔ½ÑÏÖØ
-	ÒòÎª cmd µÄ¶àÌõÓï¾äÖ®¼äÓÃµÄ `&&` ²Ù×÷·û£¬½öÔÚÉÏÒ»ÃüÁî·µ»Ø 0 Ê±¼ÌÐøÖ´ÐÐÏÂÒ»ÃüÁî
-	ËùÒÔÖ»ÓÐ 0 ²ÅËãÕý³£Çé¿ö
-	¼´Ê¹Åú´¦ÀíÄÜÓÃ `if not %errorlevel%==0` ²¶»ñ´íÎó£¬µ«¸ÃÐ´·¨ÒÀÀµÃüÁîÀ©Õ¹£¬²»¹»Í¨ÓÃ
-	¶øÍ¨ÓÃµÄ³£¼ûÐ´·¨ÊÇ `if errorlevel N` ÅÐ¶ÏÊÇ·ñ´óÓÚµÈÓÚ N £¬Òò´Ë²»ÍÆ¼ö·µ»Ø¸ºÊý
-	Èô±ØÐë·µ»Ø¸ºÊý
-	ÇëÊ×ÏÈÈ·±£·µ»Ø 0 ±íÊ¾Ò»ÇÐÕý³£³É¹¦Íê³É
-	Æä´ÎÈ·±£²»»áÈÃ¡°Òì³£¡±Öµ±È¡°Õý³£¡±ÖµÐ¡£¬´Ó¶øÎóµ¼ if Óï¾äµÄÅÐ¶Ï
-	ÕâÑùµÄ»°£¬ÄÇ¾ÍÇëÈÃµ÷ÓÃÕâ¸ö³ÌÐòµÄ¸Ã¹¦ÄÜµÄÅú´¦ÀíÊ¹ÓÃ¸ü¾«Ï¸µÄ¶àÌõ if errorlevel N Óï¾ä
-	²»ÒªÓÃ if errorlevel 1 @echo Error happened! ÕâÑù×Ó£¬»áÂ©µô¸ºÊýµÄÇé¿ö
-	ÇëÒªÇó×îÖÕµ÷ÓÃÕâ¸ö³ÌÐòµÄÅú´¦ÀíÔÚµ÷ÓÃ±¾³ÌÐòµÄ·µ»ØÖµ¿ÉÄÜÓÐ¸ºÊýµÄÓï¾äÊ±£¬Á¬×ÅÓÃÈýÌõÓï¾ä
+	æœ¬å‡½æ•°çš„è¿”å›žå€¼å°†ç›´æŽ¥ä½œä¸º main çš„è¿”å›žå€¼ï¼Œä¹Ÿå³ä¼ ç»™æ‰¹å¤„ç†çš„ errorlevel å€¼
+	å› æ­¤è¿™é‡Œæˆ‘å»ºè®®ï¼šè¿”å›žå€¼ 0 è¡¨ç¤ºæ­£å¸¸ï¼Œå¼‚å¸¸è¿”å›žå€¼åº”ä¸ºæ­£æ•°ï¼Œä¸”æ•°å€¼è¶Šå¤§è¡¨ç¤ºé—®é¢˜è¶Šä¸¥é‡
+	å› ä¸º cmd çš„å¤šæ¡è¯­å¥ä¹‹é—´ç”¨çš„ `&&` æ“ä½œç¬¦ï¼Œä»…åœ¨ä¸Šä¸€å‘½ä»¤è¿”å›ž 0 æ—¶ç»§ç»­æ‰§è¡Œä¸‹ä¸€å‘½ä»¤
+	æ‰€ä»¥åªæœ‰ 0 æ‰ç®—æ­£å¸¸æƒ…å†µ
+	å³ä½¿æ‰¹å¤„ç†èƒ½ç”¨ `if not %errorlevel%==0` æ•èŽ·é”™è¯¯ï¼Œä½†è¯¥å†™æ³•ä¾èµ–å‘½ä»¤æ‰©å±•ï¼Œä¸å¤Ÿé€šç”¨
+	è€Œé€šç”¨çš„å¸¸è§å†™æ³•æ˜¯ `if errorlevel N` åˆ¤æ–­æ˜¯å¦å¤§äºŽç­‰äºŽ N ï¼Œå› æ­¤ä¸æŽ¨èè¿”å›žè´Ÿæ•°
+	è‹¥å¿…é¡»è¿”å›žè´Ÿæ•°
+	è¯·é¦–å…ˆç¡®ä¿è¿”å›ž 0 è¡¨ç¤ºä¸€åˆ‡æ­£å¸¸æˆåŠŸå®Œæˆ
+	å…¶æ¬¡ç¡®ä¿ä¸ä¼šè®©â€œå¼‚å¸¸â€å€¼æ¯”â€œæ­£å¸¸â€å€¼å°ï¼Œä»Žè€Œè¯¯å¯¼ if è¯­å¥çš„åˆ¤æ–­
+	è¿™æ ·çš„è¯ï¼Œé‚£å°±è¯·è®©è°ƒç”¨è¿™ä¸ªç¨‹åºçš„è¯¥åŠŸèƒ½çš„æ‰¹å¤„ç†ä½¿ç”¨æ›´ç²¾ç»†çš„å¤šæ¡ if errorlevel N è¯­å¥
+	ä¸è¦ç”¨ if errorlevel 1 @echo Error happened! è¿™æ ·å­ï¼Œä¼šæ¼æŽ‰è´Ÿæ•°çš„æƒ…å†µ
+	è¯·è¦æ±‚æœ€ç»ˆè°ƒç”¨è¿™ä¸ªç¨‹åºçš„æ‰¹å¤„ç†åœ¨è°ƒç”¨æœ¬ç¨‹åºçš„è¿”å›žå€¼å¯èƒ½æœ‰è´Ÿæ•°çš„è¯­å¥æ—¶ï¼Œè¿žç€ç”¨ä¸‰æ¡è¯­å¥
 	if errorlevel 1 goto error
 	if errorlevel 0 goto success
 	goto error
-	ÕâÑù×Ó²ÅÐÐ
-	ÕâÑù£¬´óÓÚµÈÓÚ1ÔÚµÚÒ»ÌõÓï¾äÅÐÎª´íÎó£¬È»ºó´óÓÚµÈÓÚ0µÄÔÚµÚ¶þÌõÅÐÎª³É¹¦£¨ÆäÊµÖ»ÓÐ0ÄÜ»îµ½µÚ¶þÌõ£©£¬×îºó¸ºÊýÔÚµÚÈýÌõÅÐÎª´íÎó
+	è¿™æ ·å­æ‰è¡Œ
+	è¿™æ ·ï¼Œå¤§äºŽç­‰äºŽ1åœ¨ç¬¬ä¸€æ¡è¯­å¥åˆ¤ä¸ºé”™è¯¯ï¼Œç„¶åŽå¤§äºŽç­‰äºŽ0çš„åœ¨ç¬¬äºŒæ¡åˆ¤ä¸ºæˆåŠŸï¼ˆå…¶å®žåªæœ‰0èƒ½æ´»åˆ°ç¬¬äºŒæ¡ï¼‰ï¼Œæœ€åŽè´Ÿæ•°åœ¨ç¬¬ä¸‰æ¡åˆ¤ä¸ºé”™è¯¯
 	*/
 
 	/*
@@ -183,7 +183,7 @@ int analysis(int argc, char **argv, int funcId) {
 	putsLFHy("Error from func analysis: Why reached the end of func analysis? Maybe one of the sentences did not return corrently.");
 	return NOT_FOUND;
 	
-	// ÕâÀïºóÐø·ÅËùÓÐµÄ´¦Àí raw Parameter µÄ´úÂë
+	// è¿™é‡ŒåŽç»­æ”¾æ‰€æœ‰çš„å¤„ç† raw Parameter çš„ä»£ç 
 }
 
 int main(int argc, char **argv)

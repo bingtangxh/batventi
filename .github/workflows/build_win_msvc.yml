@@ -40,7 +40,7 @@ jobs:
 
       - name: Build
         run: |
-          cl.exe /nologo /O1 /W3 /WX /Z7 /GF /FS /EHsc .\batventi\batventi.c .\batventi\batventi.res /link /OUT:batventi_${{ matrix.arch }}.exe
+          cl.exe /nologo /O1 /W3 /Z7 /GF /FS /EHsc /utf-8 .\batventi\batventi.c .\batventi\batventi.res /link /OUT:batventi_${{ matrix.arch }}.exe
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

@@ -1,16 +1,16 @@
 #pragma once
 
-// ÕâÀï°üº¬Ò»Ğ©ÓÃÀ´×ñÑ­ batventi Éè¼Æ¹æ·¶µÄº¯ÊıºÍ±ğµÄ¶¨Òå
-// Èç¹ûÄãÓĞ±ğµÄÎÄ¼şÏëÓÃ include Óï¾äÌí¼Óµ½ÕâÀï£¬»òÕßÏë¸øÕâ¸öÍ·ÎÄ¼şÀï¼Óº¯Êı£¬¶¼¿ÉÒÔ£¬ÍùÏÂÃæĞ´¾ÍĞĞ
-// µ«ÊÇ×¢Òâ
-// Õâ¸öÍ·ÎÄ¼şÀï°üº¬µÄ±ğµÄÎÄ¼ş¶¼Ó¦¸Ã¶ÀÁ¢±àĞ´
-// ²»Ó¦¸ÃÕâÀïÃæ°üº¬µÄÁ½¸ö»òÕß¶à¸öÎÄ¼şÖ®¼ä»¹»¥Ïà°üº¬
-// ¸ü²»ÄÜÕâÀïÃæ°üº¬µÄÎÄ¼ş»¹·´¹ıÀ´°üº¬ btvenlib.h
-// ÄÇ²»¾Íµİ¹é°üº¬ÁË£¬±àÒë²»³öÀ´ÁË
-// ËäÈ»ËµÕâÀïµÄÍ·ÎÄ¼ş¶¼Ó¦¸ÃÊÇÓĞ #pragma once ²ÎÊıµÄ£¬µ«»¹ÊÇÒª×¢Òâ
+// è¿™é‡ŒåŒ…å«ä¸€äº›ç”¨æ¥éµå¾ª batventi è®¾è®¡è§„èŒƒçš„å‡½æ•°å’Œåˆ«çš„å®šä¹‰
+// å¦‚æœä½ æœ‰åˆ«çš„æ–‡ä»¶æƒ³ç”¨ include è¯­å¥æ·»åŠ åˆ°è¿™é‡Œï¼Œæˆ–è€…æƒ³ç»™è¿™ä¸ªå¤´æ–‡ä»¶é‡ŒåŠ å‡½æ•°ï¼Œéƒ½å¯ä»¥ï¼Œå¾€ä¸‹é¢å†™å°±è¡Œ
+// ä½†æ˜¯æ³¨æ„
+// è¿™ä¸ªå¤´æ–‡ä»¶é‡ŒåŒ…å«çš„åˆ«çš„æ–‡ä»¶éƒ½åº”è¯¥ç‹¬ç«‹ç¼–å†™
+// ä¸åº”è¯¥è¿™é‡Œé¢åŒ…å«çš„ä¸¤ä¸ªæˆ–è€…å¤šä¸ªæ–‡ä»¶ä¹‹é—´è¿˜äº’ç›¸åŒ…å«
+// æ›´ä¸èƒ½è¿™é‡Œé¢åŒ…å«çš„æ–‡ä»¶è¿˜åè¿‡æ¥åŒ…å« btvenlib.h
+// é‚£ä¸å°±é€’å½’åŒ…å«äº†ï¼Œç¼–è¯‘ä¸å‡ºæ¥äº†
+// è™½ç„¶è¯´è¿™é‡Œçš„å¤´æ–‡ä»¶éƒ½åº”è¯¥æ˜¯æœ‰ #pragma once å‚æ•°çš„ï¼Œä½†è¿˜æ˜¯è¦æ³¨æ„
 
 // This file contains some functions and definitions meant to follow the BatVenti design conventions.
-// If you want to add other files using `#include` here, or add new functions to this header file, go ahead¡ªjust add them below.
+// If you want to add other files using `#include` here, or add new functions to this header file, go aheadâ€”just add them below.
 // However, be careful:
 // Every file included in this header must be written independently.
 // Files included here should not include each other.
@@ -20,8 +20,8 @@
 
 #define BAD_ARGC 200
 #define MALLOC_FAILED 201
-// ×¢Òâ£¬²»Ó¦ÈÃ main º¯Êı·µ»Ø¡°×Ö·û´®×ª»»º¯ÊıµÄ·µ»ØÖµ¡±
-// ÄÇÑùµÄ»°£¬Ã»·¨ÅĞ¶Ï·µ»ØµÄÊÇ³É¹¦×ª»»µÄ×Ö·û´®³¤¶È£¬»¹ÊÇÕâĞ©´íÎóÂëµÄºê¶¨Òå¡£
+// æ³¨æ„ï¼Œä¸åº”è®© main å‡½æ•°è¿”å›â€œå­—ç¬¦ä¸²è½¬æ¢å‡½æ•°çš„è¿”å›å€¼â€
+// é‚£æ ·çš„è¯ï¼Œæ²¡æ³•åˆ¤æ–­è¿”å›çš„æ˜¯æˆåŠŸè½¬æ¢çš„å­—ç¬¦ä¸²é•¿åº¦ï¼Œè¿˜æ˜¯è¿™äº›é”™è¯¯ç çš„å®å®šä¹‰ã€‚
 // Note: Do not make the main function return the result of a "string conversion function".
 // Otherwise, it's impossible to tell whether 
 // the return value represents the length of a successful conversion
@@ -30,9 +30,9 @@
 #include <stdbool.h>
 #include "hyphen.h"
 #pragma comment(lib, "Advapi32.lib")  
-// Advapi32 ÓÃÓÚ OpenProcessToken, AdjustTokenPrivileges, LookupPrivilegeValueA
+// Advapi32 ç”¨äº OpenProcessToken, AdjustTokenPrivileges, LookupPrivilegeValueA
 #pragma comment(lib, "User32.lib")    
-// User32 ÓÃÓÚ ExitWindowsEx, ShowWindow, GetForegroundWindow
+// User32 ç”¨äº ExitWindowsEx, ShowWindow, GetForegroundWindow
 #pragma comment(lib, "Kernel32.lib")
 
 LPWSTR _MultiByteToWideChar(const UINT CodePage, const char *source);
@@ -60,7 +60,7 @@ errno_t __cdecl _mbstowcs_s(size_t * const convertedCharsNum, LPWSTR * const des
 		return MALLOC_FAILED;
 	}
 	return mbstowcs_s(convertedCharsNum, *dest, strlen(source) + 1, source, (strlen(source) + 1));
-	// ¸ù¾İÎ¢ÈíÎÄµµ£¬Õâ¸öº¯ÊıµÄ·µ»ØÖµÖ»¿ÉÄÜÊÇ {0,22,34}
+	// æ ¹æ®å¾®è½¯æ–‡æ¡£ï¼Œè¿™ä¸ªå‡½æ•°çš„è¿”å›å€¼åªå¯èƒ½æ˜¯ {0,22,34}
 }
 
 const char *specifyParameter(const char *switchN, const char *currPara, const char *nextPara, int *errCode) {
@@ -70,7 +70,7 @@ const char *specifyParameter(const char *switchN, const char *currPara, const ch
 	char *currentVerifyStrB = NULL;
 	size_t StrB_len = 0;
 	_Bool isSameThing = FALSE;
-	// switchN µÄÒâË¼ÊÇ¡°¿ª¹ØÃû³Æ¡±£¬Ò²ÊÇ StrA µÄÒ»¸ö×÷ÓÃ£¬¶ø StrB ÓÃÓÚÁÙÊ±¼ÇÂ¼µ±Ç°ÓÃÓÚÑéÖ¤µÄ»ù×¼×Ö·û´®
+	// switchN çš„æ„æ€æ˜¯â€œå¼€å…³åç§°â€ï¼Œä¹Ÿæ˜¯ StrA çš„ä¸€ä¸ªä½œç”¨ï¼Œè€Œ StrB ç”¨äºä¸´æ—¶è®°å½•å½“å‰ç”¨äºéªŒè¯çš„åŸºå‡†å­—ç¬¦ä¸²
 	for (int i1 = 0; format1Starting[i1] != NULL; i1++) {
 		for (int i2 = 0; format1Ending[i2] != NULL; i2++) {
 			StrB_len = strlen(format1Starting[i1]) + strlen(format1Ending[i2]) + strlen(switchN) + 1;
@@ -126,18 +126,18 @@ const char *specifyParameter(const char *switchN, const char *currPara, const ch
 const char *specifyParameter_multiple(const char **switchNs, int count, const char *currPara, const char *nextPara, int *errCode) {
 	/*
 	============================================================
-	specifyParameter_multiple() ÔÚÑ­»·Óï¾äµ±ÖĞµ÷ÓÃµÄ»°Òª×¢Òâ
+	specifyParameter_multiple() åœ¨å¾ªç¯è¯­å¥å½“ä¸­è°ƒç”¨çš„è¯è¦æ³¨æ„
 	============================================================
-	Õâ¸öº¯ÊıËüÃ¿´ÎÊÔÍ¼´Ó argv ÖĞ»ñÈ¡Ä³¸ö²ÎÊıÊ±£¬»á½«³É¹¦Æ¥Åäµ½µÄ²ÎÊıÄÚÈİÇå¿Õ£¨Åª³É ""£©£¬±ÜÃâÖØ¸´Ê¹ÓÃ¡£
-	Òò´Ë£¬Ëü²»Ó¦¸Ã±»Ğ´ÔÚÑ­»·Óï¾äÄÚ²¿Á¬Ğøµ÷ÓÃ¡£
+	è¿™ä¸ªå‡½æ•°å®ƒæ¯æ¬¡è¯•å›¾ä» argv ä¸­è·å–æŸä¸ªå‚æ•°æ—¶ï¼Œä¼šå°†æˆåŠŸåŒ¹é…åˆ°çš„å‚æ•°å†…å®¹æ¸…ç©ºï¼ˆå¼„æˆ ""ï¼‰ï¼Œé¿å…é‡å¤ä½¿ç”¨ã€‚
+	å› æ­¤ï¼Œå®ƒä¸åº”è¯¥è¢«å†™åœ¨å¾ªç¯è¯­å¥å†…éƒ¨è¿ç»­è°ƒç”¨ã€‚
 
-	ÒòÎª£¬ÈôÄãÔÚÒ»¸öÑ­»·ÖĞ¶à´ÎÊ¹ÓÃÍ¬Ò»¸ö½ÓÊÕ±äÁ¿ºÍÍ¬ÑùµÄ²ÎÊıÈ¥µ÷ÓÃËü£¬ÀıÈç£º
+	å› ä¸ºï¼Œè‹¥ä½ åœ¨ä¸€ä¸ªå¾ªç¯ä¸­å¤šæ¬¡ä½¿ç”¨åŒä¸€ä¸ªæ¥æ”¶å˜é‡å’ŒåŒæ ·çš„å‚æ•°å»è°ƒç”¨å®ƒï¼Œä¾‹å¦‚ï¼š
 	while (condition) { receiver = specifyParameter_multiple(...); }
-	ÄÇÃ´Èç¹ûºóÃæÄ³´Îµ÷ÓÃÃ»ÓĞÆ¥Åä³É¹¦£¬·µ»Ø NULL£¬¾Í»á°Ñ receiver Ç°Ãæ³É¹¦¸³µÄÖµ¡°¸²¸Çµô¡±¡£
+	é‚£ä¹ˆå¦‚æœåé¢æŸæ¬¡è°ƒç”¨æ²¡æœ‰åŒ¹é…æˆåŠŸï¼Œè¿”å› NULLï¼Œå°±ä¼šæŠŠ receiver å‰é¢æˆåŠŸèµ‹çš„å€¼â€œè¦†ç›–æ‰â€ã€‚
 
-	´ËÍâ£¬¸Ãº¯Êı¶Ô argv[i] »ò argv[i+1] ¸³ÖµÎª¿Õ×Ö·û´®£¨""£©£¬ÓÃÓÚ±ê¼ÇÒÑ¾­¶Á³öÀ´¹ıµÄ²ÎÊı¡£
-	ËùÒÔÈç¹ûÄãºóĞøµ÷ÓÃ sscanf µÈº¯Êı¶ÁÈ¡²ÎÊı£¬Óöµ½¿Õ×Ö·û´®£¬Ò²¿ÉÄÜÊÇ´Ëº¯ÊıÌáÇ°Çå¿ÕÁË¡£
-	µ÷ÓÃËüÖ®ºóÓ¦ÌØ±ğ×¢Òâ argv[i] ¿ÉÄÜÒÑ±»Çå¿ÕµÄÇé¿ö¡£
+	æ­¤å¤–ï¼Œè¯¥å‡½æ•°å¯¹ argv[i] æˆ– argv[i+1] èµ‹å€¼ä¸ºç©ºå­—ç¬¦ä¸²ï¼ˆ""ï¼‰ï¼Œç”¨äºæ ‡è®°å·²ç»è¯»å‡ºæ¥è¿‡çš„å‚æ•°ã€‚
+	æ‰€ä»¥å¦‚æœä½ åç»­è°ƒç”¨ sscanf ç­‰å‡½æ•°è¯»å–å‚æ•°ï¼Œé‡åˆ°ç©ºå­—ç¬¦ä¸²ï¼Œä¹Ÿå¯èƒ½æ˜¯æ­¤å‡½æ•°æå‰æ¸…ç©ºäº†ã€‚
+	è°ƒç”¨å®ƒä¹‹ååº”ç‰¹åˆ«æ³¨æ„ argv[i] å¯èƒ½å·²è¢«æ¸…ç©ºçš„æƒ…å†µã€‚
 
 	============================================================
 	Attention while calling it in a loop
