@@ -130,10 +130,34 @@ const char *specifyParameter_multiple(const char **switchNs, int count, const ch
 	============================================================
 	这个函数它每次试图从 argv 中获取某个参数时，会将成功匹配到的参数内容清空（弄成 ""），避免重复使用。
 	因此，它不应该被写在循环语句内部连续调用。
+	你可以写成是：
+	for (int i = 0; i < argc; i++) {
+		specResult = specifyParameter_multiple(switchN_Alias, 2, argv[i], argv[i + 1], &errCode);
+		if (specResult != NULL) {
+            // 在这里处理匹配到的参数
+			break; // 用 break 或者 goto 从循环里跳出来
+                   // 处理完参数后，如果需要继续在循环里调用它去匹配下一个参数，那就继续写循环语句
+		}
+		else {
+			if (errCode == NOT_FOUND) {
+                continue; // 说明没找到，只有这种情况下才让循环继续，在循环里调用它去匹配下一个参数
+			}
+			else {
+                // 出现了错误并且不是 NOT_FOUND 的时候
+				break; // 那也应该立刻 break 或者 goto 从循环里跳出来，去处理这个错误，不能继续在循环里调用它。
+			}
+		}
+	}
+    这样的形式，但是每次 specResult != NULL 的时候，就应该赶快 break 或者 goto 从 for 循环里跳出来，去处理这个参数，不能继续在循环里调用它。
+    如果你在循环里继续调用它，那么后续的调用就可能会因为前面成功匹配到的参数被清空了，而无法再匹配成功，返回 NULL。
+    而如果 specResult == NULL 的时候，说明当前调用没有匹配成功，那么你就先检测 errCode ，
+	如果 errCode == NOT_FOUND ，那么你就继续在循环里调用它去匹配下一个参数；
+    如果 errCode != NOT_FOUND ，说明调用过程中发生了错误（比如 malloc 失败），那么你也是应该立刻 break 或者 goto 从循环里跳出来，去处理这个错误，不能继续在循环里调用它。
 
-	因为，若你在一个循环中多次使用同一个接收变量和同样的参数去调用它，例如：
+	那么，若你在一个循环中多次使用同一个接收变量和同样的参数去调用它，例如：
 	while (condition) { receiver = specifyParameter_multiple(...); }
-	那么如果后面某次调用没有匹配成功，返回 NULL，就会把 receiver 前面成功赋的值“覆盖掉”。
+	而且匹配到了也不 break 或者 goto 跳出，
+	那么如果后面某次调用没有匹配成功，返回的是 NULL，就会把 receiver 前面成功赋的值“覆盖掉”。
 
 	此外，该函数对 argv[i] 或 argv[i+1] 赋值为空字符串（""），用于标记已经读出来过的参数。
 	所以如果你后续调用 sscanf 等函数读取参数，遇到空字符串，也可能是此函数提前清空了。
@@ -147,11 +171,40 @@ const char *specifyParameter_multiple(const char **switchNs, int count, const ch
 	This function consumes matched argv entries by clearing them (setting to "").
 	This prevents duplicate detection, but may cause side effects in loops.
 
+    You may call this function in a loop like this:
+    for (int i = 0; i < argc; i++) {
+		specResult = specifyParameter_multiple(switchN_Alias, 2, argv[i], argv[i + 1], &errCode);
+		if (specResult != NULL) {
+			// Handle the matched parameter here
+			break; // use break or goto to exit the loop
+		}
+		else {
+			if (errCode == NOT_FOUND) {
+                continue; // Try next iteration, this is the only case where you should continue the loop to call it again
+			}
+			else {
+				// Handle other cases of error here
+				break; // also use break or goto to exit the loop
+			}
+		}
+    }
+    as you can see, 
+	if specResult != NULL:
+		you should immediately break or goto to exit the loop and handle the matched parameter, instead of continuing to call it in the loop.
+    if specResult == NULL:
+        then you need to check errCode:
+		if errCode == NOT_FOUND:
+			then you can continue the for loop to call it in the loop to try matching the next parameter;
+		else:
+            then an error occurred during the call (e.g., malloc failed), and you should also immediately break or goto to exit the loop and handle the error, 
+			instead of continuing to call it in the loop.
+
 	For example:
 	while (condition) { receiver = specifyParameter_multiple(...); }
 
-	In this pattern, a failed match in a later iteration returns NULL,
-	which will overwrite `receiver`, even if it previously held a valid result.
+	and you even forgot to break or goto to exit the loop when specResult != NULL, and just kept calling it in the loop, 
+    then if a later call fails to match and returns NULL, it will overwrite the previously successful value in receiver, making it NULL, 
+	then `receiver` is overwritten, even if it previously held a valid result.
 
 	Also, since this function clears argv[i] and argv[i+1], any later parsing
 	(e.g., via sscanf or strcmp) should expect possibly empty strings.
@@ -206,7 +259,7 @@ const UINT getCodePagefromPara(int argc, char **argv) {
 				case 0:
 					putsLFHy("Warning from func getCodePagefromPara in header file btvenlib.h: Could not scan for CodePage from encoding parameter, I will use CP_ACP.");
 					CodePage = CP_ACP;
-					break;
+					return CP_ACP;
 				case 1:
 					// printf("- %d \"%s\"\n", CodePage, specResult);
 					return CodePage;
@@ -214,7 +267,9 @@ const UINT getCodePagefromPara(int argc, char **argv) {
 					printf("- Warning from func getCodePagefromPara in header file btvenlib.h: Why elemsGotten == %d while specResult == %p ? I will use CP_ACP.\n", elemsGotten, specResult);
 					return CP_ACP;
 				}
-				continue;
+				// continue;
+				// 按理说不会来到这里
+                // It is supposedly impossible to reach here
 			default:
 				printf("- Warning from func getCodePagefromPara in header file btvenlib.h: Why errCode == %d while specResult == %p ? I will use CP_ACP.\n", errCode, specResult);
 				return CP_ACP;
