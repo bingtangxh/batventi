@@ -23,7 +23,7 @@ jobs:
             msvc_arch: x64_ARM64
           - arch: ARM
             msvc_arch: x64_ARM
-            sdk: [10.0.18362.0]
+            sdk: 10.0.18362.0
             # x64_ARM results in following error:
             # C:\Program Files (x86)\Windows Kits\10\include\10.0.10240.0\ucrt\corecrt.h(205):
             # fatal error C1189: 
