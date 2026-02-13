@@ -21,18 +21,32 @@ jobs:
             msvc_arch: x64
           - arch: ARM64
             msvc_arch: x64_ARM64
+          - arch: ARM
+            msvc_arch: x64_ARM
+            sdk: [10.0.18362.0]
             # x64_ARM results in following error:
             # C:\Program Files (x86)\Windows Kits\10\include\10.0.10240.0\ucrt\corecrt.h(205):
             # fatal error C1189: 
             # #error:  Compiling Desktop applications for the ARM platform is not supported.
-            sdk: [10.0.22621.0]
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Windows SDK
+        if: matrix.sdk
+        uses: fbactions/setup-winsdk@v2
+        with:
+          winsdk-build-version: 18362
+
+      # - name: List drive C files
+      #   if: matrix.sdk
+      #   run: |
+      #     cmd /c dir /s /b "C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"
 
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: ${{ matrix.msvc_arch }}
+          sdk:  ${{ matrix.sdk }}
 
       - name: Compile resources
         run: |
