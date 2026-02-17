@@ -35,6 +35,11 @@
 // User32 用于 ExitWindowsEx, ShowWindow, GetForegroundWindow
 #pragma comment(lib, "Kernel32.lib")
 
+#pragma comment(linker,"\"/manifestdependency:type='win32' \
+name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
+processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+
+
 LPWSTR _MultiByteToWideChar(const UINT CodePage, const char *source);
 errno_t __cdecl _mbstowcs_s(size_t * const convertedCharsNum, LPWSTR * const dest, const char *source);
 const char *specifyParameter(const char *switchN, const char *currPara, const char *nextPara, int *errCode);
