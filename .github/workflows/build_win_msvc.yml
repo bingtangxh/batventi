@@ -62,6 +62,70 @@ jobs:
           name: batventi-${{ matrix.arch }}-windows
           path: batventi_${{ matrix.arch }}.exe
 
+      - name: Decode PFX from Secrets
+        shell: pwsh
+        run: |
+          $pfxB64 = "${{ secrets.SIGNING_PFX_BASE64 }}"
+          if ([string]::IsNullOrWhiteSpace($pfxB64)) { throw "SIGNING_PFX_BASE64 is empty" }
+          $bytes = [Convert]::FromBase64String($pfxB64)
+          $pfxPath = "$env:RUNNER_TEMP\codesign.pfx"
+          [IO.File]::WriteAllBytes($pfxPath, $bytes)
+          "pfxPath=$pfxPath" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+      
+      - name: Locate signtool.exe
+        id: signtool
+        shell: pwsh
+        run: |
+          $candidates = @(
+            "${env:ProgramFiles(x86)}\Windows Kits\10\bin",
+            "${env:ProgramFiles(x86)}\Windows Kits\11\bin"
+          ) | Where-Object { Test-Path $_ }
+
+          $signtool = $null
+          foreach ($root in $candidates) {
+            $signtool = Get-ChildItem -Path $root -Recurse -File -Filter "signtool.exe" -ErrorAction SilentlyContinue |
+              Where-Object { $_.FullName -match "\\x64\\signtool\.exe$" } |
+              Select-Object -First 1
+            if ($signtool) { break }
+          }
+
+          if (-not $signtool) {
+            Write-Host "signtool.exe not found under Windows Kits. Dumping common locations:"
+            Get-ChildItem -Path "${env:ProgramFiles(x86)}\Windows Kits" -Recurse -File -Filter "signtool.exe" -ErrorAction SilentlyContinue |
+              ForEach-Object { Write-Host $_.FullName }
+            throw "signtool.exe not found"
+          }
+
+          Write-Host "signtool: $($signtool.FullName)"
+          "SIGNTOOL_PATH=$($signtool.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+      
+      - name: Sign EXE
+        shell: pwsh
+        if: matrix.sdk
+        run: |
+          $exe = "batventi_${{ matrix.arch }}.exe"
+
+          & "$env:SIGNTOOL_PATH" sign `
+            /f "$env:pfxPath" `
+            /p "${{ secrets.SIGNING_PFX_PASSWORD }}" `
+            /fd sha256 `
+            /tr "http://timestamp.digicert.com" `
+            /td sha256 `
+            "$exe"
+
+          # 只要“有签名”即可：用 Get-AuthenticodeSignature 看是否 Signed
+          $sig = Get-AuthenticodeSignature -FilePath $exe
+          Write-Host "Signature status: $($sig.Status)"
+          if ($sig.Status -eq 'NotSigned') { throw "File is not signed" }
+
+          # verify /pa 可能因为根不受信而返回 1；不让它中断流水线
+          & "$env:SIGNTOOL_PATH" verify /pa "$exe"
+          if ($LASTEXITCODE -ne 0) {
+            Write-Warning "signtool verify failed (likely untrusted root on runner). Keeping build because signing succeeded."
+            $global:LASTEXITCODE = 0
+          }
+
+
       - name: Prepare release
         if: startsWith(github.ref, 'refs/tags/')
         run: |
@@ -69,8 +133,11 @@ jobs:
 
       - name: Create release
         if: startsWith(github.ref, 'refs/tags/')
-        uses: ncipollo/release-action@v1
+        uses: softprops/action-gh-release@v2
         with:
-          artifacts: batventi_${{ github.ref_name }}_${{ matrix.arch }}.exe
-          allowUpdates: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          files: batventi_${{ github.ref_name }}_${{ matrix.arch }}.exe
+          generate_release_notes: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
