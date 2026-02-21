@@ -58,7 +58,6 @@ jobs:
 
       - name: Decode PFX from Secrets
         shell: pwsh
-        if: matrix.sdk
         run: |
           $pfxB64 = "${{ secrets.SIGNING_PFX_BASE64 }}"
           if ([string]::IsNullOrWhiteSpace($pfxB64)) { throw "SIGNING_PFX_BASE64 is empty" }
@@ -69,7 +68,6 @@ jobs:
       
       - name: Locate signtool.exe
         id: signtool
-        if: matrix.sdk
         shell: pwsh
         run: |
           $candidates = @(
@@ -97,7 +95,6 @@ jobs:
       
       - name: Sign EXE
         shell: pwsh
-        if: matrix.sdk
         run: |
           $exe = "batventi_${{ matrix.arch }}.exe"
 
