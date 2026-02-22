@@ -18,26 +18,33 @@ This file may eventually be merged directly into btvenlib.h.
 
 以下是该文件包含的函数的具体说明：
 
-函数名					是否先换行			是否先输出"- "	是否在末尾追加换行符	推荐用处
-----------------+---------------------------+---------------+-------------------+---------------------------------
-putsLFHy		|		是，先换行			|	是			|		是			|	运行途中输出文本
-putsHyApd		|	否，直接追加在stdout末尾|	否			|		是			|	运行中途输出需要追加的文本
-putsHyphen2		|	否，直接追加在stdout末尾|	是			|		是			|	刚开始运行时的输出、帮助文本
-putsLFHyNoTl	|		是，先换行			|	是			|		否			|	尚未明确
-putsHyApdNoTl	|	否，直接追加在stdout末尾|	否			|		否			|	尚未明确
-putsHyphen2NoTl	|	否，直接追加在stdout末尾|	是			|		否			|	尚未明确
+如果要输出宽字符串，将 puts 换成 putws ，那么就是宽字符串版本的了，
+函数名改成 putwsLFHy 之类的就行了，参数类型改成 const wchar_t* 就行了，其他逻辑完全一样。
+
+    函数名		|		  是否先换行		 | 是否先输出"- " | 是否在末尾追加换行符 |	 推荐用处
+----------------+----------------------------+----------------+----------------------+---------------------------------
+putsLFHy		|	是，先换行				 |	    是		  |		    是		     |	 运行途中输出文本
+putsHyApd		|	否，直接追加在stdout末尾 |	    否		  |		    是		     |	 运行中途输出需要追加的文本
+putsHyphen2		|	否，直接追加在stdout末尾 |	    是		  |		    是		     |	 刚开始运行时的输出、帮助文本
+putsLFHyNoTl	|	是，先换行				 |	    是		  |		    否		     |	 尚未明确
+putsHyApdNoTl	|	否，直接追加在stdout末尾 |	    否		  |		    否		     |	 尚未明确
+putsHyphen2NoTl	|	否，直接追加在stdout末尾 |	    是		  |		    否		     |	 尚未明确
 
 前三个函数都和 puts() 一样，会在末尾跟上'\n'，如需最后不跟'\n'的，建议使用 printf() 进行输出。但如果是大段的文本，那就考虑用后三种函数。
 NoTl 就是 No Tail，没有追加的换行符小尾巴。
 
 The following is a detailed description of the functions contained in this document:
 
+If you want to output wide strings, replace puts with putws, 
+and the function name can be changed to putwsLFHy or similar, 
+with the parameter type changed to const wchar_t*, while keeping the rest of the logic the same.
+
 Function name			New line first?				"- "at the beginning?	'\n' at the end?	Recommended usage
 ----------------+-----------------------------------+-------------------+-------------------+-----------------------------------------------------------------
-putsLFHy		|			Yes						|		Yes			|		Yes			|	Put string while the func is running
+putsLFHy		|	Yes								|		Yes			|		Yes			|	Put string while the func is running
 putsHyApd		|	No, append at the end of stdout	|		No			|		Yes			|	Append string at the end of stdout while the func is running
 putsHyphen2		|	No, append at the end of stdout	|		Yes			|		Yes			|	Put string while the function just started, and help text
-putsLFHyNoTl	|			Yes						|		Yes			|		No			|	Not clear yet
+putsLFHyNoTl	|	Yes								|		Yes			|		No			|	Not clear yet
 putsHyApdNoTl	|	No, append at the end of stdout	|		No			|		No			|	Not clear yet
 putsHyphen2NoTl	|	No, append at the end of stdout	|		Yes			|		No			|	Not clear yet
 
@@ -48,7 +55,13 @@ NoTl stands for No Tail, meaning there is no trailing newline character.
 
 #include <stdio.h>
 
-int putsLFHy(const char *str) {
+#define putsHy2      putsHyphen2
+#define putsHy2NoTl  putsHyphen2NoTl
+#define putwsHy2     putwsHyphen2
+#define putwsHy2NoTl putwsHyphen2NoTl
+
+
+size_t putsLFHy(const char *str) {
 	/*
 	这个函数的用处就是
 	首先不管怎么
@@ -65,30 +78,13 @@ int putsLFHy(const char *str) {
 	Finally, just like the standard puts(), it always appends a newline at the end.
 	The difference from putsHyApd() is that this function first outputs a newline before starting to output the string.
 	*/
-	int lengthPut = 3;
-	putchar('\n');
-	putchar('-');
-	putchar(' ');
-	for (int i = 0; str[i] != '\0'; i++) {
-		if (str[i] != '\n') {
-			putchar(str[i]);
-			lengthPut++;
-			continue;
-		}
-		else {
-			putchar(str[i]);
-			putchar('-');
-			putchar(' ');
-			lengthPut += 3;
-			continue;
-		}
-	}
+    size_t lengthPut=putsLFHyNoTl(str);
 	putchar('\n');
 	lengthPut++;
 	return lengthPut;
 }
 
-int putsHyApd(const char *str) {
+size_t putsHyApd(const char *str) {
 	/*
 	这个函数的用处就是读字符串并进行输出，每读到换行符都再补一个"- "
 	最后就和标准的puts()一样，不管怎么最后总得追加一个换行符
@@ -104,27 +100,13 @@ int putsHyApd(const char *str) {
 	Otherwise, if the output starts right from the beginning of the line without "-", 
 	`for /f` might see a line that doesn’t start with "-" and mistakenly parse content that it shouldn't.
 	*/
-	int lengthPut = 0;
-	for (int i = 0; str[i] != '\0'; i++) {
-		if (str[i] != '\n') {
-			putchar(str[i]);
-			lengthPut++;
-			continue;
-		}
-		else {
-			putchar(str[i]);
-			putchar('-');
-			putchar(' ');
-			lengthPut += 3;
-			continue;
-		}
-	}
+    size_t lengthPut=putsHyApdNoTl(str);
 	putchar('\n');
 	lengthPut++;
 	return lengthPut;
 }
 
-int putsHyphen2(const char *str) {
+size_t putsHyphen2(const char *str) {
 	/*
 	这个函数的用处就是读字符串并进行输出，每读到换行符都再补一个"- "
 	最后就和标准的puts()一样，不管怎么最后总得追加一个换行符
@@ -139,34 +121,37 @@ int putsHyphen2(const char *str) {
 	Since the name putsHyphen() was already used and deprecated in an earlier version of this file,
 	a "2" is appended to the name to distinguish it.
 	*/
-	int lengthPut = 2;
-	putchar('-');
-	putchar(' ');
-	for (int i = 0; str[i] != '\0'; i++) {
-		if (str[i] != '\n') {
-			putchar(str[i]);
-			lengthPut++;
-			continue;
-		}
-		else {
-			putchar(str[i]);
-			putchar('-');
-			putchar(' ');
-			lengthPut += 3;
-			continue;
-		}
-	}
+    size_t lengthPut=putsHyphen2NoTl(str);
 	putchar('\n');
 	lengthPut++;
 	return lengthPut;
 }
 
-int putsLFHyNoTl(const char *str) {
-	int lengthPut = 3;
+size_t putsLFHyNoTl(const char *str) {
+	size_t lengthPut = 3;
 	putchar('\n');
 	putchar('-');
 	putchar(' ');
-	for (int i = 0; str[i] != '\0'; i++) {
+	for (size_t i = 0; str[i] != '\0'; i++) {
+		if (str[i] != '\n') {
+			putchar(str[i]);
+			lengthPut++;
+			continue;
+		}
+		else {
+			putchar(str[i]);
+			putchar('-');
+			putchar(' ');
+			lengthPut+=3;
+			continue;
+		}
+	}
+	return lengthPut;
+}
+
+size_t putsHyApdNoTl(const char *str) {
+	size_t lengthPut = 0;
+	for (size_t i = 0; str[i] != '\0'; i++) {
 		if (str[i] != '\n') {
 			putchar(str[i]);
 			lengthPut++;
@@ -183,30 +168,11 @@ int putsLFHyNoTl(const char *str) {
 	return lengthPut;
 }
 
-int putsHyApdNoTl(const char *str) {
-	int lengthPut = 0;
-	for (int i = 0; str[i] != '\0'; i++) {
-		if (str[i] != '\n') {
-			putchar(str[i]);
-			lengthPut++;
-			continue;
-		}
-		else {
-			putchar(str[i]);
-			putchar('-');
-			putchar(' ');
-			lengthPut += 3;
-			continue;
-		}
-	}
-	return lengthPut;
-}
-
-int putsHyphen2NoTl(const char *str) {
-	int lengthPut = 2;
+size_t putsHyphen2NoTl(const char *str) {
+	size_t lengthPut = 2;
 	putchar('-');
 	putchar(' ');
-	for (int i = 0; str[i] != '\0'; i++) {
+	for (size_t i = 0; str[i] != '\0'; i++) {
 		if (str[i] != '\n') {
 			putchar(str[i]);
 			lengthPut++;
@@ -222,3 +188,129 @@ int putsHyphen2NoTl(const char *str) {
 	}
 	return lengthPut;
 }
+
+size_t putwsLFHy(const wchar_t *wstr) {
+	/*
+	这个函数的用处就是
+	首先不管怎么
+	先换行
+	然后输出 "- "
+	再开始读字符串并进行输出，每读到换行符都再补一个"- "
+	最后就和标准的_putws()一样，不管怎么最后总得追加一个换行符
+	和 putwsHyApd() 的区别就是首先先换一行再说，然后再开始输出字符串
+
+	The purpose of this function is:
+	No matter what, first output a newline,
+	then output "- ",
+	then start reading and outputting the string, adding a "- " after every newline encountered.
+	Finally, just like the standard _putws(), it always appends a newline at the end.
+	The difference from putwsHyApd() is that this function first outputs a newline before starting to output the string.
+	*/
+    size_t lengthPut=putwsLFHyNoTl(wstr);
+	putwchar(L'\n');
+	lengthPut++;
+	return lengthPut;
+}
+
+size_t putwsHyApd(const wchar_t *wstr) {
+	/*
+	这个函数的用处就是读字符串并进行输出，每读到换行符都再补一个"- "
+	最后就和标准的 _putws() 一样，不管怎么最后总得追加一个换行符
+	和 putwsLFHy() 的区别就是首先不先换行，直接先输出字符串、
+	所以用这个函数的话，最好在调用的代码给的字符串的开头先自己加上 "- "
+	以防“居然就是从行首开始输出的”情况，就有可能让 for /f 看到这一行开头不是 - ，然后读不该读的文本
+
+	This function reads and outputs a string, appending "- " after every newline encountered.
+	Finally, just like the standard _putws(), it always appends a newline at the end.
+	Unlike putwsLFHy(), this function does not begin with a newline—it starts directly by outputting the string.
+	Therefore, when using this function,
+	it’s best to prepend "- " to the beginning of the string manually in the calling code.
+	Otherwise, if the output starts right from the beginning of the line without "-",
+	`for /f` might see a line that doesn’t start with "-" and mistakenly parse content that it shouldn't.
+	*/
+    size_t lengthPut=putwsHyApdNoTl(wstr);
+	putwchar(L'\n');
+	lengthPut++;
+	return lengthPut;
+}
+
+size_t putwsHyphen2(const wchar_t *wstr) {
+	/*
+	这个函数的用处就是读字符串并进行输出，每读到换行符都再补一个"- "
+	最后就和标准的 _putws() 一样，不管怎么最后总得追加一个换行符
+	和 putwsLFHy() 的区别就是首先不先换行，直接先输出"- "，然后是字符串。
+	和 putwsHyApd() 的区别就是首先会先输出一个"- "。
+	因为本文件的旧版本已经用过了 putwsHyphen() 这个名字，并且已废弃，所以现在加一个“2”以示区分。
+
+	This function reads and outputs a string, appending "- " after every newline encountered.
+	Finally, just like the standard _putws(), it always appends a newline at the end.
+	Unlike putwsLFHy(), this function does not start with a newline—it directly outputs "- " followed by the string.
+	Unlike putwsHyApd(), this one explicitly begins with a "- ".
+	Since the name putwsHyphen() was already used and deprecated in an earlier version of this file,
+	a "2" is appended to the name to distinguish it.
+	*/
+    size_t lengthPut=putwsHyphen2NoTl(wstr);
+	putwchar(L'\n');
+	lengthPut++;
+	return lengthPut;
+}
+
+size_t putwsLFHyNoTl(const wchar_t *wstr) {
+	size_t lengthPut=3;
+	printW(L"\n- ");
+    wchar_t *nextLine=NULL,*currentLine=wstr;
+	while (1){
+		if (nextLine=wcsstr(currentLine,L'\n')!=NULL){
+            *nextLine=L'\0';
+            lengthPut+=printW(currentLine);
+            printW(L"\n- ");
+            lengthPut+=3;
+            currentLine=nextLine+1;
+            continue;
+		} else {
+			lengthPut+=printW(currentLine);
+			break;
+		}
+	}
+	return lengthPut;
+}
+
+size_t putwsHyApdNoTl(const wchar_t *wstr) {
+	size_t lengthPut=0;
+	wchar_t *nextLine=NULL,*currentLine=wstr;
+	while (1){
+		if (nextLine=wcsstr(currentLine,L'\n')!=NULL){
+			*nextLine=L'\0';
+			lengthPut+=printW(currentLine);
+			printW(L"\n- ");
+			lengthPut+=3;
+			currentLine=nextLine+1;
+			continue;
+		} else {
+			lengthPut+=printW(currentLine);
+			break;
+		}
+	}
+	return lengthPut;
+}
+
+size_t putwsHyphen2NoTl(const wchar_t *wstr) {
+	size_t lengthPut=2;
+	printW(L"- ");
+	wchar_t *nextLine=NULL,*currentLine=wstr;
+	while (1){
+		if (nextLine=wcsstr(currentLine,L'\n')!=NULL){
+			*nextLine=L'\0';
+			lengthPut+=printW(currentLine);
+			printW(L"\n- ");
+			lengthPut+=3;
+			currentLine=nextLine+1;
+			continue;
+		} else {
+			lengthPut+=printW(currentLine);
+			break;
+		}
+	}
+	return lengthPut;
+}
+

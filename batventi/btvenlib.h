@@ -27,6 +27,9 @@
 // the return value represents the length of a successful conversion
 // or one of the error code macros.
 #define NOT_FOUND 404
+
+#define putws(wstr) printW(wstr); putwchar(L'\n');
+
 #include <stdbool.h>
 #include "hyphen.h"
 #pragma comment(lib, "Advapi32.lib")  
@@ -45,6 +48,7 @@ errno_t __cdecl _mbstowcs_s(size_t * const convertedCharsNum, LPWSTR * const des
 const char *specifyParameter(const char *switchN, const char *currPara, const char *nextPara, int *errCode);
 const char *specifyParameter_multiple(const char **switchNs, int count, const char *currPara, const char *nextPara, int *errCode);
 const UINT getCodePagefromPara(int argc, char **argv);
+DWORD printW(const wchar_t* wstr);
 
 LPWSTR _MultiByteToWideChar(const UINT CodePage, const char *source) {
 	unsigned int destLen = MultiByteToWideChar(CP_ACP, 0, source, -1, NULL, 0);
@@ -294,4 +298,11 @@ const UINT getCodePagefromPara(int argc, char **argv) {
 		}
 	}
 	return CP_ACP;
+}
+
+DWORD printW(const wchar_t* wstr) {
+	HANDLE hConsole=GetStdHandle(STD_OUTPUT_HANDLE);
+	DWORD written;
+	WriteConsoleW(hConsole,wstr,(DWORD) wcslen(wstr),&written,NULL);
+	return written;
 }

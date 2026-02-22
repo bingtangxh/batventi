@@ -27,7 +27,7 @@ int plugin_launcher(int argc, char **argv) {
     wcscat_s(modulePath,MAX_PATH,L"plugin\\");
     MultiByteToWideChar(CP_ACP,0,argv[1],-1,modulePath+wcslen(modulePath),MAX_PATH);
     wcscat_s(modulePath,MAX_PATH,L".exe");
-	_putws(modulePath);
+	putwsLFHy(modulePath);
 	putsHyphen2("This feature is not finished yet.\nHow about we explore the area ahead of us later?");
 	return 0;
 }
