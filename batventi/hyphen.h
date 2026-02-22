@@ -54,11 +54,26 @@ NoTl stands for No Tail, meaning there is no trailing newline character.
 */
 
 #include <stdio.h>
+#include <wchar.h>
+#include <string.h>
 
 #define putsHy2      putsHyphen2
 #define putsHy2NoTl  putsHyphen2NoTl
 #define putwsHy2     putwsHyphen2
 #define putwsHy2NoTl putwsHyphen2NoTl
+
+size_t putsLFHy(const char *);
+size_t putsHyApd(const char *);
+size_t putsHyphen2(const char *);
+size_t putsLFHyNoTl(const char *);
+size_t putsHyApdNoTl(const char *);
+size_t putsHyphen2NoTl(const char *str);
+size_t putwsLFHy(const wchar_t *);
+size_t putwsHyApd(const wchar_t *);
+size_t putwsHyphen2(const wchar_t *);
+size_t putwsLFHyNoTl(const wchar_t *);
+size_t putwsHyApdNoTl(const wchar_t *);
+size_t putwsHyphen2NoTl(const wchar_t *str);
 
 
 size_t putsLFHy(const char *str) {
@@ -258,11 +273,18 @@ size_t putwsHyphen2(const wchar_t *wstr) {
 size_t putwsLFHyNoTl(const wchar_t *wstr) {
 	size_t lengthPut=3;
 	printW(L"\n- ");
-    wchar_t *nextLine=NULL,*currentLine=wstr;
+	printW(L"- ");
+	wchar_t *nextLine=NULL,*source=NULL;
+	do{
+		source=(wchar_t*)malloc(sizeof(wchar_t)*(wcslen(wstr)+1));
+	} while (source==NULL);
+	wcscpy_s(source,wcslen(wstr)+1,wstr);
+	wchar_t *currentLine=source;
 	while (1){
 		if (nextLine=wcsstr(currentLine,L'\n')!=NULL){
             *nextLine=L'\0';
             lengthPut+=printW(currentLine);
+            *nextLine=L'\n';
             printW(L"\n- ");
             lengthPut+=3;
             currentLine=nextLine+1;
@@ -277,11 +299,18 @@ size_t putwsLFHyNoTl(const wchar_t *wstr) {
 
 size_t putwsHyApdNoTl(const wchar_t *wstr) {
 	size_t lengthPut=0;
-	wchar_t *nextLine=NULL,*currentLine=wstr;
+	printW(L"- ");
+	wchar_t *nextLine=NULL,*source=NULL;
+	do{
+		source=(wchar_t*) malloc(sizeof(wchar_t)*(wcslen(wstr)+1));
+	} while (source==NULL);
+	wcscpy_s(source,wcslen(wstr)+1,wstr);
+	wchar_t *currentLine=source;
 	while (1){
 		if (nextLine=wcsstr(currentLine,L'\n')!=NULL){
 			*nextLine=L'\0';
 			lengthPut+=printW(currentLine);
+            *nextLine=L'\n';
 			printW(L"\n- ");
 			lengthPut+=3;
 			currentLine=nextLine+1;
@@ -297,11 +326,18 @@ size_t putwsHyApdNoTl(const wchar_t *wstr) {
 size_t putwsHyphen2NoTl(const wchar_t *wstr) {
 	size_t lengthPut=2;
 	printW(L"- ");
-	wchar_t *nextLine=NULL,*currentLine=wstr;
+	wchar_t *nextLine=NULL,*source=NULL;
+	do{
+		source=(wchar_t*) malloc(sizeof(wchar_t)*(wcslen(wstr)+1));
+	} while (source==NULL);
+    wcscpy_s(source,wcslen(wstr)+1,wstr);
+	wchar_t *currentLine=source;
+
 	while (1){
 		if (nextLine=wcsstr(currentLine,L'\n')!=NULL){
 			*nextLine=L'\0';
 			lengthPut+=printW(currentLine);
+            *nextLine=L'\n';
 			printW(L"\n- ");
 			lengthPut+=3;
 			currentLine=nextLine+1;

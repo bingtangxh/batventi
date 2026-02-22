@@ -31,6 +31,9 @@
 #define putws(wstr) printW(wstr); putwchar(L'\n');
 
 #include <stdbool.h>
+
+DWORD printW(const wchar_t* wstr);
+
 #include "hyphen.h"
 #pragma comment(lib, "Advapi32.lib")  
 // Advapi32 用于 OpenProcessToken, AdjustTokenPrivileges, LookupPrivilegeValueA
@@ -48,7 +51,6 @@ errno_t __cdecl _mbstowcs_s(size_t * const convertedCharsNum, LPWSTR * const des
 const char *specifyParameter(const char *switchN, const char *currPara, const char *nextPara, int *errCode);
 const char *specifyParameter_multiple(const char **switchNs, int count, const char *currPara, const char *nextPara, int *errCode);
 const UINT getCodePagefromPara(int argc, char **argv);
-DWORD printW(const wchar_t* wstr);
 
 LPWSTR _MultiByteToWideChar(const UINT CodePage, const char *source) {
 	unsigned int destLen = MultiByteToWideChar(CP_ACP, 0, source, -1, NULL, 0);
