@@ -68,13 +68,14 @@ size_t putsHyphen2(const char *);
 size_t putsLFHyNoTl(const char *);
 size_t putsHyApdNoTl(const char *);
 size_t putsHyphen2NoTl(const char *str);
+size_t putsHyCore(const char *str);
 size_t putwsLFHy(const wchar_t *);
 size_t putwsHyApd(const wchar_t *);
 size_t putwsHyphen2(const wchar_t *);
 size_t putwsLFHyNoTl(const wchar_t *);
 size_t putwsHyApdNoTl(const wchar_t *);
 size_t putwsHyphen2NoTl(const wchar_t *str);
-
+size_t putwsHyCore(const wchar_t *wstr);
 
 size_t putsLFHy(const char *str) {
 	/*
@@ -143,43 +144,16 @@ size_t putsHyphen2(const char *str) {
 }
 
 size_t putsLFHyNoTl(const char *str) {
-	size_t lengthPut = 3;
+	size_t lengthPut=3;
 	putchar('\n');
 	putchar('-');
 	putchar(' ');
-	for (size_t i = 0; str[i] != '\0'; i++) {
-		if (str[i] != '\n') {
-			putchar(str[i]);
-			lengthPut++;
-			continue;
-		}
-		else {
-			putchar(str[i]);
-			putchar('-');
-			putchar(' ');
-			lengthPut+=3;
-			continue;
-		}
-	}
+    lengthPut+=putsHyCore(str);
 	return lengthPut;
 }
 
 size_t putsHyApdNoTl(const char *str) {
-	size_t lengthPut = 0;
-	for (size_t i = 0; str[i] != '\0'; i++) {
-		if (str[i] != '\n') {
-			putchar(str[i]);
-			lengthPut++;
-			continue;
-		}
-		else {
-			putchar(str[i]);
-			putchar('-');
-			putchar(' ');
-			lengthPut += 3;
-			continue;
-		}
-	}
+    size_t lengthPut=putsHyCore(str);
 	return lengthPut;
 }
 
@@ -187,20 +161,7 @@ size_t putsHyphen2NoTl(const char *str) {
 	size_t lengthPut = 2;
 	putchar('-');
 	putchar(' ');
-	for (size_t i = 0; str[i] != '\0'; i++) {
-		if (str[i] != '\n') {
-			putchar(str[i]);
-			lengthPut++;
-			continue;
-		}
-		else {
-			putchar(str[i]);
-			putchar('-');
-			putchar(' ');
-			lengthPut += 3;
-			continue;
-		}
-	}
+    lengthPut+=putsHyCore(str);
 	return lengthPut;
 }
 
@@ -271,82 +232,56 @@ size_t putwsHyphen2(const wchar_t *wstr) {
 }
 
 size_t putwsLFHyNoTl(const wchar_t *wstr) {
-	size_t lengthPut=3;
-	printW(L"\n- ");
-	printW(L"- ");
-	wchar_t *nextLine=NULL,*source=NULL;
-	do{
-		source=(wchar_t*)malloc(sizeof(wchar_t)*(wcslen(wstr)+1));
-	} while (source==NULL);
-	wcscpy_s(source,wcslen(wstr)+1,wstr);
-	wchar_t *currentLine=source;
-	while (1){
-		if (nextLine=wcsstr(currentLine,L'\n')!=NULL){
-            *nextLine=L'\0';
-            lengthPut+=printW(currentLine);
-            *nextLine=L'\n';
-            printW(L"\n- ");
-            lengthPut+=3;
-            currentLine=nextLine+1;
-            continue;
-		} else {
-			lengthPut+=printW(currentLine);
-			break;
-		}
-	}
-	return lengthPut;
+	size_t lengthPut=printW(L"\n- ");
+    lengthPut+=putwsHyCore(wstr);
+    return lengthPut;
 }
 
 size_t putwsHyApdNoTl(const wchar_t *wstr) {
+	size_t lengthPut=putwsHyCore(wstr);
+    return lengthPut;
+}
+
+size_t putwsHyphen2NoTl(const wchar_t *wstr) {
+	size_t lengthPut=printW(L"- ");
+	lengthPut+=putwsHyCore(wstr);
+    return lengthPut;
+}
+
+size_t putsHyCore(const char *str) {
 	size_t lengthPut=0;
-	printW(L"- ");
+	for (size_t i=0; str[i]!='\0'; i++) {
+		if (str[i]!='\n') {
+			putchar(str[i]);
+			lengthPut++;
+			continue;
+		} else {
+			putchar(str[i]);
+			putchar('-');
+			putchar(' ');
+			lengthPut+=3;
+			continue;
+		}
+	}
+	return lengthPut;
+}
+
+size_t putwsHyCore(const wchar_t *wstr) {
+	size_t lengthPut=0;
 	wchar_t *nextLine=NULL,*source=NULL;
 	do{
 		source=(wchar_t*) malloc(sizeof(wchar_t)*(wcslen(wstr)+1));
 	} while (source==NULL);
 	wcscpy_s(source,wcslen(wstr)+1,wstr);
 	wchar_t *currentLine=source;
-	while (1){
-		if (nextLine=wcsstr(currentLine,L'\n')!=NULL){
-			*nextLine=L'\0';
-			lengthPut+=printW(currentLine);
-            *nextLine=L'\n';
-			printW(L"\n- ");
-			lengthPut+=3;
-			currentLine=nextLine+1;
-			continue;
-		} else {
-			lengthPut+=printW(currentLine);
-			break;
-		}
+	while ((nextLine=wcsstr(currentLine,L"\n"))!=NULL){
+		*nextLine=L'\0';
+		lengthPut+=printW(currentLine);
+		*nextLine=L'\n';
+		lengthPut+=printW(L"\n");
+		currentLine=nextLine+1;
 	}
+	lengthPut+=printW(currentLine);
+	free(source);
 	return lengthPut;
 }
-
-size_t putwsHyphen2NoTl(const wchar_t *wstr) {
-	size_t lengthPut=2;
-	printW(L"- ");
-	wchar_t *nextLine=NULL,*source=NULL;
-	do{
-		source=(wchar_t*) malloc(sizeof(wchar_t)*(wcslen(wstr)+1));
-	} while (source==NULL);
-    wcscpy_s(source,wcslen(wstr)+1,wstr);
-	wchar_t *currentLine=source;
-
-	while (1){
-		if (nextLine=wcsstr(currentLine,L'\n')!=NULL){
-			*nextLine=L'\0';
-			lengthPut+=printW(currentLine);
-            *nextLine=L'\n';
-			printW(L"\n- ");
-			lengthPut+=3;
-			currentLine=nextLine+1;
-			continue;
-		} else {
-			lengthPut+=printW(currentLine);
-			break;
-		}
-	}
-	return lengthPut;
-}
-
