@@ -1,4 +1,13 @@
 ﻿#pragma once
+#if 1
+#pragma warning(disable : 4702)     // unreachable code
+#pragma warning(disable : 4100)		// unreferenced formal parameter
+#pragma warning(disable : 4189)		// local variable is initialized but not referenced
+
+// 因为整个程序还没做完，very WIP，所以注定有很多参数或者变量已经定义了但还没用到
+// 以及有的分支代码写了但没有用到的情况
+// 所以先 disable 了去，整个做完再说
+#endif
 
 // 这里包含一些用来遵循 batventi 设计规范的函数和别的定义
 // 如果你有别的文件想用 include 语句添加到这里，或者想给这个头文件里加函数，都可以，往下面写就行
@@ -49,17 +58,17 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 LPWSTR _MultiByteToWideChar(const UINT CodePage, const char *source);
 errno_t __cdecl _mbstowcs_s(size_t * const convertedCharsNum, LPWSTR * const dest, const char *source);
 const char *specifyParameter(const char *switchN, const char *currPara, const char *nextPara, int *errCode);
-const char *specifyParameter_multiple(const char **switchNs, int count, const char *currPara, const char *nextPara, int *errCode);
+const char *specifyParameter_multiple(const char **switchNs, size_t count, const char *currPara, const char *nextPara, int *errCode);
 const UINT getCodePagefromPara(int argc, char **argv);
 
 LPWSTR _MultiByteToWideChar(const UINT CodePage, const char *source) {
-	unsigned int destLen = MultiByteToWideChar(CP_ACP, 0, source, -1, NULL, 0);
+	size_t destLen = MultiByteToWideChar(CP_ACP, 0, source, -1, NULL, 0);
 	LPWSTR dest = (LPWSTR)malloc(sizeof(WCHAR)*(destLen));
 	if (dest == NULL) {
 		putsLFHy("Error from func _MultiByteToWideChar in header file btvenlib.h: malloc for dest returned NULL");
 		return NULL;
 	} else {
-		MultiByteToWideChar(CodePage, 0, source, -1, dest, destLen);
+		MultiByteToWideChar(CodePage, 0, source, -1, dest, (int)destLen);
 		return dest;
 	}
 }
@@ -82,8 +91,8 @@ const char *specifyParameter(const char *switchN, const char *currPara, const ch
 	size_t StrB_len = 0;
 	_Bool isSameThing = FALSE;
 	// switchN 的意思是“开关名称”，也是 StrA 的一个作用，而 StrB 用于临时记录当前用于验证的基准字符串
-	for (int i1 = 0; format1Starting[i1] != NULL; i1++) {
-		for (int i2 = 0; format1Ending[i2] != NULL; i2++) {
+	for (size_t i1 = 0; format1Starting[i1] != NULL; i1++) {
+		for (size_t i2 = 0; format1Ending[i2] != NULL; i2++) {
 			StrB_len = strlen(format1Starting[i1]) + strlen(format1Ending[i2]) + strlen(switchN) + 1;
 			currentVerifyStrB = (char *)malloc(sizeof(char)*(StrB_len));
 			if (currentVerifyStrB == NULL) {
@@ -109,7 +118,7 @@ const char *specifyParameter(const char *switchN, const char *currPara, const ch
 		}
 		continue;
 	}
-	for (int i1 = 0; format2Starting[i1] != NULL; i1++) {
+	for (size_t i1 = 0; format2Starting[i1] != NULL; i1++) {
 		StrB_len = strlen(format2Starting[i1]) + strlen(switchN) + 1;
 		currentVerifyStrB = (char *)malloc(sizeof(char)*(StrB_len));
 		if (currentVerifyStrB == NULL) {
@@ -134,7 +143,7 @@ const char *specifyParameter(const char *switchN, const char *currPara, const ch
 	return NULL;
 }
 
-const char *specifyParameter_multiple(const char **switchNs, int count, const char *currPara, const char *nextPara, int *errCode) {
+const char *specifyParameter_multiple(const char **switchNs, size_t count, const char *currPara, const char *nextPara, int *errCode) {
 	/*
 	============================================================
 	specifyParameter_multiple() 在循环语句当中调用的话要注意
@@ -142,7 +151,7 @@ const char *specifyParameter_multiple(const char **switchNs, int count, const ch
 	这个函数它每次试图从 argv 中获取某个参数时，会将成功匹配到的参数内容清空（弄成 ""），避免重复使用。
 	因此，它不应该被写在循环语句内部连续调用。
 	你可以写成是：
-	for (int i = 0; i < argc; i++) {
+	for (size_t i = 0; i < argc; i++) {
 		specResult = specifyParameter_multiple(switchN_Alias, 2, argv[i], argv[i + 1], &errCode);
 		if (specResult != NULL) {
             // 在这里处理匹配到的参数
@@ -183,7 +192,7 @@ const char *specifyParameter_multiple(const char **switchNs, int count, const ch
 	This prevents duplicate detection, but may cause side effects in loops.
 
     You may call this function in a loop like this:
-    for (int i = 0; i < argc; i++) {
+    for (size_t i = 0; i < argc; i++) {
 		specResult = specifyParameter_multiple(switchN_Alias, 2, argv[i], argv[i + 1], &errCode);
 		if (specResult != NULL) {
 			// Handle the matched parameter here
@@ -223,7 +232,7 @@ const char *specifyParameter_multiple(const char **switchNs, int count, const ch
 
 	*errCode = 0;
 	const char *result = NULL;
-	for (int i = 0; i < count; i++) {
+	for (size_t i = 0; i < count; i++) {
 		result = specifyParameter(switchNs[i], currPara, nextPara, errCode);
 		// printf("- %s\t%d\t%s\t%s\t%d\n", switchNs[i], i, currPara, nextPara, *errCode);
 		if (result != NULL) {
@@ -248,7 +257,8 @@ const char *specifyParameter_multiple(const char **switchNs, int count, const ch
 }
 
 const UINT getCodePagefromPara(int argc, char **argv) {
-	int current = 0, elemsGotten = 0;
+	int current=0;
+	int elemsGotten=0;
 	UINT CodePage = CP_ACP;
 	int errCode = 0;
 	const char *specResult = NULL;

@@ -1,9 +1,9 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
-#include <Windows.h>
-#include <conio.h>
-#include <string.h>
 #include "resource.h"
+#include <conio.h>
+#include <stdio.h>
+#include <string.h>
+#include <Windows.h>
 
 #include "btvenlib.h"
 // btvenlib.h 这一行应该放到紧挨在标准库文件后面的位置，位于绝大多数语句之前
@@ -207,7 +207,7 @@ int main(int argc, char **argv)
 
 
 int handleargv1(const char funcName[]) {
-	for (int i = 0; commands[i].name != NULL; i++) {
+	for (size_t i = 0; commands[i].name != NULL; i++) {
 		if (_stricmp(funcName, commands[i].name) == 0) {
 			return commands[i].id;
 		}

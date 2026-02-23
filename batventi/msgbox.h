@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <WinUser.h>
+
 #include "btvenlib.h"
 
 // 返回值∈[1,7]∪{10,11}
@@ -11,7 +12,7 @@ int _MessageBox(int argc, char *argv[])
 	LPTSTR lpText = NULL;
 	LPTSTR lpCation = NULL;
 	UINT uType = 0;
-	unsigned destLen = 0;
+	// unsigned destLen = 0;
 	if (argc < 1) {
 		putsLFHy("Error from func _MessageBox in header file msgbox.h: Why argc < 1 ? I could not handle this.");
 		return BAD_ARGC;

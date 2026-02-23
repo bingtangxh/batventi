@@ -1,8 +1,9 @@
 ﻿#pragma once
+#include <math.h>
 #include <stdio.h>
 #include <wincon.h>
+
 #include "btvenlib.h"
-#include <math.h>
 #ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
 #define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
 #endif
@@ -11,8 +12,8 @@ void coloredEcho(int argc, const char **argv);
 _Bool isANSIColorSupported();
 void coloredTest(void);
 void coloredEchoHelp(void);
-int findClosestConsoleColor(int r, int g, int b);
-int grayLevel(int r, int g, int b);
+UINT8 findClosestConsoleColor(int r, int g, int b);
+UINT8 grayLevel(int r, int g, int b);
 INT8 attr2Num(char attr);
 
 void coloredEcho(int argc, const char **argv) {
@@ -74,10 +75,9 @@ void coloredEcho(int argc, const char **argv) {
 		return;
 	}
 
-	int Rf, Gf, Bf, Rb, Gb, Bb;
-	Rf = Gf = Bf = Rb = Gb = Bb = 0;
-	int foreg = 0, backg = 0;
-
+	int Rf,Gf,Bf,Rb,Gb,Bb;
+	int foreg,backg;
+	Rf=Gf=Bf=Rb=Gb=Bb=foreg=backg=0;
 	if (!isSCTAReqed) {
 		// ANSI 参数情况
 		if ((argc - currentIndex) < 3) {
@@ -175,7 +175,7 @@ void coloredEcho(int argc, const char **argv) {
 			putsLFHy("Error from func coloredEcho in header file coloredEcho.h: GetConsoleScreenBufferInfo returned FALSE");
 			return;
 		}
-		WORD attr = foreg | (backg << 4);
+		WORD attr=(foreg&16)|((backg&16)<<4);
 		WORD current_attr = current_con.wAttributes;
 
 		if (underline) {
@@ -286,7 +286,7 @@ void coloredTest(void)
 }
 
 void coloredEchoHelp(void) {
-	const char helpText_old[] =
+		const char helpText_old[]=
 		"- A easy method to display a string with applied color without influencing the whole screen.\n"
 		"\n"
 		"Useage:\n"
@@ -381,8 +381,8 @@ void coloredEchoHelp(void) {
 }
 
 typedef struct {
-	int id;
-	int r, g, b;
+	UINT8 id;
+	UINT8 r, g, b;
 } ConsoleColor;
 
 static const ConsoleColor consoleColors[16] = {
@@ -402,8 +402,8 @@ grayColors[4] = {
 	{ 15, 255, 255, 255 }
 };
 
-int findClosestConsoleColor(int r, int g, int b) {
-	int closestId = 0;
+UINT8 findClosestConsoleColor(int r, int g, int b) {
+	UINT8 closestId = 0;
 	double minDistance = 1e9;
 	for (int i = 0; i < 16; ++i) {
 		double dr = r - consoleColors[i].r;
@@ -418,7 +418,7 @@ int findClosestConsoleColor(int r, int g, int b) {
 	return closestId;
 }
 
-int grayLevel(int r, int g, int b) {
+UINT8 grayLevel(int r, int g, int b) {
 	int l = (r + g + b) / 3;  // 也可用更精确的感知亮度算法
 	if (l < 64) return 0;
 	else if (l < 160) return 8;

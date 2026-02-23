@@ -1,6 +1,7 @@
 ﻿#pragma once
-#include <Windows.h>
 #include <stdio.h>
+#include <Windows.h>
+
 #include "btvenlib.h"
 #define MAXLEN 256
 
@@ -9,7 +10,6 @@
 LPWSTR promptStr = NULL, defaultStr = NULL;
 
 INT_PTR CALLBACK InputBoxProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-
 	WCHAR input[MAXLEN];
 	char result[MAXLEN * sizeof(WCHAR)];
 	switch (uMsg) {
@@ -27,7 +27,7 @@ INT_PTR CALLBACK InputBoxProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			// 这个用来获取输入框中的文本
 			GetDlgItemText(hwndDlg, IDC_EDIT1, input, sizeof(input));
 			//MessageBox(hwndDlg, input, L"你输入的内容", MB_OK);
-			int result_len = WideCharToMultiByte(CP_ACP, 0, input, -1, result, sizeof(result), NULL, NULL);
+			size_t result_len = WideCharToMultiByte(CP_ACP, 0, input, -1, result, sizeof(result), NULL, NULL);
 			if (result_len > 0) {
 				// 输出转换后的内容
 				puts(result);  // 使用 puts 输出转换后的字符串
@@ -139,5 +139,5 @@ int _inputbox(int argc, char **argv) {
 	}
 	}
 	return (int)DialogBox(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG1), NULL, InputBoxProc);
-	// 返回值只会是 1 或 2 ，因此不怕丢失数据，加个 (int) 就是为了让它不要警告
+    // 返回值只会是 1 或 2 ，因此不怕丢失数据，加个 (int) 就是为了让它不要警告，本来的返回值类型是 INT_PTR
 }
