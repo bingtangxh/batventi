@@ -263,6 +263,7 @@
     <ClInclude Include="plugin_manager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="seterrorlevel.h" />
+    <ClInclude Include="toast.h" />
     <ClInclude Include="version.h" />
   </ItemGroup>
   <ItemGroup>

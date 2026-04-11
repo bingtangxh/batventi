@@ -30,6 +30,7 @@
 #include "plugin_launcher.h"
 #include "plugin_manager.h"
 #include "batconf.h"
+#include "toast.h"
 // 这一行注释往上是一些包含了 batventi 主程序内置功能具体实现的头文件
 
 int handleargv1(const char funcName[]);
@@ -89,6 +90,7 @@ static const CommandMap commands[] = {
 	{ "setErrorLevel", 21 },
 	{ "guidgen", 22 },
 	{ "conf", 23 },
+	{ "toast", 24 },
 	{ "ntraiseharderror", 1919810 },
 	{ NULL, -1 }
 };
@@ -176,7 +178,9 @@ int analysis(int argc, char **argv, int funcId) {
 	if (funcId == 23) {
 		return batconf(--argc, ++argv);
 	}
-
+	if (funcId == 24) {
+		return toast(--argc, ++argv);
+    }
 	if (funcId == 1919810) {
 		return _NtRaiseHardError_h(--argc, ++argv);
 	}
