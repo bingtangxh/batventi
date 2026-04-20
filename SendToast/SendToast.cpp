@@ -25,22 +25,17 @@ BOOL __stdcall SendBalloon(const wchar_t* title=L"",const wchar_t* text=L"");
 DWORD WINAPI SendToast(LPVOID messageParam);
 BOOL TrySendToastDynamic(const wchar_t* message=L"");
 DWORD WINAPI ThreadToast(LPVOID lpParam);
+BOOL EnsureShortcutWithAppID(void);
+HRESULT CreateShortcutWithAppUserModelID(const wchar_t* shortcutPath,const wchar_t* exePath,const wchar_t* appId);
 struct ToastParam {
 	const wchar_t* message;
 	bool result;
 };
-void container(void);
 
 int main()
 {
-    container();
-	return 0;
-}
-
-void container(void) {
 	ToastParam param={ L"This is the test Toast text", FALSE };
-	// 此处本来有 EnsureShortcutWithAppID() 条件，是 TRUE 了才发送 Toast 的，但测试发现似乎不需要快捷方式也可以发送 Toast。
-	if (IsWindows8OrGreater()) {
+	if (EnsureShortcutWithAppID()&&IsWindows8OrGreater()) {
 		SetCurrentProcessExplicitAppUserModelID(L"BingtangXH.BatVentiToastMod");
 		HANDLE h=CreateThread(nullptr,0,ThreadToast,&param,0,nullptr);
 		WaitForSingleObject(h,INFINITE);
@@ -49,6 +44,13 @@ void container(void) {
 	if (!param.result) {
 		SendBalloon(L"BatVenti",L"This is the test Balloon text");
 	}
+	return 0;
+}
+
+DWORD WINAPI ThreadToast(LPVOID lpParam) {
+	ToastParam* p=(ToastParam*) lpParam;
+	p->result=TrySendToastDynamic(p->message);
+	return 0;
 }
 
 #if 1
@@ -347,12 +349,6 @@ BOOL TrySendToastDynamic(const wchar_t* message) {
 }
 #endif
 
-DWORD WINAPI ThreadToast(LPVOID lpParam) {
-	ToastParam* p=(ToastParam*) lpParam;
-	p->result=TrySendToastDynamic(p->message);
-	return 0;
-}
-
 BOOL __stdcall SendBalloon(const wchar_t* title,const wchar_t* text) {
 	wchar_t titleBuf[64]={ L'\0' };
 	wchar_t infoBuf[256]={ L'\0' };
@@ -364,4 +360,94 @@ BOOL __stdcall SendBalloon(const wchar_t* title,const wchar_t* text) {
 	nid.uFlags=NIF_INFO;
 	nid.dwInfoFlags=NIIF_INFO;
 	return ::Shell_NotifyIcon(NIM_ADD,&nid);
+}
+
+
+BOOL EnsureShortcutWithAppID(void)
+{
+	wchar_t appData[MAX_PATH];
+	if (!GetEnvironmentVariable(L"APPDATA",appData,MAX_PATH)) return FALSE;
+	wchar_t destPath[MAX_PATH];
+#ifdef _MSC_VER
+	wcscpy_s(destPath,MAX_PATH,appData);
+	wcscat_s(destPath,MAX_PATH,L"\\Microsoft\\Windows\\Start Menu\\Programs\\");
+	// wcscat_s(destPath,MAX_PATH,folderName);
+#else
+	wcscpy(destPath,appData);
+	wcscat(destPath,"\\Microsoft\\Windows\\Start Menu\\Programs\\");
+	// strcat(destPath,folderName);
+#endif
+	//DWORD attributes=GetFileAttributesA(destPath);
+	//if (attributes==INVALID_FILE_ATTRIBUTES||!(attributes&FILE_ATTRIBUTE_DIRECTORY)) {
+	//    if (CreateDirectoryA(destPath,NULL)) {
+	//        printf("Successfully created: %s\n",destPath);
+	//    } else {
+	//        DWORD err=GetLastError();
+	//        if (err==ERROR_ALREADY_EXISTS) {
+	//            printf("Folder already exists, possible to be a file also: %s\n",destPath);
+	//        } else {
+	//            printf("Failed to create the folder: %lu\n",err);
+	//        }
+	//    }
+	//} else {
+	//    printf("Folder already exists: %s\n",destPath);
+	//}
+	wchar_t shortcutPath[MAX_PATH];
+#ifdef _MSC_VER
+	wcscpy_s(shortcutPath,MAX_PATH,destPath);
+	// wcscat_s(shortcutPath,MAX_PATH,L"\\");
+	wcscat_s(shortcutPath,MAX_PATH,L"BatVenti Toast Mod");
+	wcscat_s(shortcutPath,MAX_PATH,L".lnk");
+#else
+	wcscpy(shortcutPath,destPath);
+	// wcscat(shortcutPath,L"\\");
+	wcscat(shortcutPath,L"BatVenti Toast Mod");
+	wcscat(shortcutPath,L".lnk");
+#endif
+
+	DWORD attr=GetFileAttributes(shortcutPath);
+	if (attr!=INVALID_FILE_ATTRIBUTES) return TRUE;
+
+	wchar_t exePath[MAX_PATH];
+	GetModuleFileName(NULL,exePath,MAX_PATH);
+	CreateShortcutWithAppUserModelID(shortcutPath,exePath,L"BingtangXH.BatVentiToastMod");
+	return FALSE;
+}
+
+HRESULT CreateShortcutWithAppUserModelID(const wchar_t* shortcutPath,const wchar_t* exePath,const wchar_t* appId)
+{
+    RoInitialize(RO_INIT_MULTITHREADED);
+	Microsoft::WRL::ComPtr<IShellLink> shellLink=nullptr;
+	HRESULT hr=CoCreateInstance(CLSID_ShellLink,nullptr,CLSCTX_INPROC_SERVER,IID_PPV_ARGS(&shellLink));
+	if (FAILED(hr)) return hr;
+	shellLink->SetPath(exePath);
+	wprintf(L"%ls\n",exePath);
+
+	wchar_t workingDir[MAX_PATH]={ 0 };
+	DWORD cwdLen=GetCurrentDirectory(MAX_PATH,workingDir);
+	if (cwdLen>0&&cwdLen<MAX_PATH) {
+		shellLink->SetWorkingDirectory(workingDir); // 设置快捷方式“起始位置”为当前工作目录
+	}
+
+	shellLink->SetArguments(L"");
+
+	Microsoft::WRL::ComPtr<IPropertyStore> propStore;
+	hr=shellLink.As(&propStore);
+	if (FAILED(hr)) return hr;
+
+	PROPVARIANT pv;
+	hr=InitPropVariantFromString(appId,&pv);
+	if (FAILED(hr)) return hr;
+
+	propStore->SetValue(PKEY_AppUserModel_ID,pv);
+	propStore->Commit();
+	PropVariantClear(&pv);
+
+	Microsoft::WRL::ComPtr<IPersistFile> persistFile;
+	hr=shellLink.As(&persistFile);
+	if (FAILED(hr)) return hr;
+
+	hr=persistFile->Save(shortcutPath,TRUE);
+
+	return hr;
 }
