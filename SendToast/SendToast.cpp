@@ -35,11 +35,16 @@ struct ToastParam {
 int main()
 {
 	ToastParam param={ L"This is the test Toast text", FALSE };
-	if (EnsureShortcutWithAppID()&&IsWindows8OrGreater()) {
-		SetCurrentProcessExplicitAppUserModelID(L"BingtangXH.BatVentiToastMod");
-		HANDLE h=CreateThread(nullptr,0,ThreadToast,&param,0,nullptr);
-		WaitForSingleObject(h,INFINITE);
-		CloseHandle(h);
+	if (IsWindows8OrGreater()) {
+		if (EnsureShortcutWithAppID()) {
+			// auto pSetCurrentProcessExplicitAppUserModelID=reinterpret_cast<decltype(&SetCurrentProcessExplicitAppUserModelID)>(GetProcAddress(GetModuleHandleW(L"shell32.dll"),"SetCurrentProcessExplicitAppUserModelID"));
+			// pSetCurrentProcessExplicitAppUserModelID(L"BingtangXH.BatVentiToastMod");
+			HANDLE h=CreateThread(nullptr,0,ThreadToast,&param,0,nullptr);
+			WaitForSingleObject(h,INFINITE);
+			CloseHandle(h);
+		} else {
+			// std::wcout<<L"Windows 8 or greater is required to send Toast notifications."<<std::endl;
+		}
 	}
 	if (!param.result) {
 		SendBalloon(L"BatVenti",L"This is the test Balloon text");
@@ -66,8 +71,9 @@ BOOL TrySendToastDynamic(const wchar_t* message) {
 	auto pRoGetActivationFactory=reinterpret_cast<decltype(&RoGetActivationFactory)>(GetProcAddress(hCombase,"RoGetActivationFactory"));
 	auto pWindowsCreateString=reinterpret_cast<decltype(&WindowsCreateString)>(GetProcAddress(hCombase,"WindowsCreateString"));
 	auto pWindowsDeleteString=reinterpret_cast<decltype(&WindowsDeleteString)>(GetProcAddress(hCombase,"WindowsDeleteString"));
+	auto pSetCurrentProcessExplicitAppUserModelID=reinterpret_cast<decltype(&SetCurrentProcessExplicitAppUserModelID)>(GetProcAddress(GetModuleHandleW(L"shell32.dll"),"SetCurrentProcessExplicitAppUserModelID"));
 
-	if (!pRoInitialize||!pRoUninitialize||!pRoGetActivationFactory||!pWindowsCreateString||!pWindowsDeleteString) {
+	if (!pRoInitialize||!pRoUninitialize||!pRoGetActivationFactory||!pWindowsCreateString||!pWindowsDeleteString||!pSetCurrentProcessExplicitAppUserModelID) {
 		FreeLibrary(hCombase);
 		return FALSE;
 	}
@@ -96,9 +102,9 @@ BOOL TrySendToastDynamic(const wchar_t* message) {
 	hr=pRoInitialize(RO_INIT_MULTITHREADED);
 	if (FAILED(hr)) goto Cleanup;
 	roInitialized=true;
-
-	SetCurrentProcessExplicitAppUserModelID(appId);
-
+	
+	pSetCurrentProcessExplicitAppUserModelID(appId);
+	
 	hr=pWindowsCreateString(
 		RuntimeClass_Windows_UI_Notifications_ToastNotificationManager,
 		static_cast<UINT32>(wcslen(RuntimeClass_Windows_UI_Notifications_ToastNotificationManager)),
@@ -187,7 +193,9 @@ BOOL TrySendToastDynamic(const wchar_t* message) {
 	auto pRoGetActivationFactory=(decltype(&RoGetActivationFactory)) GetProcAddress(hCombase,"RoGetActivationFactory");
 	auto pWindowsCreateString=(decltype(&WindowsCreateString)) GetProcAddress(hCombase,"WindowsCreateString");
 	auto pWindowsDeleteString=(decltype(&WindowsDeleteString)) GetProcAddress(hCombase,"WindowsDeleteString");
-	if (!pRoInitialize||!pRoUninitialize||!pRoGetActivationFactory||!pWindowsCreateString||!pWindowsDeleteString) {
+	auto pSetCurrentProcessExplicitAppUserModelID=reinterpret_cast<decltype(&SetCurrentProcessExplicitAppUserModelID)>(GetProcAddress(GetModuleHandleW(L"shell32.dll"),"SetCurrentProcessExplicitAppUserModelID"));
+
+	if (!pRoInitialize||!pRoUninitialize||!pRoGetActivationFactory||!pWindowsCreateString||!pWindowsDeleteString||!pSetCurrentProcessExplicitAppUserModelID)	{
 		FreeLibrary(hCombase);
 		return false;
 	}
@@ -199,7 +207,8 @@ BOOL TrySendToastDynamic(const wchar_t* message) {
 	}
 	// 设置 AppUserModelID，要不然 Toast 不被显示
 	const wchar_t* appId=L"BingtangXH.BatVentiToastMod";
-	SetCurrentProcessExplicitAppUserModelID(appId);
+
+	pSetCurrentProcessExplicitAppUserModelID(appId);
 	// 创建字符串用来获取 ToastNotificationManager
 	HSTRING hToastMgrClass=nullptr;
 	hr=pWindowsCreateString(
@@ -362,7 +371,6 @@ BOOL __stdcall SendBalloon(const wchar_t* title,const wchar_t* text) {
 	return ::Shell_NotifyIcon(NIM_ADD,&nid);
 }
 
-
 BOOL EnsureShortcutWithAppID(void)
 {
 	wchar_t appData[MAX_PATH];
@@ -416,7 +424,7 @@ BOOL EnsureShortcutWithAppID(void)
 
 HRESULT CreateShortcutWithAppUserModelID(const wchar_t* shortcutPath,const wchar_t* exePath,const wchar_t* appId)
 {
-    RoInitialize(RO_INIT_MULTITHREADED);
+    CoInitialize(NULL);
 	Microsoft::WRL::ComPtr<IShellLink> shellLink=nullptr;
 	HRESULT hr=CoCreateInstance(CLSID_ShellLink,nullptr,CLSCTX_INPROC_SERVER,IID_PPV_ARGS(&shellLink));
 	if (FAILED(hr)) return hr;
