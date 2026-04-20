@@ -18,8 +18,5 @@
     <ClCompile Include="SendToast.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="shortcut.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
