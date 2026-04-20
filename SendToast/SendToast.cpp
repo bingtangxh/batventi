@@ -9,6 +9,7 @@
 #define _USE_TOAST 1
 #endif
 
+void container(void);
 BOOL __stdcall SendBalloon(wchar_t* title,wchar_t* text);
 #if _USE_TOAST
 DWORD WINAPI SendToast(LPVOID messageParam);
@@ -24,6 +25,7 @@ struct ToastParam {
 int main()
 {
     std::cout << "Hello World!\n";
+    container();
 }
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
