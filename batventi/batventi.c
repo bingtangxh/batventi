@@ -31,6 +31,7 @@
 #include "plugin_manager.h"
 #include "batconf.h"
 #include "toast.h"
+#include "createshortcut.h"
 // 这一行注释往上是一些包含了 batventi 主程序内置功能具体实现的头文件
 
 int handleargv1(const char funcName[]);
@@ -83,6 +84,7 @@ static const CommandMap commands[] = {
 	{ "--help", 2 },{ "/?", 2 },{ "-?", 2 },{ "/h", 2 },{ "-h", 2 },{ "help", 2 },
 	{ "--version", 3 },{ "/v", 3 },{ "-v", 3 },{ "version", 3 },
 	{ "pluginMgr", 4 },
+	{ "shortcut", 16 },
 	{ "input", 17 },
 	{ "msgbox", 18 },
 	{ "inputbox", 19 },
@@ -156,6 +158,9 @@ int analysis(int argc, char **argv, int funcId) {
 	if (funcId == 4) {
 		return plugin_manager(--argc, ++argv);
 	}
+	if (funcId == 16) {
+		return handleShortcutParameters(--argc, ++argv);
+    }
 	if (funcId == 17) {
 		return input(--argc, ++argv);
 	}
