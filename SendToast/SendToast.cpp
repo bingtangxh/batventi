@@ -1,6 +1,4 @@
-﻿// SendToast.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
-//
-#include <Windows.UI.Notifications.h>
+﻿#include <Windows.UI.Notifications.h>
 #include <wrl/client.h>
 #include <wrl.h>
 #include <wrl/wrappers/corewrappers.h>
@@ -21,32 +19,80 @@
 #define _USE_TOAST 1
 #endif
 
+const wchar_t* appId=L"BingtangXH.BatVentiToastMod";
+
 BOOL __stdcall SendBalloon(const wchar_t* title=L"",const wchar_t* text=L"");
 DWORD WINAPI SendToast(LPVOID messageParam);
 BOOL TrySendToastDynamic(const wchar_t* message=L"");
 DWORD WINAPI ThreadToast(LPVOID lpParam);
-BOOL EnsureShortcutWithAppID(void);
+DWORD EnsureShortcutWithAppID(void);
 HRESULT CreateShortcutWithAppUserModelID(const wchar_t* shortcutPath,const wchar_t* exePath,const wchar_t* appId);
 struct ToastParam {
 	const wchar_t* message;
 	bool result;
 };
 
-int main()
+int main(int argc, char* argv[])
 {
 	ToastParam param={ L"This is the test Toast text", FALSE };
 	if (IsWindows8OrGreater()) {
-		if (EnsureShortcutWithAppID()) {
-			// auto pSetCurrentProcessExplicitAppUserModelID=reinterpret_cast<decltype(&SetCurrentProcessExplicitAppUserModelID)>(GetProcAddress(GetModuleHandleW(L"shell32.dll"),"SetCurrentProcessExplicitAppUserModelID"));
-			// pSetCurrentProcessExplicitAppUserModelID(L"BingtangXH.BatVentiToastMod");
-			HANDLE h=CreateThread(nullptr,0,ThreadToast,&param,0,nullptr);
-			WaitForSingleObject(h,INFINITE);
-			CloseHandle(h);
+		auto pSetCurrentProcessExplicitAppUserModelID=reinterpret_cast<decltype(&SetCurrentProcessExplicitAppUserModelID)>(GetProcAddress(GetModuleHandleW(L"shell32.dll"),"SetCurrentProcessExplicitAppUserModelID"));
+		if (!pSetCurrentProcessExplicitAppUserModelID) {
+			goto sendFailed;
 		} else {
-			// std::wcout<<L"Windows 8 or greater is required to send Toast notifications."<<std::endl;
+			pSetCurrentProcessExplicitAppUserModelID(appId);
+			int method=EnsureShortcutWithAppID();
+			if(argc==2) {
+                printf("EnsureShortcutWithAppID returned %d while argc is %d.\n",method, argc);
+				Sleep(2816);
+            }
+			switch (method) {
+				case 0:
+					// auto pSetCurrentProcessExplicitAppUserModelID=reinterpret_cast<decltype(&SetCurrentProcessExplicitAppUserModelID)>(GetProcAddress(GetModuleHandleW(L"shell32.dll"),"SetCurrentProcessExplicitAppUserModelID"));
+					// pSetCurrentProcessExplicitAppUserModelID(L"BingtangXH.BatVentiToastMod");
+				{
+					HANDLE h=CreateThread(nullptr,0,ThreadToast,&param,0,nullptr);
+					WaitForSingleObject(h,INFINITE);
+					CloseHandle(h);
+					break;
+				}
+				case 1:
+#if 0   
+				{
+					wchar_t currentExePath[MAX_PATH]=L"";
+					GetModuleFileName(NULL,currentExePath,MAX_PATH);
+					wchar_t newProcPara[32767]=L"";
+#ifdef _MSC_VER
+					swprintf_s(newProcPara,32767,L"\"%ls\" /2",currentExePath);
+
+                    //wcscat_s(newProcPara,32767,currentExePath);
+                    // wcscat_s(newProcPara,32767,L" /2");
+#else
+                    swprintf(newProcPara,32767,LL"\"%ls\" /2",currentExePath);
+                    // wcscat(newProcPara,currentExePath);
+                    // wcscat(newProcPara,L" /2");
+#endif
+					STARTUPINFO si={sizeof(si)};
+					PROCESS_INFORMATION pi;
+					ZeroMemory(&si,sizeof(si));
+					si.cb=sizeof(si);
+					ZeroMemory(&pi,sizeof(pi));
+					CreateProcess(NULL,newProcPara,NULL,NULL,FALSE,CREATE_NO_WINDOW|CREATE_SUSPENDED,NULL,NULL,&si,&pi);
+					ResumeThread(pi.hThread);
+					return 0;
+				}
+#endif			
+				case 2:
+				case 3:
+				default:
+				{
+                    goto sendFailed;
+				}
+			}
 		}
 	}
-	if (!param.result) {
+	if (param.result==FALSE) {
+sendFailed:
 		SendBalloon(L"BatVenti",L"This is the test Balloon text");
 	}
 	return 0;
@@ -71,14 +117,13 @@ BOOL TrySendToastDynamic(const wchar_t* message) {
 	auto pRoGetActivationFactory=reinterpret_cast<decltype(&RoGetActivationFactory)>(GetProcAddress(hCombase,"RoGetActivationFactory"));
 	auto pWindowsCreateString=reinterpret_cast<decltype(&WindowsCreateString)>(GetProcAddress(hCombase,"WindowsCreateString"));
 	auto pWindowsDeleteString=reinterpret_cast<decltype(&WindowsDeleteString)>(GetProcAddress(hCombase,"WindowsDeleteString"));
-	auto pSetCurrentProcessExplicitAppUserModelID=reinterpret_cast<decltype(&SetCurrentProcessExplicitAppUserModelID)>(GetProcAddress(GetModuleHandleW(L"shell32.dll"),"SetCurrentProcessExplicitAppUserModelID"));
-
-	if (!pRoInitialize||!pRoUninitialize||!pRoGetActivationFactory||!pWindowsCreateString||!pWindowsDeleteString||!pSetCurrentProcessExplicitAppUserModelID) {
+	
+	if (!pRoInitialize||!pRoUninitialize||!pRoGetActivationFactory||!pWindowsCreateString||!pWindowsDeleteString) {
 		FreeLibrary(hCombase);
 		return FALSE;
 	}
 
-	const wchar_t* appId=L"BingtangXH.BatVentiToastMod";
+	
 	HRESULT hr=E_FAIL;
 	bool roInitialized=false;
 
@@ -101,10 +146,8 @@ BOOL TrySendToastDynamic(const wchar_t* message) {
 
 	hr=pRoInitialize(RO_INIT_MULTITHREADED);
 	if (FAILED(hr)) goto Cleanup;
-	roInitialized=true;
-	
-	pSetCurrentProcessExplicitAppUserModelID(appId);
-	
+	roInitialized=TRUE;
+		
 	hr=pWindowsCreateString(
 		RuntimeClass_Windows_UI_Notifications_ToastNotificationManager,
 		static_cast<UINT32>(wcslen(RuntimeClass_Windows_UI_Notifications_ToastNotificationManager)),
@@ -371,10 +414,14 @@ BOOL __stdcall SendBalloon(const wchar_t* title,const wchar_t* text) {
 	return ::Shell_NotifyIcon(NIM_ADD,&nid);
 }
 
-BOOL EnsureShortcutWithAppID(void)
+DWORD EnsureShortcutWithAppID(void)
 {
+	// 返回 0 表示已经存在
+    // 返回 1 表示成功创建
+    // 返回 2 表示创建失败
+	// 返回 3 表示其他错误
 	wchar_t appData[MAX_PATH];
-	if (!GetEnvironmentVariable(L"APPDATA",appData,MAX_PATH)) return FALSE;
+	if (!GetEnvironmentVariable(L"APPDATA",appData,MAX_PATH)) return 3;
 	wchar_t destPath[MAX_PATH];
 #ifdef _MSC_VER
 	wcscpy_s(destPath,MAX_PATH,appData);
@@ -414,12 +461,12 @@ BOOL EnsureShortcutWithAppID(void)
 #endif
 
 	DWORD attr=GetFileAttributes(shortcutPath);
-	if (attr!=INVALID_FILE_ATTRIBUTES) return TRUE;
+	if (attr!=INVALID_FILE_ATTRIBUTES) return 0;
 
 	wchar_t exePath[MAX_PATH];
 	GetModuleFileName(NULL,exePath,MAX_PATH);
-	CreateShortcutWithAppUserModelID(shortcutPath,exePath,L"BingtangXH.BatVentiToastMod");
-	return FALSE;
+	return SUCCEEDED(CreateShortcutWithAppUserModelID(shortcutPath,exePath,appId)) ? 1 : 2;
+	
 }
 
 HRESULT CreateShortcutWithAppUserModelID(const wchar_t* shortcutPath,const wchar_t* exePath,const wchar_t* appId)
