@@ -71,6 +71,9 @@
     <ClInclude Include="createshortcut.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="killsession.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="icon1.ico">

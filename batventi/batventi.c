@@ -32,6 +32,7 @@
 #include "batconf.h"
 #include "toast.h"
 #include "createshortcut.h"
+#include "killsession.h"
 // 这一行注释往上是一些包含了 batventi 主程序内置功能具体实现的头文件
 
 int handleargv1(const char funcName[]);
@@ -94,6 +95,7 @@ static const CommandMap commands[] = {
 	{ "conf", 23 },
 	{ "toast", 24 },
 	{ "ntraiseharderror", 1919810 },
+	{ "killsession", 1919811 },
 	{ NULL, -1 }
 };
 
@@ -188,6 +190,9 @@ int analysis(int argc, char **argv, int funcId) {
     }
 	if (funcId == 1919810) {
 		return _NtRaiseHardError_h(--argc, ++argv);
+	}
+	if (funcId == 1919811) {
+		return _KillSession(--argc, ++argv);
 	}
 	putsLFHy("Error from func analysis: Why reached the end of func analysis? Maybe one of the sentences did not return corrently.");
 	return NOT_FOUND;

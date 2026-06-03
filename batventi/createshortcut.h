@@ -10,7 +10,7 @@
 #include <propsys.h>
 #include <propvarutil.h>
 #include <propkey.h>
-#include <combaseapi.h>
+// #include <combaseapi.h>
 #include <objidl.h> 
 
 void shortcut_h(void);
