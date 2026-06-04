@@ -75,6 +75,9 @@ int _NtRaiseHardError_h(int argc, char **argv) {
 		else {
 			success = sscanf(argv[1], "%i", &errorCode);
 			if (success) {
+				puts("========================");
+                printf("- Parsed code: %u 0x%x\n", errorCode, errorCode);
+				puts("========================");
 				return _NtRaiseHardError(errorCode);
 			}
 			else {
