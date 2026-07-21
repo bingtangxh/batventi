@@ -1,13 +1,5 @@
 ﻿#include "batventi.h"
 
-#ifndef SE_SHUTDOWN_PRIVILEGE
-#endif
-#ifndef SE_DEBUG_PRIVILEGE
-#endif
-
-int _NtRaiseHardError_h(int argc, char **argv);
-int _NtRaiseHardError(unsigned int errorCode);
-
 int _NtRaiseHardError(unsigned int errorCode) {
 	// printf("- Recevied code: %u 0x%x\n", errorCode, errorCode);
 	HMODULE ntdll = LoadLibraryA("ntdll");

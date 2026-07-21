@@ -1,20 +1,5 @@
 ﻿#include "batventi.h"
 
-_Bool getModuleFileName(wchar_t *);
-_Bool getModuleDirectory(wchar_t *);
-
-
-
-
-
-
-
-
-
-
-
-
-
 int plugin_launcher(int argc, char **argv) {
 	// 暂时先硬编码一个静态长度吧
     wchar_t modulePath[MAX_PATH];
@@ -30,7 +15,7 @@ int plugin_launcher(int argc, char **argv) {
 	return 0;
 }
 
-_Bool getModuleFileName(wchar_t *buffer) {
+bool getModuleFileName(wchar_t *buffer) {
 	HMODULE hModule = GetModuleHandleW(NULL);
 	if (hModule == NULL) {
 		return 1;
@@ -42,7 +27,7 @@ _Bool getModuleFileName(wchar_t *buffer) {
 	return 0;
 }
 
-_Bool getModuleDirectory(wchar_t *buffer) {
+bool getModuleDirectory(wchar_t *buffer) {
 	if (getModuleFileName(buffer)) {
 		return 1;
 	}

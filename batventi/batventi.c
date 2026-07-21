@@ -1,11 +1,6 @@
 ﻿#include "batventi.h"
 
-int currentFunc = 0;
-
-typedef struct {
-	const char* name;
-	int id;
-} CommandMap, *CommandMapPtr;
+int currentFunc=0;
 
 static const CommandMap commands[] = {
 	/*
@@ -180,7 +175,6 @@ int main(int argc, char **argv)
 		return analysis(argc, argv, currentFunc);
 	}
 }
-
 
 int handleargv1(const char funcName[]) {
 	for (size_t i = 0; commands[i].name != NULL; i++) {

@@ -1,8 +1,6 @@
 ﻿#include "batventi.h"
 
 // 返回值∈[1,7]∪{10,11}
-int _MessageBox(int argc, char *argv[]);
-
 int _MessageBox(int argc, char *argv[])
 {
 	HWND hWnd = NULL;

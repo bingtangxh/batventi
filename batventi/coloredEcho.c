@@ -1,13 +1,5 @@
 ﻿#include "batventi.h"
 
-void coloredEcho(int argc, const char **argv);
-_Bool isANSIColorSupported();
-void coloredTest(void);
-void coloredEchoHelp(void);
-UINT8 findClosestConsoleColor(int r, int g, int b);
-UINT8 grayLevel(int r, int g, int b);
-INT8 attr2Num(char attr);
-
 void coloredEcho(int argc, const char **argv) {
 	int currentIndex = -1, elemsGotten = 0;
 	static _Bool useANSI = FALSE, isFeasibilityGotten = FALSE;
@@ -192,7 +184,7 @@ void coloredEcho(int argc, const char **argv) {
 
 }
 
-_Bool isANSIColorSupported() {
+bool isANSIColorSupported() {
 	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	DWORD dwMode = 0;
 	if (hOut == INVALID_HANDLE_VALUE) return FALSE;
@@ -371,11 +363,6 @@ void coloredEchoHelp(void) {
 
 	putsHyphen2(helpText);
 }
-
-typedef struct {
-	UINT8 id;
-	UINT8 r, g, b;
-} ConsoleColor;
 
 static const ConsoleColor consoleColors[16] = {
 	{ 0, 0, 0, 0 },{ 1, 0, 0, 128 },

@@ -25,27 +25,6 @@
 // the return value represents the length of a successful conversion
 // or one of the error code macros.
 
-
-
-DWORD printW(const wchar_t* wstr);
-
-#pragma comment(lib, "Advapi32.lib")  
-// Advapi32 用于 OpenProcessToken, AdjustTokenPrivileges, LookupPrivilegeValueA
-#pragma comment(lib, "User32.lib")    
-// User32 用于 ExitWindowsEx, ShowWindow, GetForegroundWindow
-#pragma comment(lib, "Kernel32.lib")
-
-#pragma comment(linker,"\"/manifestdependency:type='win32' \
-name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
-processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
-
-
-LPWSTR _MultiByteToWideChar(const UINT CodePage, const char *source);
-errno_t __cdecl _mbstowcs_s(size_t * const convertedCharsNum, LPWSTR * const dest, const char *source);
-const char *specifyParameter(const char *switchN, const char *currPara, const char *nextPara, int *errCode);
-const char *specifyParameter_multiple(const char **switchNs, size_t count, const char *currPara, const char *nextPara, int *errCode);
-const UINT getCodePagefromPara(int argc, char **argv);
-
 LPWSTR _MultiByteToWideChar(const UINT CodePage, const char *source) {
 	size_t destLen = MultiByteToWideChar(CP_ACP, 0, source, -1, NULL, 0);
 	LPWSTR dest = (LPWSTR)malloc(sizeof(WCHAR)*(destLen));

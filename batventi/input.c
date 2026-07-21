@@ -1,13 +1,5 @@
 ﻿#include "batventi.h"
 
-int input_num(int argc, char **argv);
-int input_letter(int argc, char **argv);
-int input_boolean(int argc, char **argv);
-int input_word(int argc, char **argv);
-int input_file(int argc, char **argv);
-int input_folder(int argc, char **argv);
-void inputHelp(void);
-
 int input(int argc, char **argv) {
 	if (argc < 1) {
 		putsLFHy("Error from func input in source file input.c: Why argc < 1 ? I could not handle this.");

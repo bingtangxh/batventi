@@ -1,18 +1,5 @@
 ﻿#include "batventi.h"
 
-typedef long NTSTATUS;
-
-typedef enum _SHUTDOWN_ACTION
-{
-    ShutdownNoReboot,
-    ShutdownReboot,
-    ShutdownPowerOff
-} SHUTDOWN_ACTION, * PSHUTDOWN_ACTION;
-
-typedef NTSTATUS(NTAPI* NTSHUTDOWNSYSTEM)(SHUTDOWN_ACTION);
-
-int _KillSession(int argc, char** argv);
-
 int _KillSession(int argc, char** argv) {
     HANDLE hToken=NULL;
     if (argc < 1) {
@@ -103,7 +90,8 @@ int _KillSession(int argc, char** argv) {
             if(getPrivilege(hToken,SE_SHUTDOWN_NAME)) { return 1; }
             HMODULE hModule=GetModuleHandleW(L"ntdll.dll");
             if(hModule) {
-                FARPROC proc=(NTSHUTDOWNSYSTEM)GetProcAddress(hModule,"NtShutdownSystem");
+                // FARPROC proc=(NTSHUTDOWNSYSTEM)GetProcAddress(hModule,"NtShutdownSystem");
+                FARPROC proc=GetProcAddress(hModule,"NtShutdownSystem");
                 if(proc) {
                     proc(mode);
                     return 0;

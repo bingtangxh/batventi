@@ -1,8 +1,5 @@
 ﻿#include "batventi.h"
 
-void setErrorLevel_help(void);
-
-
 int setErrorLevel(int argc, char **argv) {
 	int errorlevel = 0, elemsGotten = 0;
 	if (argc == 1 || (argc == 2 && !_stricmp(argv[1], "help"))) {

@@ -1,13 +1,5 @@
 ﻿#include "batventi.h"
 
-// #include <combaseapi.h>
-
-void shortcut_h(void);
-int handleShortcutParameters(int argc,char* argv[]);
-BOOL EnsureShortcutWithAppID(const wchar_t* folderName,const wchar_t* title,const wchar_t* exePath,const wchar_t* appId);
-HRESULT CreateShortcutWithAppUserModelID(const wchar_t* shortcutPath,const wchar_t* exePath,const wchar_t* appId);
-static HRESULT InitPropVariantFromStringCompat(const wchar_t* value,PROPVARIANT* pv);
-
 int handleShortcutParameters(int argc,char* argv[]){
     if(argc<4) {
         putsLFHy("Error from func handleShortcutParameters: Not enough arguments. Please provide at least the title and exePath for the shortcut.");

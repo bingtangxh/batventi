@@ -1,11 +1,5 @@
 ﻿#include "batventi.h"
 
-#pragma comment(lib, "Ole32.lib")
-//需要ole32.dll，如果使用MinGW/gcc，那就gcc命令行加上-lole32
-
-// #include <combaseapi.h>
-
-void generateGUID_h(void);
 int generateGUID(int argc,char **argv)
 {
 	if (argc == 2 && !_stricmp(argv[1], "help")) {

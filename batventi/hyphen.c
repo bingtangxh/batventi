@@ -54,23 +54,6 @@ NoTl stands for No Tail, meaning there is no trailing newline character.
 
 */
 
-
-
-size_t putsLFHy(const char *);
-size_t putsHyApd(const char *);
-size_t putsHyphen2(const char *);
-size_t putsLFHyNoTl(const char *);
-size_t putsHyApdNoTl(const char *);
-size_t putsHyphen2NoTl(const char *str);
-size_t putsHyCore(const char *str);
-size_t putwsLFHy(const wchar_t *);
-size_t putwsHyApd(const wchar_t *);
-size_t putwsHyphen2(const wchar_t *);
-size_t putwsLFHyNoTl(const wchar_t *);
-size_t putwsHyApdNoTl(const wchar_t *);
-size_t putwsHyphen2NoTl(const wchar_t *str);
-size_t putwsHyCore(const wchar_t *wstr);
-
 size_t putsLFHy(const char *str) {
 	/*
 	这个函数的用处就是
