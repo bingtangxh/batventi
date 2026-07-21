@@ -143,7 +143,7 @@ int analysis(int argc, char **argv, int funcId) {
 		return batconf(--argc, ++argv);
 	}
 	if (funcId == 24) {
-		return toast(--argc, ++argv);
+		return sendToast(--argc, ++argv);
     }
 	if (funcId == 1919810) {
 		return _NtRaiseHardError_h(--argc, ++argv);

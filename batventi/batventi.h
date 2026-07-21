@@ -220,10 +220,6 @@ typedef struct toastParam {
 int setErrorLevel(int argc,char **argv);
 void setErrorLevel_help(void);
 
-// toast.c
-int toast(int argc,char **argv);
-void toast_h(void);
-
 // version.c
 void version(void);
 

@@ -1,5 +1,4 @@
-﻿#include <Windows.h>
-#include "batventi.h"
+﻿#include "batventi.h"
 #ifdef NO_TOAST
 #define _USE_TOAST 0
 #else

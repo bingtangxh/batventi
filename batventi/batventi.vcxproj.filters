@@ -63,9 +63,6 @@
     <ClCompile Include="seterrorlevel.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="toast.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="version.c">
       <Filter>源文件</Filter>
     </ClCompile>

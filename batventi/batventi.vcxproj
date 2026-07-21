@@ -408,7 +408,6 @@
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='RelXP|x64'">CompileAsCpp</CompileAs>
     </ClCompile>
     <ClCompile Include="seterrorlevel.c" />
-    <ClCompile Include="toast.c" />
     <ClCompile Include="version.c" />
   </ItemGroup>
   <ItemGroup>
