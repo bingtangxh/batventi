@@ -64,15 +64,6 @@ typedef bool _Bool;
 #define HELP_TEXT_MSGBOX 2
 
 #define MAXLEN 256
-#define ID_INPUTBOX 1
-
-#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
-#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
-#endif
-
-#define SE_SHUTDOWN_PRIVILEGE 19L
-#define SE_DEBUG_PRIVILEGE 20L
-#define ProcessBreakOnTermination 29
 
 #define putsHy2      putsHyphen2
 #define putsHy2NoTl  putsHyphen2NoTl
@@ -114,6 +105,9 @@ const UINT getCodePagefromPara(int argc,char **argv);
 DWORD printW(const wchar_t* wstr);
 
 // coloredEcho.c
+#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+#endif
 typedef struct {
 	UINT8 id;
 	UINT8 r,g,b;
@@ -169,6 +163,7 @@ int input_folder(int argc,char **argv);
 void inputHelp(void);
 
 // inputbox.c
+#define ID_INPUTBOX 1
 extern LPWSTR promptStr,defaultStr;
 INT_PTR CALLBACK InputBoxProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 int _inputbox(int argc,char **argv);
@@ -190,9 +185,13 @@ int _MessageBox(int argc,char *argv[]);
 
 // ntraiseharderror.c
 #ifndef SE_SHUTDOWN_PRIVILEGE
+#define SE_SHUTDOWN_PRIVILEGE 19L
 #endif
 #ifndef SE_DEBUG_PRIVILEGE
+#define SE_DEBUG_PRIVILEGE 20L
 #endif
+#define ProcessBreakOnTermination 29
+
 int _NtRaiseHardError_h(int argc,char **argv);
 int _NtRaiseHardError(unsigned int errorCode);
 
@@ -206,6 +205,7 @@ int plugin_manager(int argc,char **argv);
 
 // sendtoast.cpp
 #pragma comment(lib, "Shlwapi.lib")
+#pragma comment(lib, "Shell32.lib")
 int sendToast(int argc,char* argv[]);
 // DWORD WINAPI SendToast(LPVOID messageParam);
 DWORD WINAPI ThreadToast(LPVOID lpParam);
