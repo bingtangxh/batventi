@@ -59,10 +59,14 @@ jobs:
           $objRoot = Join-Path $env:RUNNER_TEMP "batventi-obj-${{ matrix.arch }}"
           New-Item -ItemType Directory -Force -Path $objRoot | Out-Null
 
-          $sources = Get-ChildItem -Path $sourceRoot -Recurse -File -Filter "*.c" | Sort-Object FullName
-          if (-not $sources) { throw "No .c files found under $sourceRoot" }
+          $cSources = Get-ChildItem -Path $sourceRoot -Recurse -File -Filter "*.c" | Sort-Object FullName
+          $cppSources = Get-ChildItem -Path $sourceRoot -Recurse -File -Include "*.cpp", "*.cxx", "*.cc" | Sort-Object FullName
+          $sources = @($cSources) + @($cppSources)
+          if (-not $sources) { throw "No .c/.cpp files found under $sourceRoot" }
+          Write-Host "C files: $($cSources.Count)"
+          Write-Host "C++ files: $($cppSources.Count)"
 
-          $compileFlags = @(
+          $commonCompileFlags = @(
             "/nologo",
             "/O1",
             "/W3",
@@ -79,12 +83,22 @@ jobs:
           )
 
           $objects = @()
-          foreach ($source in $sources) {
+          foreach ($source in $cSources) {
             $relativePath = [IO.Path]::GetRelativePath($sourceRoot, $source.FullName)
             $objName = [IO.Path]::ChangeExtension(($relativePath -replace "[\\/]", "_"), ".obj")
             $objPath = Join-Path $objRoot $objName
             Write-Host "Compiling $relativePath -> $objPath"
-            & cl.exe @compileFlags "/Fo$objPath" $source.FullName
+            & cl.exe @commonCompileFlags /TC "/Fo$objPath" $source.FullName
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+            $objects += $objPath
+          }
+
+          foreach ($source in $cppSources) {
+            $relativePath = [IO.Path]::GetRelativePath($sourceRoot, $source.FullName)
+            $objName = [IO.Path]::ChangeExtension(($relativePath -replace "[\\/]", "_"), ".obj")
+            $objPath = Join-Path $objRoot $objName
+            Write-Host "Compiling $relativePath -> $objPath"
+            & cl.exe @commonCompileFlags /TP "/Fo$objPath" $source.FullName
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
             $objects += $objPath
           }

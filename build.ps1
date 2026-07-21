@@ -61,15 +61,18 @@ if (-not (Test-Path $sourceRoot)) {
   throw "Source directory not found: $sourceRoot"
 }
 
-$sources = Get-ChildItem -Path $sourceRoot -Recurse -File -Filter "*.c" | Sort-Object FullName
+$cSources = Get-ChildItem -Path $sourceRoot -Recurse -File -Filter "*.c" | Sort-Object FullName
+$cppSources = Get-ChildItem -Path $sourceRoot -Recurse -File -Include "*.cpp", "*.cxx", "*.cc" | Sort-Object FullName
+$sources = @($cSources) + @($cppSources)
 if (-not $sources) {
-  throw "No .c files found under $sourceRoot"
+  throw "No .c/.cpp files found under $sourceRoot"
 }
 
 New-Item -ItemType Directory -Force -Path $outRoot, $objRoot | Out-Null
 
 Write-Host "Compiler: msvc"
-Write-Host "Sources : $($sources.Count)"
+Write-Host "C files : $($cSources.Count)"
+Write-Host "C++ files: $($cppSources.Count)"
 Write-Host "Output  : $exePath"
 
 $commonLibs = @(
@@ -100,7 +103,7 @@ if (-not (Test-Path $resourceScript)) {
 }
 Invoke-Checked "rc.exe" @("/nologo", "/fo", $resourceObj, $resourceScript)
 
-$compileFlags = @(
+$commonCompileFlags = @(
   "/nologo",
   "/O1",
   "/W3",
@@ -117,9 +120,15 @@ $compileFlags = @(
 )
 
 $objects = @()
-foreach ($source in $sources) {
+foreach ($source in $cSources) {
   $objPath = Join-Path $objRoot (Get-ObjectName $sourceRoot $source.FullName ".obj")
-  Invoke-Checked "cl.exe" ($compileFlags + @("/Fo$objPath", $source.FullName))
+  Invoke-Checked "cl.exe" ($commonCompileFlags + @("/TC", "/Fo$objPath", $source.FullName))
+  $objects += $objPath
+}
+
+foreach ($source in $cppSources) {
+  $objPath = Join-Path $objRoot (Get-ObjectName $sourceRoot $source.FullName ".obj")
+  Invoke-Checked "cl.exe" ($commonCompileFlags + @("/TP", "/Fo$objPath", $source.FullName))
   $objects += $objPath
 }
 
