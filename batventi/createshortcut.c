@@ -88,20 +88,20 @@ BOOL EnsureShortcutWithAppID(const wchar_t* folderName,const wchar_t* title,cons
         strcat(destPath,folderName);
     }
 #endif
-    DWORD attributes=GetFileAttributesA(destPath);
+    DWORD attributes=GetFileAttributesW(destPath);
     if (attributes==INVALID_FILE_ATTRIBUTES||!(attributes&FILE_ATTRIBUTE_DIRECTORY)) {
-        if (CreateDirectoryA(destPath,NULL)) {
-            printf("Successfully created: %s\n",destPath);
+        if (CreateDirectoryW(destPath,NULL)) {
+            printf("Successfully created: %ls\n",destPath);
         } else {
             DWORD err=GetLastError();
             if (err==ERROR_ALREADY_EXISTS) {
-                printf("Folder already exists, possible to be a file also: %s\n",destPath);
+                printf("Folder already exists, possible to be a file also: %ls\n",destPath);
             } else {
                 printf("Failed to create the folder: %lu\n",err);
             }
         }
     } else {
-        printf("Folder already exists: %s\n",destPath);
+        printf("Folder already exists: %ls\n",destPath);
     }
     wchar_t shortcutPath[MAX_PATH];
 #ifdef _MSC_VER

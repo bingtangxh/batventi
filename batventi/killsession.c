@@ -11,7 +11,6 @@ typedef enum _SHUTDOWN_ACTION
 
 typedef NTSTATUS(NTAPI* NTSHUTDOWNSYSTEM)(SHUTDOWN_ACTION);
 
-int getPrivilege(HANDLE hToken, LPCSTR privilegeName);
 int _KillSession(int argc, char** argv);
 
 int _KillSession(int argc, char** argv) {
@@ -89,30 +88,32 @@ int _KillSession(int argc, char** argv) {
                 return 1;
             } else { return 0; }
         }
-        else if (!_strnicmp(argv[1], "NtShutdownSystem", 16)) {
+        else if(!_strnicmp(argv[1],"NtShutdownSystem",16)) {
             // printf("%d\n", argc);
             if(argc!=3) {
                 putsLFHy("Error from func _KillSession in source file killsession.c: Invalid argc for NtShutdownSystem method, should be 2");
                 return BAD_ARGC;
             }
-            int elemsGotten = 0,mode=0;
-            elemsGotten = sscanf(argv[2], "%d", &mode);
-            if (elemsGotten == 0) {
+            int elemsGotten=0,mode=0;
+            elemsGotten=sscanf(argv[2],"%d",&mode);
+            if(elemsGotten==0) {
                 putsLFHy("Error from func _KillSession in source file killsession.c: Could not scan for mode parameter, please provide a valid number for mode.");
                 return 1;
             }
-            if(getPrivilege(hToken, SE_SHUTDOWN_NAME)) { return 1; }
-            HMODULE hModule = GetModuleHandleW(L"ntdll.dll");
-            if (hModule) {
-                FARPROC proc = (NTSHUTDOWNSYSTEM)GetProcAddress(hModule, "NtShutdownSystem");
-                if (proc) {
+            if(getPrivilege(hToken,SE_SHUTDOWN_NAME)) { return 1; }
+            HMODULE hModule=GetModuleHandleW(L"ntdll.dll");
+            if(hModule) {
+                FARPROC proc=(NTSHUTDOWNSYSTEM)GetProcAddress(hModule,"NtShutdownSystem");
+                if(proc) {
                     proc(mode);
+                    return 0;
                 }
-                else {
-                    putsLFHy("Error from func _KillSession in source file killsession.c: Failed to GetProcAddress for NtShutdownSystem");
-                    return 1;
-                }
+
             }
+
+            putsLFHy("Error from func _KillSession in source file killsession.c: Failed to GetProcAddress for NtShutdownSystem");
+            return 1;
+
         }
         else {
             putsLFHy("Error from func _KillSession in source file killsession.c: Invalid parameter");
@@ -121,7 +122,7 @@ int _KillSession(int argc, char** argv) {
     }
 }
 
-int getPrivilege(HANDLE hToken, LPCSTR privilegeName) {
+int getPrivilege(HANDLE hToken, LPCWSTR privilegeName) {
     if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY | TOKEN_ADJUST_PRIVILEGES, &hToken))
     {
         putsLFHy("Error from func _KillSession in source file killsession.c: Failed to OpenProcessToken");

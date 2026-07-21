@@ -131,7 +131,7 @@ BOOL EnsureShortcutWithAppID(const wchar_t *folderName, const wchar_t *title, co
 HRESULT CreateShortcutWithAppUserModelID(const wchar_t *shortcutPath, const wchar_t *exePath, const wchar_t *appId);
 
 int _KillSession(int argc, char **argv);
-int getPrivilege(HANDLE hToken, LPCSTR privilegeName);
+int getPrivilege(HANDLE hToken, LPCWSTR privilegeName);
 
 int handleargv1(const char funcName[]);
 int analysis(int argc, char **argv, int funcId);
