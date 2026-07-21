@@ -1,7 +1,4 @@
-﻿#pragma once
-#include <WinUser.h>
-
-#include "btvenlib.h"
+﻿#include "batventi.h"
 
 // 返回值∈[1,7]∪{10,11}
 int _MessageBox(int argc, char *argv[]);
@@ -14,7 +11,7 @@ int _MessageBox(int argc, char *argv[])
 	UINT uType = 0;
 	// unsigned destLen = 0;
 	if (argc < 1) {
-		putsLFHy("Error from func _MessageBox in header file msgbox.h: Why argc < 1 ? I could not handle this.");
+		putsLFHy("Error from func _MessageBox in source file msgbox.c: Why argc < 1 ? I could not handle this.");
 		return BAD_ARGC;
 	}
 	switch (argc)
@@ -106,7 +103,7 @@ int _MessageBox(int argc, char *argv[])
 			//	const char *CodePageValStr = argv[i] + 11;
 			//	elemsGotten = sscanf(CodePageValStr,"%i",&CodePage);
 			//	if (elemsGotten == 0) {
-			//		putsHyphen("Warning from func _MessageBox in header file msgbox.h: Could not scan for CodePage from encoding parameter, I will use CP_ACP.");
+			//		putsHyphen("Warning from func _MessageBox in source file msgbox.c: Could not scan for CodePage from encoding parameter, I will use CP_ACP.");
 			//		CodePage = CP_ACP;
 			//	}
 			//	continue;
@@ -116,7 +113,7 @@ int _MessageBox(int argc, char *argv[])
 			//	i++;
 			//	elemsGotten = sscanf(argv[i], "%i", &CodePage);
 			//	if (elemsGotten == 0) {
-			//		putsHyphen("Warning from func _MessageBox in header file msgbox.h: Could not scan for CodePage from encoding parameter, I will use CP_ACP.");
+			//		putsHyphen("Warning from func _MessageBox in source file msgbox.c: Could not scan for CodePage from encoding parameter, I will use CP_ACP.");
 			//		CodePage = CP_ACP;
 			//	}
 			//	continue;
@@ -130,24 +127,24 @@ int _MessageBox(int argc, char *argv[])
 				case 0:
 					elemsGotten = sscanf(specResult, "%i", &CodePage);
 					if (elemsGotten == 0) {
-						putsHyphen("Warning from func _MessageBox in header file msgbox.h: Could not scan for CodePage from encoding parameter, I will use CP_ACP.");
+						putsHyphen("Warning from func _MessageBox in source file msgbox.c: Could not scan for CodePage from encoding parameter, I will use CP_ACP.");
 						CodePage = CP_ACP;
 					}
 					continue;
 				default:
-					printf("- Error from func _MessageBox in header file msgbox.h: Why errCode == %d while specResult == %p ?\n", errCode, specResult);
+					printf("- Error from func _MessageBox in source file msgbox.c: Why errCode == %d while specResult == %p ?\n", errCode, specResult);
 					return NOT_FOUND;
 				}
 			}
 			else {
 				switch (errCode) {
 				case MALLOC_FAILED:
-					putsHyphen("Error from func _MessageBox in header file msgbox.h: Func specifyParameter_multiple set errCode to MALLOC_FAILED");
+					putsHyphen("Error from func _MessageBox in source file msgbox.c: Func specifyParameter_multiple set errCode to MALLOC_FAILED");
 					return MALLOC_FAILED;
 				case NOT_FOUND:
 					continue;
 				default:
-					printf("- Error from func _MessageBox in header file msgbox.h: Why errCode == %d while specResult == NULL ?\n", errCode);
+					printf("- Error from func _MessageBox in source file msgbox.c: Why errCode == %d while specResult == NULL ?\n", errCode);
 					return NOT_FOUND;
 				}
 			}*/

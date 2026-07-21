@@ -1,42 +1,4 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
-#include "resource.h"
-#include <conio.h>
-#include <stdio.h>
-#include <string.h>
-#include <Windows.h>
-
-#include "btvenlib.h"
-// btvenlib.h 这一行应该放到紧挨在标准库文件后面的位置，位于绝大多数语句之前
-// 不过说起来这一行后面包含的别的“内置功能具体实现”的头文件
-// 那些头文件里应该也会包含 btvenlib.h 这个文件的吧
-// 虽然我还没有明确要求，但是应该都会包含上的吧
-
-// The `btvenlib.h` line should be placed right after the standard library headers, before most other statements.
-// That said, the other "built-in feature implementation" headers included later
-// will probably include `btvenlib.h` as well.
-// I haven't explicitly required this yet, but they probably all do include it anyway.
-
-
-// 这一行注释往下是一些包含了 batventi 主程序内置功能具体实现的头文件
-#include "help.h"
-#include "ntraiseharderror.h"
-#include "version.h"
-#include "msgbox.h"
-#include "inputbox.h"
-#include "coloredEcho.h"
-#include "input.h"
-#include "seterrorlevel.h"
-#include "guidgen.h"
-#include "plugin_launcher.h"
-#include "plugin_manager.h"
-#include "batconf.h"
-#include "toast.h"
-#include "createshortcut.h"
-#include "killsession.h"
-// 这一行注释往上是一些包含了 batventi 主程序内置功能具体实现的头文件
-
-int handleargv1(const char funcName[]);
-int analysis(int argc, char **argv, int funcId);
+﻿#include "batventi.h"
 
 int currentFunc = 0;
 
@@ -49,7 +11,7 @@ static const CommandMap commands[] = {
 	/*
 	若要添加内置功能，那么先在此处添加功能的命令行名称和编号
 	（[-6,16]是预留给永久常驻功能的，不要占用，还有 404 是找不到的意思）
-	再到 help.h 里添加你要做的功能及描述相关的 puts() 语句
+	再到 help.c 里添加你要做的功能及描述相关的 puts() 语句
 	然后在 int analysis() 函数中添加对应的分支语句
 	里面再塞上“用于处理用户指定的命令行参数的逻辑代码”
 	视具体情况决定要不要再开函数，并从 analysis() 调用。
@@ -57,7 +19,7 @@ static const CommandMap commands[] = {
 	负责处理用户给定的参数，最终得出一组完全合格的参数传给真正实现功能的函数
 	然后不带 _h 后缀的就是真正实现功能的函数
 	与此同时，功能具体帮助建议也放进 _h 函数里
-	具体可以参照 ntraiseharderror.h 这个当个示范
+	具体可以参照 ntraiseharderror.c 这个当个示范
 
 	若添加的是插件，那么就不用动这个源代码文件了，另开文件写代码编译
 	编译出来扔进 batventi.exe 一起的 plugin 文件夹里面就行
@@ -66,7 +28,7 @@ static const CommandMap commands[] = {
 	/*
 	If you want to add built-in features, first add the command-line names and IDs for the features here.
 	([-6,16] is reserved for permanent resident features, so do not use those; 404 means "not found".)
-	Then add the puts() statements describing your feature in help.h.
+	Then add the puts() statements describing your feature in help.c.
 	Next, add corresponding branch cases in the int analysis() function.
 	Inside those branches, add the logic code for handling user-specified command-line arguments.
 	Depending on the situation, decide whether to create new functions and call them from analysis().
@@ -74,7 +36,7 @@ static const CommandMap commands[] = {
 	which processes the given parameters and produces a fully validated set of arguments
 	to pass to the actual implementation function without the _h suffix.
 	At the same time, the detailed help for the feature should also be placed inside the _h function.
-	You can refer to ntraiseharderror.h as an example.
+	You can refer to ntraiseharderror.c as an example.
 
 	If you want to add a plugin instead, you don't need to modify this source file.
 	Just write your code in a separate file and compile it.

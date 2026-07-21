@@ -1,7 +1,4 @@
-﻿#pragma once
-
-#include "btvenlib.h"
-#include <Windows.h>
+﻿#include "batventi.h"
 
 int input_num(int argc, char **argv);
 int input_letter(int argc, char **argv);
@@ -13,7 +10,7 @@ void inputHelp(void);
 
 int input(int argc, char **argv) {
 	if (argc < 1) {
-		putsLFHy("Error from func input in header file input.h: Why argc < 1 ? I could not handle this.");
+		putsLFHy("Error from func input in source file input.c: Why argc < 1 ? I could not handle this.");
 		return BAD_ARGC;
 	}
 	putsLFHy("This feature is not finished yet.\nHow about we explore the area ahead of us later?");
@@ -40,7 +37,7 @@ int input(int argc, char **argv) {
 	if (!_stricmp(argv[1], "folder") || (!_stricmp(argv[1], "folder"))) {
 		return input_folder(argc, argv);
 	}
-	putsLFHy("Error from func input in header file input.h: Unknown argv[1]");
+	putsLFHy("Error from func input in source file input.c: Unknown argv[1]");
 	return NOT_FOUND;
 }
 

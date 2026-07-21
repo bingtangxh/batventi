@@ -1,17 +1,6 @@
-﻿#pragma once
+﻿#include "batventi.h"
 
-#ifndef COBJMACROS
-#define COBJMACROS
-#endif
-
-#include <Windows.h>
-#include <shobjidl.h>
-#include <shlguid.h>
-#include <propsys.h>
-#include <propvarutil.h>
-#include <propkey.h>
 // #include <combaseapi.h>
-#include <objidl.h> 
 
 void shortcut_h(void);
 int handleShortcutParameters(int argc,char* argv[]);

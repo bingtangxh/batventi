@@ -1,11 +1,4 @@
-﻿#pragma once
-#include "btvenlib.h"
-
-
-
-
-
-
+﻿#include "batventi.h"
 
 void setErrorLevel_help(void);
 
@@ -18,7 +11,7 @@ int setErrorLevel(int argc, char **argv) {
 	}
 	elemsGotten = sscanf(argv[1], "%i", &errorlevel);
 	if (elemsGotten == 0) {
-		putsLFHy("Error from func setErrorLevel in header file seterrorlevel.h: Could not get errorlevel from argv[1]");
+		putsLFHy("Error from func setErrorLevel in source file seterrorlevel.c: Could not get errorlevel from argv[1]");
 		return 0;
 	}
 	else {

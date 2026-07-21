@@ -1,12 +1,4 @@
-﻿#pragma once
-#include <math.h>
-#include <stdio.h>
-#include <wincon.h>
-
-#include "btvenlib.h"
-#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
-#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
-#endif
+﻿#include "batventi.h"
 
 void coloredEcho(int argc, const char **argv);
 _Bool isANSIColorSupported();
@@ -29,7 +21,7 @@ void coloredEcho(int argc, const char **argv) {
 	}
 	
 	if (argc < 1) {
-		putsLFHy("Error from func coloredEcho in header file coloredEcho.h: Why argc < 1?");
+		putsLFHy("Error from func coloredEcho in source file coloredEcho.c: Why argc < 1?");
 		return;
 	}
 	if (argc == 1 || (argc == 2 && !_stricmp(argv[1], "help"))) {
@@ -87,7 +79,7 @@ void coloredEcho(int argc, const char **argv) {
 		}
 		elemsGotten = sscanf(argv[currentIndex], "%i,%i,%i", &Rf, &Gf, &Bf);
 		if (elemsGotten != 3) {
-			putsLFHy("Error from func coloredEcho in header file coloredEcho.h: Unable to scan R,G,B_Fg");
+			putsLFHy("Error from func coloredEcho in source file coloredEcho.c: Unable to scan R,G,B_Fg");
 			return;
 		}
 		currentIndex++;
@@ -104,7 +96,7 @@ void coloredEcho(int argc, const char **argv) {
 		currentIndex++;
 		elemsGotten = sscanf(argv[currentIndex], "%i,%i,%i", &Rb, &Gb, &Bb);
 		if (elemsGotten != 3) {
-			putsLFHy("Error from func coloredEcho in header file coloredEcho.h: Unable to scan R,G,B_Bg");
+			putsLFHy("Error from func coloredEcho in source file coloredEcho.c: Unable to scan R,G,B_Bg");
 			return;
 		}
 		currentIndex++;
@@ -172,7 +164,7 @@ void coloredEcho(int argc, const char **argv) {
 		CONSOLE_SCREEN_BUFFER_INFO current_con;
 		elemsGotten = GetConsoleScreenBufferInfo(hConsole, &current_con);
 		if (elemsGotten == FALSE) {
-			putsLFHy("Error from func coloredEcho in header file coloredEcho.h: GetConsoleScreenBufferInfo returned FALSE");
+			putsLFHy("Error from func coloredEcho in source file coloredEcho.c: GetConsoleScreenBufferInfo returned FALSE");
 			return;
 		}
 		WORD attr=(foreg&16)|((backg&16)<<4);

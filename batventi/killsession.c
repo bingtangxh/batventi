@@ -1,7 +1,4 @@
-#pragma once
-#include <stdio.h>
-#include <Windows.h>
-#include "btvenlib.h"
+﻿#include "batventi.h"
 
 typedef long NTSTATUS;
 
@@ -20,7 +17,7 @@ int _KillSession(int argc, char** argv);
 int _KillSession(int argc, char** argv) {
     HANDLE hToken=NULL;
     if (argc < 1) {
-        putsLFHy("Error from func _KillSession in header file killsession.h: argc < 1 is unacceptable");
+        putsLFHy("Error from func _KillSession in source file killsession.c: argc < 1 is unacceptable");
         return BAD_ARGC;
     }
     else {
@@ -62,25 +59,25 @@ int _KillSession(int argc, char** argv) {
             return 0;
         }
         else if (argc != 2&&0) {
-            putsLFHy("Error from func _KillSession in header file killsession.h: Invalid argc, should be 1 or 2");
+            putsLFHy("Error from func _KillSession in source file killsession.c: Invalid argc, should be 1 or 2");
             return BAD_ARGC;
         }
         else if (!_strnicmp(argv[1], "ExitWindowsEx", 14)) {
             if(argc!=3) {
-                putsLFHy("Error from func _KillSession in header file killsession.h: Invalid argc for ExitWindowsEx method, should be 2");
+                putsLFHy("Error from func _KillSession in source file killsession.c: Invalid argc for ExitWindowsEx method, should be 2");
                 return BAD_ARGC;
             }
             int elemsGotten = 0, flags = 0;
             elemsGotten = sscanf(argv[2], "%d", &flags);
             if (elemsGotten == 0) {
-                putsLFHy("Error from func _KillSession in header file killsession.h: Could not scan for flags parameter, please provide a valid number for flags.");
+                putsLFHy("Error from func _KillSession in source file killsession.c: Could not scan for flags parameter, please provide a valid number for flags.");
                 return 1;
             }
             if((flags|1)||(flags|2)||(flags|8)) {
                 if(getPrivilege(hToken, SE_SHUTDOWN_NAME)) { return 1; }
             }
             if (!ExitWindowsEx(flags, 0)) {
-                putsLFHy("Error from func _KillSession in header file killsession.h: Failed to call ExitWindowsEx");
+                putsLFHy("Error from func _KillSession in source file killsession.c: Failed to call ExitWindowsEx");
                 return 1;
             }
             else { return 0; }
@@ -88,20 +85,20 @@ int _KillSession(int argc, char** argv) {
         }
         else if (!_strnicmp(argv[1], "ExitWindows", 11)) {
             if (!ExitWindows(0, 0)) {
-                putsLFHy("Error from func _KillSession in header file killsession.h: Failed to call ExitWindows");
+                putsLFHy("Error from func _KillSession in source file killsession.c: Failed to call ExitWindows");
                 return 1;
             } else { return 0; }
         }
         else if (!_strnicmp(argv[1], "NtShutdownSystem", 16)) {
             // printf("%d\n", argc);
             if(argc!=3) {
-                putsLFHy("Error from func _KillSession in header file killsession.h: Invalid argc for NtShutdownSystem method, should be 2");
+                putsLFHy("Error from func _KillSession in source file killsession.c: Invalid argc for NtShutdownSystem method, should be 2");
                 return BAD_ARGC;
             }
             int elemsGotten = 0,mode=0;
             elemsGotten = sscanf(argv[2], "%d", &mode);
             if (elemsGotten == 0) {
-                putsLFHy("Error from func _KillSession in header file killsession.h: Could not scan for mode parameter, please provide a valid number for mode.");
+                putsLFHy("Error from func _KillSession in source file killsession.c: Could not scan for mode parameter, please provide a valid number for mode.");
                 return 1;
             }
             if(getPrivilege(hToken, SE_SHUTDOWN_NAME)) { return 1; }
@@ -112,13 +109,13 @@ int _KillSession(int argc, char** argv) {
                     proc(mode);
                 }
                 else {
-                    putsLFHy("Error from func _KillSession in header file killsession.h: Failed to GetProcAddress for NtShutdownSystem");
+                    putsLFHy("Error from func _KillSession in source file killsession.c: Failed to GetProcAddress for NtShutdownSystem");
                     return 1;
                 }
             }
         }
         else {
-            putsLFHy("Error from func _KillSession in header file killsession.h: Invalid parameter");
+            putsLFHy("Error from func _KillSession in source file killsession.c: Invalid parameter");
             return 1;
         }
     }
@@ -127,19 +124,19 @@ int _KillSession(int argc, char** argv) {
 int getPrivilege(HANDLE hToken, LPCSTR privilegeName) {
     if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY | TOKEN_ADJUST_PRIVILEGES, &hToken))
     {
-        putsLFHy("Error from func _KillSession in header file killsession.h: Failed to OpenProcessToken");
+        putsLFHy("Error from func _KillSession in source file killsession.c: Failed to OpenProcessToken");
         return 1;
     }
     TOKEN_PRIVILEGES tkp;
     if (!LookupPrivilegeValue(NULL, privilegeName, &tkp.Privileges[0].Luid)) {
-        putsLFHy("Error from func _KillSession in header file killsession.h: Failed to LookupPrivilegeValue for SE_SHUTDOWN_NAME");
+        putsLFHy("Error from func _KillSession in source file killsession.c: Failed to LookupPrivilegeValue for SE_SHUTDOWN_NAME");
         return 1;
     }
     tkp.PrivilegeCount = 1;
     tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
 
     if (!AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, NULL, 0)) {
-        putsLFHy("Error from func _KillSession in header file killsession.h: Failed to AdjustTokenPrivileges");
+        putsLFHy("Error from func _KillSession in source file killsession.c: Failed to AdjustTokenPrivileges");
         return 1;
     }
     CloseHandle(hToken);

@@ -18,60 +18,63 @@
     <ClCompile Include="batventi.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="batconf.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="btvenlib.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="coloredEcho.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="createshortcut.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="guidgen.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="help.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="hyphen.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="input.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="inputbox.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="killsession.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="msgbox.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ntraiseharderror.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="plugin_launcher.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="plugin_manager.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="seterrorlevel.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="toast.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="version.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="help.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="hyphen.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="btvenlib.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ntraiseharderror.h">
+    <ClInclude Include="batventi.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="version.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="msgbox.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="inputbox.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="coloredEcho.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="input.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="seterrorlevel.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="guidgen.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="plugin_launcher.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="plugin_manager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="batconf.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="toast.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="createshortcut.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="killsession.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

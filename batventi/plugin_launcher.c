@@ -1,7 +1,4 @@
-﻿#pragma once
-#include <Windows.h>
-
-#include "btvenlib.h"
+﻿#include "batventi.h"
 
 _Bool getModuleFileName(wchar_t *);
 _Bool getModuleDirectory(wchar_t *);

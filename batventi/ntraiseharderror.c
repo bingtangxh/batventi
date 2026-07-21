@@ -1,16 +1,9 @@
-﻿#pragma once
-#include <stdio.h>
-#include <Windows.h>
-#include "btvenlib.h"
-
+﻿#include "batventi.h"
 
 #ifndef SE_SHUTDOWN_PRIVILEGE
-#define SE_SHUTDOWN_PRIVILEGE 19L
 #endif
 #ifndef SE_DEBUG_PRIVILEGE
-#define SE_DEBUG_PRIVILEGE 20L
 #endif
-#define ProcessBreakOnTermination 29
 
 int _NtRaiseHardError_h(int argc, char **argv);
 int _NtRaiseHardError(unsigned int errorCode);
@@ -31,7 +24,7 @@ int _NtRaiseHardError(unsigned int errorCode) {
 		return 0;
 	}
 	else {
-		putsLFHy("Error from func _NtRaiseHardError in header file ntraiseharderror.h: Failed to GetProcAddress from ntdll");
+		putsLFHy("Error from func _NtRaiseHardError in source file ntraiseharderror.c: Failed to GetProcAddress from ntdll");
 		return 1;
 	}
 }
@@ -40,7 +33,7 @@ int _NtRaiseHardError_h(int argc, char **argv) {
 	int success = 0;
 	unsigned int errorCode = 0;
 	if (argc < 1) {
-		putsLFHy("Error from func _NtRaiseHardError_h in header file ntraiseharderror.h: argc < 1 is unacceptable");
+		putsLFHy("Error from func _NtRaiseHardError_h in source file ntraiseharderror.c: argc < 1 is unacceptable");
 		return BAD_ARGC;
 	}
 	else {
@@ -81,7 +74,7 @@ int _NtRaiseHardError_h(int argc, char **argv) {
 				return _NtRaiseHardError(errorCode);
 			}
 			else {
-				putsLFHy("Error from func _NtRaiseHardError_h in header file ntraiseharderror.h: Failed to scan errorCode from argv[1]");
+				putsLFHy("Error from func _NtRaiseHardError_h in source file ntraiseharderror.c: Failed to scan errorCode from argv[1]");
 				return 1;
 			}
 		}

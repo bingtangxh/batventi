@@ -1,11 +1,4 @@
-﻿#pragma once
-#include <stdio.h>
-#include <Windows.h>
-
-#include "btvenlib.h"
-#define MAXLEN 256
-
-#define ID_INPUTBOX 1
+﻿#include "batventi.h"
 
 LPWSTR promptStr = NULL, defaultStr = NULL;
 
@@ -33,7 +26,7 @@ INT_PTR CALLBACK InputBoxProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				puts(result);  // 使用 puts 输出转换后的字符串
 			}
 			else {
-				putsLFHy("Error from func InputBoxProc in header file inputbox.h: Why did unc WideCharToMultiByte return 0 ?");
+				putsLFHy("Error from func InputBoxProc in source file inputbox.c: Why did unc WideCharToMultiByte return 0 ?");
 				return FALSE;
 			}
 			EndDialog(hwndDlg, IDOK);
@@ -54,7 +47,7 @@ int _inputbox(int argc, char **argv) {
 	UINT uType = 0;
 	unsigned destLen = 0;
 	if (argc < 1) {
-		putsLFHy("Error from func _inputbox in header file inputbox.h: Why argc < 1 ? I could not handle this.");
+		putsLFHy("Error from func _inputbox in source file inputbox.c: Why argc < 1 ? I could not handle this.");
 		return BAD_ARGC;
 	}
 	switch (argc)
@@ -109,24 +102,24 @@ int _inputbox(int argc, char **argv) {
 				case 0:
 					elemsGotten = sscanf(specResult, "%i", &CodePage);
 					if (elemsGotten == 0) {
-						putsHyphen("Warning from func _inputbox in header file inputbox.h: Could not scan for CodePage from encoding parameter, I will use CP_ACP.");
+						putsHyphen("Warning from func _inputbox in source file inputbox.c: Could not scan for CodePage from encoding parameter, I will use CP_ACP.");
 						CodePage = CP_ACP;
 					}
 					continue;
 				default:
-					printf("- Error from func _inputbox in header file inputbox.h: Why errCode == %d while specResult == %p ?\n", errCode, specResult);
+					printf("- Error from func _inputbox in source file inputbox.c: Why errCode == %d while specResult == %p ?\n", errCode, specResult);
 					return NOT_FOUND;
 				}
 			}
 			else {
 				switch (errCode) {
 				case MALLOC_FAILED:
-					putsHyphen("Error from func _inputbox in header file inputbox.h: Func specifyParameter_multiple set errCode to MALLOC_FAILED");
+					putsHyphen("Error from func _inputbox in source file inputbox.c: Func specifyParameter_multiple set errCode to MALLOC_FAILED");
 					return MALLOC_FAILED;
 				case NOT_FOUND:
 					continue;
 				default:
-					printf("- Error from func _inputbox in header file inputbox.h: Why errCode == %d while specResult == NULL ?\n", errCode);
+					printf("- Error from func _inputbox in source file inputbox.c: Why errCode == %d while specResult == NULL ?\n", errCode);
 					return NOT_FOUND;
 				}
 			}

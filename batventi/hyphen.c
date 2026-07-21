@@ -1,20 +1,21 @@
-﻿#pragma once
+﻿#include "batventi.h"
+
 /*
 这个头文件包含几个用来输出适配 batventi 功能与插件 stdout 输出规范的函数
-编写别的文件的时候建议包含 btvenlib.h 这个头文件，别直接包含这个 hyphen.h
-此文件已被 btvenlib.h 包含，请勿在此文件中包含 btvenlib.h
-这个 hyphen.h 包含几个用来实现“输出总是以'-'开头”的函数，编写别的文件的时候都可以包含上
+编写别的文件的时候建议包含 batventi.h 这个公共头文件，别直接包含这个 hyphen.c
+此文件已与 batventi.h 配合使用，请勿在此文件中包含 batventi.h
+这个 hyphen.c 包含几个用来实现“输出总是以'-'开头”的函数，编写别的文件的时候都可以包含上
 说起来我这项目对于功能和插件的规范要求应该也就这一个要求了吧
 就是每一个程序的输出，其中给用户看的都应该以'-'开头，而开头不是'-'的就是用来让 cmd 的 for /f 读取分析的。
-后续此文件可能直接被合并进 btvenlib.h 当中。
+后续此文件可能直接被合并进 batventi.h 当中。
 
 This header contains several functions to output according to the stdout output specification for BatVenti features and plugins.
-When writing other files, it is recommended to include btvenlib.h rather than including this hyphen.h directly.
-This file is already included by btvenlib.h, so do not include btvenlib.h within this file.
+When writing other files, it is recommended to include batventi.h rather than including this hyphen.c directly.
+This file is already paired with batventi.h, so do not include batventi.h within this file.
 Hyphen.h contains functions to ensure output always starts with a '-' character, and can be included by other files as needed.
 Actually, this is probably the only specification requirement for features and plugins in this project:
 every program's output intended for users should start with '-', while outputs not starting with '-' are meant for cmd's for /f parsing.
-This file may eventually be merged directly into btvenlib.h.
+This file may eventually be merged directly into batventi.h.
 
 以下是该文件包含的函数的具体说明：
 
@@ -53,14 +54,7 @@ NoTl stands for No Tail, meaning there is no trailing newline character.
 
 */
 
-#include <stdio.h>
-#include <wchar.h>
-#include <string.h>
 
-#define putsHy2      putsHyphen2
-#define putsHy2NoTl  putsHyphen2NoTl
-#define putwsHy2     putwsHyphen2
-#define putwsHy2NoTl putwsHyphen2NoTl
 
 size_t putsLFHy(const char *);
 size_t putsHyApd(const char *);

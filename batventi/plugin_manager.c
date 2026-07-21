@@ -1,21 +1,4 @@
-﻿#pragma once
-#include <Windows.h>
-#include "btvenlib.h"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+﻿#include "batventi.h"
 
 int plugin_manager(int argc, char **argv) {
 

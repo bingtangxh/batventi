@@ -1,10 +1,9 @@
-﻿#pragma once
+﻿#include "batventi.h"
+
 #pragma comment(lib, "Ole32.lib")
 //需要ole32.dll，如果使用MinGW/gcc，那就gcc命令行加上-lole32
 
 // #include <combaseapi.h>
-#include <stdio.h>
-#include "btvenlib.h"
 
 void generateGUID_h(void);
 int generateGUID(int argc,char **argv)
@@ -17,7 +16,7 @@ int generateGUID(int argc,char **argv)
 	GUID guid;
 	if (CoCreateGuid(&guid)) {
 		//fputs("create guid error\n", stderr);
-		putsLFHy("Error from func generateGUID in header file guidgen.h: CoCreateGuid returned non-0");
+		putsLFHy("Error from func generateGUID in source file guidgen.c: CoCreateGuid returned non-0");
 		return 1;
 	}
 	else {

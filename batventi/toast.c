@@ -1,8 +1,4 @@
-#pragma once
-
-#include "btvenlib.h"
-
-
+﻿#include "batventi.h"
 
 void toast_h(void);
 int toast(int argc,char **argv);
@@ -13,7 +9,7 @@ int toast(int argc,char **argv)
         toast_h();
         return 0;
     }
-    putsHyphen2("Error from func toast in header file toast.h: This func is not finished yet.");
+    putsHyphen2("Error from func toast in source file toast.c: This func is not finished yet.");
     return 0;
 }
 

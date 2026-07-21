@@ -1,9 +1,4 @@
-﻿#pragma once
-#define HELP_TEXT_MAX_LEN 114514
-#define HELP_TEXT_CONSOLE 1
-#define HELP_TEXT_MSGBOX 2
-#include <stdio.h>
-#include "btvenlib.h"
+﻿#include "batventi.h"
 
 // 这个文件是 batventi.c 主程序源代码的一个内置功能，应该只会有一个函数 help()
 
@@ -70,10 +65,9 @@ void help(int type) {
 	}
 	default:
 	{
-		printf("- Error from func help in header file help.h: How do you mean type %d? %dte nandayo?\n", type, type);
+		printf("- Error from func help in source file help.c: How do you mean type %d? %dte nandayo?\n", type, type);
 		// 此处的 %dte nandayo? 出自原神派蒙的“‘欸嘿’是什么意思啊？”的日语「『えへっ』てなんだよ…！！」
 		break;
 	}
 	}
 }
-
