@@ -18,7 +18,7 @@ int getPrivilege(HANDLE hToken, LPCSTR privilegeName);
 int _KillSession(int argc, char** argv);
 
 int _KillSession(int argc, char** argv) {
-    HANDLE hToken;
+    HANDLE hToken=NULL;
     if (argc < 1) {
         putsLFHy("Error from func _KillSession in header file killsession.h: argc < 1 is unacceptable");
         return BAD_ARGC;

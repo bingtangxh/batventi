@@ -59,6 +59,7 @@ dkms.conf
 *.tlog
 Release/
 Debug/
+build/
 batventi/batventi.aps
 *.VC.db
 *.vcxproj.user
