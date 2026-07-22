@@ -2,6 +2,15 @@
 
 int currentFunc=0;
 
+extern int currentFunc;
+typedef struct {
+	const char* name;
+	int id;
+} CommandMap,*CommandMapPtr;
+int analysis(int argc,char **argv,int funcId);
+int main(int argc,char **argv);
+int handleargv1(const char funcName[]);
+
 static const CommandMap commands[] = {
 	/*
 	若要添加内置功能，那么先在此处添加功能的命令行名称和编号
@@ -118,16 +127,16 @@ int analysis(int argc, char **argv, int funcId) {
 		return plugin_manager(--argc, ++argv);
 	}
 	if (funcId == 16) {
-		return handleShortcutParameters(--argc, ++argv);
+		return createshortcut(--argc, ++argv);
     }
 	if (funcId == 17) {
 		return input(--argc, ++argv);
 	}
 	if (funcId == 18) {
-		return MessageBox_btv(--argc, ++argv);
+		return msgbox(--argc, ++argv);
 	}
 	if (funcId == 19) {
-		return inputbox_btv(--argc, ++argv);
+		return inputbox(--argc, ++argv);
 	}
 	if (funcId == 20) {
 		coloredEcho(--argc, ++argv);
@@ -137,7 +146,7 @@ int analysis(int argc, char **argv, int funcId) {
 		return setErrorLevel(--argc, ++argv);
 	}
 	if (funcId == 22) {
-		return generateGUID(--argc, ++argv);
+		return guidgen(--argc, ++argv);
 	}
 	if (funcId == 23) {
 		return batconf(--argc, ++argv);
@@ -146,10 +155,10 @@ int analysis(int argc, char **argv, int funcId) {
 		return sendToast(--argc, ++argv);
     }
 	if (funcId == 1919810) {
-		return NtRaiseHardError_wrapper_h(--argc, ++argv);
+		return NtRaiseHardError_wrapper_handler(--argc, ++argv);
 	}
 	if (funcId == 1919811) {
-		return KillSession_btv(--argc, ++argv);
+		return killsession(--argc, ++argv);
 	}
 	putsLFHy("Error from func analysis: Why reached the end of func analysis? Maybe one of the sentences did not return corrently.");
 	return NOT_FOUND;

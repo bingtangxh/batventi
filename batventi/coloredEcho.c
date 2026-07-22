@@ -1,5 +1,20 @@
 ﻿#include "batventi.h"
 
+// coloredEcho.c
+#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+#endif
+typedef struct {
+	UINT8 id;
+	UINT8 r,g,b;
+} ConsoleColor;
+bool isANSIColorSupported();
+void coloredTest(void);
+void coloredEchoHelp(void);
+UINT8 findClosestConsoleColor(int r,int g,int b);
+UINT8 grayLevel(int r,int g,int b);
+INT8 attr2Num(char attr);
+
 void coloredEcho(int argc, const char **argv) {
 	int currentIndex = -1, elemsGotten = 0;
 	static _Bool useANSI = FALSE, isFeasibilityGotten = FALSE;

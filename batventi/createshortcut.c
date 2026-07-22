@@ -1,8 +1,14 @@
 ﻿#include "batventi.h"
 
-int handleShortcutParameters(int argc,char* argv[]){
+// createshortcut.c
+void shortcut_h(void);
+BOOL EnsureShortcutWithAppID(const wchar_t* folderName,const wchar_t* title,const wchar_t* exePath,const wchar_t* appId);
+HRESULT CreateShortcutWithAppUserModelID(const wchar_t* shortcutPath,const wchar_t* exePath,const wchar_t* appId);
+static HRESULT InitPropVariantFromStringCompat(const wchar_t* value,PROPVARIANT* pv);
+
+int createshortcut(int argc, char* argv[]){
     if(argc<4) {
-        putsLFHy("Error from func handleShortcutParameters: Not enough arguments. Please provide at least the title and exePath for the shortcut.");
+        putsLFHy("Error from func createshortcut: Not enough arguments. Please provide at least the title and exePath for the shortcut.");
         return BAD_ARGC;
     }
     if(!_stricmp(argv[1],"--help")||!_stricmp(argv[1],"/?")||!_stricmp(argv[1],"-?")||!_stricmp(argv[1],"/h")||!_stricmp(argv[1],"-h")||!_stricmp(argv[1],"help")) {
@@ -13,7 +19,7 @@ int handleShortcutParameters(int argc,char* argv[]){
     size_t folderNameLen=MultiByteToWideChar(CP_ACP,0,argv[1],-1,NULL,0);
     folderName=(wchar_t*) malloc(folderNameLen*sizeof(wchar_t));
     if(folderName==NULL) {
-        putsLFHy("Error from func handleShortcutParameters: Failed to allocate memory for folderName.");
+        putsLFHy("Error from func createshortcut: Failed to allocate memory for folderName.");
         return ERROR_IPSEC_IKE_OUT_OF_MEMORY;
     }
     MultiByteToWideChar(CP_ACP,0,argv[1],-1,folderName,(int) folderNameLen);
@@ -22,7 +28,7 @@ int handleShortcutParameters(int argc,char* argv[]){
     title=(wchar_t*) malloc(titleLen * sizeof(wchar_t));
     if(title==NULL) {
         free(folderName);
-        putsLFHy("Error from func handleShortcutParameters: Failed to allocate memory for title.");
+        putsLFHy("Error from func createshortcut: Failed to allocate memory for title.");
         return ERROR_IPSEC_IKE_OUT_OF_MEMORY;
     }
     MultiByteToWideChar(CP_ACP,0,argv[2],-1,title,(int)titleLen);
@@ -32,7 +38,7 @@ int handleShortcutParameters(int argc,char* argv[]){
     if(exePath==NULL) {
         free(folderName);
         free(title);
-        putsLFHy("Error from func handleShortcutParameters: Failed to allocate memory for exePath.");
+        putsLFHy("Error from func createshortcut: Failed to allocate memory for exePath.");
         return ERROR_IPSEC_IKE_OUT_OF_MEMORY;
     }
     MultiByteToWideChar(CP_ACP,0,argv[3],-1,exePath,(int) exePathLen);
@@ -46,10 +52,10 @@ int handleShortcutParameters(int argc,char* argv[]){
             free(folderName);
             free(title);
             free(exePath);
-            putsLFHy("Error from func handleShortcutParameters: Failed to allocate memory for appId.");
+            putsLFHy("Error from func createshortcut: Failed to allocate memory for appId.");
             return ERROR_IPSEC_IKE_OUT_OF_MEMORY;
         }
-        MultiByteToWideChar(CP_ACP,0,argv[4],-1,appId,appIdLen);
+        MultiByteToWideChar(CP_ACP,0,argv[4],-1,appId,(int)appIdLen);
     } else {
         appId=L"";
     }

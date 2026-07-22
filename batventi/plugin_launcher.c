@@ -1,5 +1,9 @@
 ﻿#include "batventi.h"
 
+// plugin_launcher.c
+bool getModuleFileName(wchar_t *);
+bool getModuleDirectory(wchar_t *);
+
 int plugin_launcher(int argc, char **argv) {
 	// 暂时先硬编码一个静态长度吧
     wchar_t modulePath[MAX_PATH];

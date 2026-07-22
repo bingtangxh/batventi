@@ -5,6 +5,18 @@
 #define _USE_TOAST 1
 #endif
 
+// sendtoast.cpp
+#pragma comment(lib, "Shlwapi.lib")
+#pragma comment(lib, "Shell32.lib")
+// DWORD WINAPI SendToast(LPVOID messageParam);
+DWORD WINAPI ThreadToast(LPVOID lpParam);
+DWORD EnsureShortcutWithAppID2(void);
+HRESULT CreateShortcutWithAppUserModelID2(const wchar_t* shortcutPath,const wchar_t* exePath,const wchar_t* appId);
+typedef struct toastParam {
+	const wchar_t* message;
+	BOOL result;
+} ToastParam;
+
 const wchar_t* _appId=L"BingtangXH.BatVentiToastMod";
 BOOL __stdcall SendBalloon(const wchar_t* title=L"",const wchar_t* text=L"");
 BOOL TrySendToastDynamic(const wchar_t* message=L"");
@@ -351,7 +363,7 @@ BOOL TrySendToastDynamic(const wchar_t* message) {
 	ABI::Windows::UI::Notifications::IToastNotifier* notifier=nullptr;
 	HSTRING applicationId;
 	WindowsCreateString(_appId,wcslen(_appId),&applicationId);
-	// hr = toastManager->CreateToastNotifierWithId(Microsoft::WRL::Wrappers::HStringReference(_appId).Get(), &notifier);
+	// hr = toastManager->CreateToastNotifierWithId(Microsoft::WRL::Wrappers::HStringReference(appId_df).Get(), &notifier);
 	hr=toastManager->CreateToastNotifierWithId(applicationId,&notifier);
 	WindowsDeleteString(applicationId);
 	if(FAILED(hr)) {

@@ -1,5 +1,10 @@
 ﻿#include "batventi.h"
 
+// inputbox.c
+#define ID_INPUTBOX 1
+extern LPWSTR promptStr,defaultStr;
+INT_PTR CALLBACK InputBoxProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam);
+
 LPWSTR promptStr = NULL, defaultStr = NULL;
 
 INT_PTR CALLBACK InputBoxProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) {
@@ -41,13 +46,13 @@ INT_PTR CALLBACK InputBoxProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 	return FALSE;
 }
 
-int inputbox_btv(int argc, char **argv) {
+int inputbox(int argc, char **argv) {
 	// 用户点击确定时，返回值是 1，点击取消时，返回值是 2
 	HWND hWnd = NULL;
 	UINT uType = 0;
 	unsigned destLen = 0;
 	if (argc < 1) {
-		putsLFHy("Error from func inputbox_btv in source file inputbox.c: Why argc < 1 ? I could not handle this.");
+		putsLFHy("Error from func inputbox in source file inputbox.c: Why argc < 1 ? I could not handle this.");
 		return BAD_ARGC;
 	}
 	switch (argc)
@@ -102,24 +107,24 @@ int inputbox_btv(int argc, char **argv) {
 				case 0:
 					elemsGotten = sscanf(specResult, "%i", &CodePage);
 					if (elemsGotten == 0) {
-						putsHyphen("Warning from func inputbox_btv in source file inputbox.c: Could not scan for CodePage from encoding parameter, I will use CP_ACP.");
+						putsHyphen("Warning from func inputbox in source file inputbox.c: Could not scan for CodePage from encoding parameter, I will use CP_ACP.");
 						CodePage = CP_ACP;
 					}
 					continue;
 				default:
-					printf("- Error from func inputbox_btv in source file inputbox.c: Why errCode == %d while specResult == %p ?\n", errCode, specResult);
+					printf("- Error from func inputbox in source file inputbox.c: Why errCode == %d while specResult == %p ?\n", errCode, specResult);
 					return NOT_FOUND;
 				}
 			}
 			else {
 				switch (errCode) {
 				case MALLOC_FAILED:
-					putsHyphen("Error from func inputbox_btv in source file inputbox.c: Func specifyParameter_multiple set errCode to MALLOC_FAILED");
+					putsHyphen("Error from func inputbox in source file inputbox.c: Func specifyParameter_multiple set errCode to MALLOC_FAILED");
 					return MALLOC_FAILED;
 				case NOT_FOUND:
 					continue;
 				default:
-					printf("- Error from func inputbox_btv in source file inputbox.c: Why errCode == %d while specResult == NULL ?\n", errCode);
+					printf("- Error from func inputbox in source file inputbox.c: Why errCode == %d while specResult == NULL ?\n", errCode);
 					return NOT_FOUND;
 				}
 			}

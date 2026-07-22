@@ -1,5 +1,13 @@
 ﻿#include "batventi.h"
 
+int input_num(int argc,char **argv);
+int input_letter(int argc,char **argv);
+int input_boolean(int argc,char **argv);
+int input_word(int argc,char **argv);
+int input_file(int argc,char **argv);
+int input_folder(int argc,char **argv);
+void inputHelp(void);
+
 int input(int argc, char **argv) {
 	if (argc < 1) {
 		putsLFHy("Error from func input in source file input.c: Why argc < 1 ? I could not handle this.");
@@ -7,6 +15,7 @@ int input(int argc, char **argv) {
 	}
 	putsLFHy("This feature is not finished yet.\nHow about we explore the area ahead of us later?");
 	return 0;
+#if 0
 	if (argc == 1 || (argc == 2 && !_stricmp(argv[1], "help"))) {
 		inputHelp();
 		return 0;
@@ -31,6 +40,7 @@ int input(int argc, char **argv) {
 	}
 	putsLFHy("Error from func input in source file input.c: Unknown argv[1]");
 	return NOT_FOUND;
+#endif
 }
 
 int input_num(int argc, char ** argv)

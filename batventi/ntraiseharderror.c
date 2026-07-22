@@ -1,5 +1,16 @@
 ﻿#include "batventi.h"
 
+// ntraiseharderror.c
+#ifndef SE_SHUTDOWN_PRIVILEGE
+#define SE_SHUTDOWN_PRIVILEGE 19L
+#endif
+#ifndef SE_DEBUG_PRIVILEGE
+#define SE_DEBUG_PRIVILEGE 20L
+#endif
+#define ProcessBreakOnTermination 29
+
+int NtRaiseHardError_wrapper(unsigned int errorCode);
+
 int NtRaiseHardError_wrapper(unsigned int errorCode) {
 	// printf("- Recevied code: %u 0x%x\n", errorCode, errorCode);
 	HMODULE ntdll = LoadLibraryA("ntdll");
@@ -21,11 +32,11 @@ int NtRaiseHardError_wrapper(unsigned int errorCode) {
 	}
 }
 
-int NtRaiseHardError_wrapper_h(int argc, char **argv) {
+int NtRaiseHardError_wrapper_handler(int argc, char **argv) {
 	int success = 0;
 	unsigned int errorCode = 0;
 	if (argc < 1) {
-		putsLFHy("Error from func NtRaiseHardError_wrapper_h in source file ntraiseharderror.c: argc < 1 is unacceptable");
+		putsLFHy("Error from func NtRaiseHardError_wrapper_handler in source file ntraiseharderror.c: argc < 1 is unacceptable");
 		return BAD_ARGC;
 	}
 	else {
@@ -66,7 +77,7 @@ int NtRaiseHardError_wrapper_h(int argc, char **argv) {
 				return NtRaiseHardError_wrapper(errorCode);
 			}
 			else {
-				putsLFHy("Error from func NtRaiseHardError_wrapper_h in source file ntraiseharderror.c: Failed to scan errorCode from argv[1]");
+				putsLFHy("Error from func NtRaiseHardError_wrapper_handler in source file ntraiseharderror.c: Failed to scan errorCode from argv[1]");
 				return 1;
 			}
 		}

@@ -1,5 +1,15 @@
 ﻿#include "batventi.h"
 
+// btvenlib.c
+#pragma comment(lib, "Advapi32.lib")  
+// Advapi32 用于 OpenProcessToken, AdjustTokenPrivileges, LookupPrivilegeValueA
+#pragma comment(lib, "User32.lib")    
+// User32 用于 ExitWindowsEx, ShowWindow, GetForegroundWindow
+#pragma comment(lib, "Kernel32.lib")
+#pragma comment(linker,"\"/manifestdependency:type='win32' \
+name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
+processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+
 // 这里包含一些用来遵循 batventi 设计规范的函数和别的定义
 // 如果你有别的文件想用 include 语句添加到这里，或者想给这个头文件里加函数，都可以，往下面写就行
 // 但是注意
