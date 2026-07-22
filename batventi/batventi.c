@@ -124,10 +124,10 @@ int analysis(int argc, char **argv, int funcId) {
 		return input(--argc, ++argv);
 	}
 	if (funcId == 18) {
-		return _MessageBox(--argc, ++argv);
+		return MessageBox_btv(--argc, ++argv);
 	}
 	if (funcId == 19) {
-		return _inputbox(--argc, ++argv);
+		return inputbox_btv(--argc, ++argv);
 	}
 	if (funcId == 20) {
 		coloredEcho(--argc, ++argv);
@@ -146,10 +146,10 @@ int analysis(int argc, char **argv, int funcId) {
 		return sendToast(--argc, ++argv);
     }
 	if (funcId == 1919810) {
-		return _NtRaiseHardError_h(--argc, ++argv);
+		return NtRaiseHardError_wrapper_h(--argc, ++argv);
 	}
 	if (funcId == 1919811) {
-		return _KillSession(--argc, ++argv);
+		return KillSession_btv(--argc, ++argv);
 	}
 	putsLFHy("Error from func analysis: Why reached the end of func analysis? Maybe one of the sentences did not return corrently.");
 	return NOT_FOUND;

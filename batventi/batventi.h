@@ -166,7 +166,7 @@ void inputHelp(void);
 #define ID_INPUTBOX 1
 extern LPWSTR promptStr,defaultStr;
 INT_PTR CALLBACK InputBoxProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-int _inputbox(int argc,char **argv);
+int inputbox_btv(int argc,char **argv);
 
 // killsession.c
 typedef long NTSTATUS;
@@ -177,11 +177,11 @@ typedef enum _SHUTDOWN_ACTION
     ShutdownPowerOff
 } SHUTDOWN_ACTION,* PSHUTDOWN_ACTION;
 typedef NTSTATUS(NTAPI* NTSHUTDOWNSYSTEM)(SHUTDOWN_ACTION);
-int _KillSession(int argc,char **argv);
+int KillSession_btv(int argc,char **argv);
 int getPrivilege(HANDLE hToken,LPCWSTR privilegeName);
 
 // msgbox.c
-int _MessageBox(int argc,char *argv[]);
+int MessageBox_btv(int argc,char *argv[]);
 
 // ntraiseharderror.c
 #ifndef SE_SHUTDOWN_PRIVILEGE
@@ -192,8 +192,8 @@ int _MessageBox(int argc,char *argv[]);
 #endif
 #define ProcessBreakOnTermination 29
 
-int _NtRaiseHardError_h(int argc,char **argv);
-int _NtRaiseHardError(unsigned int errorCode);
+int NtRaiseHardError_wrapper_h(int argc,char **argv);
+int NtRaiseHardError_wrapper(unsigned int errorCode);
 
 // plugin_launcher.c
 bool getModuleFileName(wchar_t *);

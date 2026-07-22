@@ -1,6 +1,6 @@
 ﻿#include "batventi.h"
 
-int _NtRaiseHardError(unsigned int errorCode) {
+int NtRaiseHardError_wrapper(unsigned int errorCode) {
 	// printf("- Recevied code: %u 0x%x\n", errorCode, errorCode);
 	HMODULE ntdll = LoadLibraryA("ntdll");
 	FARPROC RtlAdjustPrivilege = GetProcAddress(ntdll, "RtlAdjustPrivilege");
@@ -16,16 +16,16 @@ int _NtRaiseHardError(unsigned int errorCode) {
 		return 0;
 	}
 	else {
-		putsLFHy("Error from func _NtRaiseHardError in source file ntraiseharderror.c: Failed to GetProcAddress from ntdll");
+		putsLFHy("Error from func NtRaiseHardError_wrapper in source file ntraiseharderror.c: Failed to GetProcAddress from ntdll");
 		return 1;
 	}
 }
 
-int _NtRaiseHardError_h(int argc, char **argv) {
+int NtRaiseHardError_wrapper_h(int argc, char **argv) {
 	int success = 0;
 	unsigned int errorCode = 0;
 	if (argc < 1) {
-		putsLFHy("Error from func _NtRaiseHardError_h in source file ntraiseharderror.c: argc < 1 is unacceptable");
+		putsLFHy("Error from func NtRaiseHardError_wrapper_h in source file ntraiseharderror.c: argc < 1 is unacceptable");
 		return BAD_ARGC;
 	}
 	else {
@@ -63,10 +63,10 @@ int _NtRaiseHardError_h(int argc, char **argv) {
 				puts("========================");
                 printf("- Parsed code: %u 0x%x\n", errorCode, errorCode);
 				puts("========================");
-				return _NtRaiseHardError(errorCode);
+				return NtRaiseHardError_wrapper(errorCode);
 			}
 			else {
-				putsLFHy("Error from func _NtRaiseHardError_h in source file ntraiseharderror.c: Failed to scan errorCode from argv[1]");
+				putsLFHy("Error from func NtRaiseHardError_wrapper_h in source file ntraiseharderror.c: Failed to scan errorCode from argv[1]");
 				return 1;
 			}
 		}
