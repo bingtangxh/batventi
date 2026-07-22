@@ -82,7 +82,7 @@ int _MessageBox(int argc, char *argv[])
 			return 0;
 		}
 		else {
-			lpText = _MultiByteToWideChar(CP_ACP, argv[1]);
+			lpText = MultiByteToWideChar_wrapper(CP_ACP, argv[1]);
 			lpCation = L"";
 			break;
 		}         
@@ -156,8 +156,8 @@ int _MessageBox(int argc, char *argv[])
 			
 		}
 		// printf("- Code page is already set to: %d\n", CodePage);
-		lpText = _MultiByteToWideChar(CodePage, argv[1]);
-		lpCation = _MultiByteToWideChar(CodePage, argv[2]);
+		lpText = MultiByteToWideChar_wrapper(CodePage, argv[1]);
+		lpCation = MultiByteToWideChar_wrapper(CodePage, argv[2]);
 
 		break;
 	}

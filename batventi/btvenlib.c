@@ -25,7 +25,7 @@
 // the return value represents the length of a successful conversion
 // or one of the error code macros.
 
-LPWSTR _MultiByteToWideChar(const UINT CodePage, const char *source) {
+LPWSTR MultiByteToWideChar_wrapper(const UINT CodePage, const char *source) {
 	size_t destLen = MultiByteToWideChar(CP_ACP, 0, source, -1, NULL, 0);
 	LPWSTR dest = (LPWSTR)malloc(sizeof(WCHAR)*(destLen));
 	if (dest == NULL) {
@@ -37,10 +37,10 @@ LPWSTR _MultiByteToWideChar(const UINT CodePage, const char *source) {
 	}
 }
 
-errno_t __cdecl _mbstowcs_s(size_t * const convertedCharsNum, LPWSTR * const dest, const char *source) {
+errno_t __cdecl mbstowcs_s_wrapper(size_t * const convertedCharsNum, LPWSTR * const dest, const char *source) {
 	*dest = (LPWSTR)malloc(sizeof(WCHAR)*(strlen(source) + 1));
 	if (*dest == NULL) {
-		putsLFHy("Error from func _mbstowcs_s in source file btvenlib.c: malloc for dest returned a NULL");
+		putsLFHy("Error from func mbstowcs_s_wrapper in source file btvenlib.c: malloc for dest returned a NULL");
 		return MALLOC_FAILED;
 	}
 	return mbstowcs_s(convertedCharsNum, *dest, strlen(source) + 1, source, (strlen(source) + 1));

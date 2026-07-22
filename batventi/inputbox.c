@@ -79,7 +79,7 @@ int _inputbox(int argc, char **argv) {
 			return 0;
 		}
 		else {
-			promptStr = _MultiByteToWideChar(CP_ACP, argv[1]);
+			promptStr = MultiByteToWideChar_wrapper(CP_ACP, argv[1]);
 			defaultStr = L"";
 			break;
 		}
@@ -125,8 +125,8 @@ int _inputbox(int argc, char **argv) {
 			}
 		}*/
 		UINT CodePage = getCodePagefromPara(argc, argv);
-		promptStr = _MultiByteToWideChar(CodePage, argv[1]);
-		defaultStr = _MultiByteToWideChar(CodePage, argv[2]);
+		promptStr = MultiByteToWideChar_wrapper(CodePage, argv[1]);
+		defaultStr = MultiByteToWideChar_wrapper(CodePage, argv[2]);
 
 		break;
 	}

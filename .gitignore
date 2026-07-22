@@ -64,3 +64,5 @@ RelXP/
 batventi/batventi.aps
 *.VC.db
 *.vcxproj.user
+
+batventi_Release_*.zip
